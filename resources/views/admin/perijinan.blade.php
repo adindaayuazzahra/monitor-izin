@@ -62,9 +62,17 @@
                         @foreach ($perijinans as $p)
                             <tr
                                 class="
-                                    @if (!$p->tanggal_berakhir) ''
+                                    @if (!$p->tanggal_berakhir)''
+                                        @if($p->status == 1)
+                                            bg-danger
+                                        @endif
                                     @else
-                                        {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) <= 3? 'bg-warning': '' }} @endif
+                                        @if ($p->status == 1) 
+                                            bg-danger
+                                        @else
+                                            {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) <= 3? 'bg-warning': '' }} 
+                                        @endif
+                                    @endif
                                 ">
                                 <td>{{ $i }}</td> @php $i++ @endphp
                                 <td>
