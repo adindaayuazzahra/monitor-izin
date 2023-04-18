@@ -59,6 +59,7 @@
                         @php
                             $i = 1;
                         @endphp
+                        {{-- test --}}
                         @foreach ($perijinans as $p)
                             <tr
                                 class="
