@@ -23,7 +23,7 @@
             <div class="d-flex align-items-center  text-white"
                 style="margin:10px;border-radius:35px;padding:18px;background-color:#342073;">
                 <i class="fas fa-search text-white" style="font-size: 12pt;"></i>
-                <h5 style="margin-left: 10px;">Daftar Perijinan</h5>
+                <h6 style="margin-left: 10px;">Daftar Perijinan</h6>
                 {{-- <div class="d-flex">
                 <i class="fas fa-search text-white" style="font-size: 12pt;"></i>
                 <h5 style="margin-left: 10px;">Daftar Perijinan</h5>
@@ -42,17 +42,17 @@
                         <i class="fa-solid fa-folder-plus" style="margin-right: 5px"></i>
                         Tambah Perijinan</a>
                 </div>
-                <table id="my_table" class="table">
+                <table id="my_table" class="table" width=100%>
                     <thead>
                         <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nama Ijin</th>
+                            <th  scope="col">No</th>
+                            <th  >Nama Ijin</th>
                             <th scope="col">Tanggal Berkahir</th>
                             <th scope="col">Instansi Terkait</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
                             <th scope="col" style="width:7%">Status</th>
                             {{-- <th scope="col">Aksi</th> --}}
-                            <th scope="col" style="width:12%">Detail</th>
+                            <th  scope="col" style="width:12%">Detail</th>
                         </tr>
                     </thead>
                     <tbody>

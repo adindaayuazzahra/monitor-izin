@@ -14,7 +14,7 @@
                 style="margin:10px;border-radius:35px;padding:15px;background-color:#342073;">
                 <div class="d-flex align-items-center ">
                     <i class="fas fa-search text-white"></i>
-                    <h5 style="margin-left: 10px;">Detail Perijinan</h5>
+                    <h6 style="margin-left: 10px;">Detail Perijinan</h6>
                 </div>
                 <div class="d-flex gap-1 align-items-center">
                     <button class="btn btn-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -98,7 +98,7 @@
                 style="margin:10px;border-radius:35px;padding:15px;background-color:#342073;">
                 <div class="d-flex align-items-center ">
                     <i class="fas fa-search text-white"></i>
-                    <h5 style="margin-left: 10px;">Perpanjangan Aktif</h5>
+                    <h6 style="margin-left: 10px;">Perpanjangan Aktif</h6>
                 </div>
                 @if (!$perpanjangan_stat)
                     <div class="d-flex gap-1 align-items-center">
