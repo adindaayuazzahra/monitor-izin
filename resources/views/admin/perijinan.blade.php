@@ -21,7 +21,7 @@
     <section style="margin-left:30px; margin-right:30px; margin-top:-80px; margin-bottom:50px;">
         <div class="card shadow mt-5" style="border-radius: 36px;border:none;">
             <div class="d-flex align-items-center  text-white"
-                style="margin:10px;border-radius:35px;padding:18px;;background-color:#342073;">
+                style="margin:10px;border-radius:35px;padding:18px;background-color:#342073;">
                 <i class="fas fa-search text-white" style="font-size: 12pt;"></i>
                 <h5 style="margin-left: 10px;">Daftar Perijinan</h5>
                 {{-- <div class="d-flex">
