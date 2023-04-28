@@ -20,12 +20,23 @@ class AdminController extends Controller
         // $perijinans = Perizinan::join('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
         // ->select('tb_perizinan.*', 'tb_perpanjangan.tanggal_berakhir')->get();
 
+        // $perijinans = Perizinan::select(
+        //     'tb_perizinan.*',
+        //     \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir')
+        // )
+       
+        //     ->get();
+
         $perijinans = Perizinan::select(
             'tb_perizinan.*',
-            \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir')
+            \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir'),
+            'tb_perpanjangan.status_perpanjangan' // menambahkan kolom status_perpanjangan
         )
-            ->get();
+        ->leftJoin('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
+        ->get();
+        // dd($perijinans);
         return view('admin.perijinan', compact('perijinans'));
+        
     }
 
     public function perijinanAdd()
@@ -111,7 +122,13 @@ class AdminController extends Controller
             'tanggal_registrasi' => 'required|date',
             // 'tanggal_registrasi_ulang' => 'required|date|after_or_equal:tanggal_registrasi',
             // 'tanggal_berakhir' => 'required|date',
-            'alokasi_biaya' => 'required|numeric',
+            'tanggal_berakhir' => [
+                'sometimes',
+                'nullable',
+                'required_if:status_perpanjangan,1',
+                'date',
+              ],
+            'alokasi_biaya' => 'required',
             // 'masa_berlaku' => 'required',
             'status_perpanjangan' => 'required'
         ]);
@@ -145,5 +162,14 @@ class AdminController extends Controller
 
         $perpanjangan->save();
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+    }
+
+    public function perpanjanganEdit($id, $id_perpanjangan)
+    {
+        $perpanjangan = Perpanjangan::find($id_perpanjangan);
+        // dd($perpanjangan);
+        $perijinan = Perizinan::find($id);
+        // dd($perpanjangan);
+        return view('admin.form_perpanjangan', compact('perijinan', 'perpanjangan'));
     }
 }

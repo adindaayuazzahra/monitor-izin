@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/perijinan/{id}/delete/do', [AdminController::class, 'perijinanDeleteDo'])->name('admin.perijinan.delete.do');
     Route::get('/admin/perijinan/{id}/perpanjangan/add', [AdminController::class, 'perpanjanganAdd'])->name('admin.perpanjangan.add');
     Route::post('/admin/perijinan/{id}/perpanjangan/add/do', [AdminController::class, 'perpanjanganAddDo'])->name('admin.perpanjangan.add.do');
+    Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/edit', [AdminController::class, 'perpanjanganEdit'])->name('admin.perpanjangan.edit');
 
     // logout
     Route::get('/logout/do', [HomeController::class, 'logoutDo'])->name('home.logout.do');

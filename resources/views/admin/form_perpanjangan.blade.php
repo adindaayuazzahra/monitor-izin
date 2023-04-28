@@ -56,10 +56,11 @@
                         <input autocomplete="off" type="date"
                             class="form-control @error('tanggal_berakhir') is-invalid @enderror" id="tanggal_berakhir"
                             name="tanggal_berakhir" value="{{ old('tanggal_berakhir') }}">
-                            <small class="fst-italic"><span class="text-danger">*</span>Kosongkan jika perijinan bersifat lifetime</small>
+                        <small class="fst-italic"><span class="text-danger">*</span>Kosongkan jika perijinan bersifat
+                            lifetime</small>
                         @error('tanggal_berakhir')
                             <div class="invalid-feedback">
-                                {{ $message }}
+                                The tanggal berakhir field is required when status perpanjangan is lisensi.
                             </div>
                         @enderror
                     </div>
@@ -76,9 +77,8 @@
                         @enderror
                     </div> --}}
                     <div class="mb-3">
-                        <label for="catatan" class="form-label"><strong>Catatan</strong><span
-                                class="text-danger">*</span></label>
-                        <textarea class="form-control @error('catatan') is-invalid @enderror" id="catatan" name="catatan"></textarea>
+                        <label for="catatan" class="form-label"><strong>Catatan</strong></label>
+                        <textarea class="form-control @error('catatan') is-invalid @enderror" id="catatan" name="catatan">{{ old('catatan') }}</textarea>
                         {{-- <input autocomplete="off" type="text"
                             class="form-control  @error('catatan') is-invalid @enderror" id="catatan" name="catatan"
                             value="{{ old('catatan') }}"> --}}
@@ -105,7 +105,7 @@
                             <div class="mb-3">
                                 <label for="alokasi_biaya" class="form-label"><strong>Alokasi Biaya</strong><span
                                         class="text-danger">*</span></label>
-                                <input autocomplete="off" type="number"
+                                <input autocomplete="off" type="text"
                                     class="form-control  @error('alokasi_biaya') is-invalid @enderror" id="alokasi_biaya"
                                     name="alokasi_biaya" value="{{ old('alokasi_biaya') }}">
                                 @error('alokasi_biaya')

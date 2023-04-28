@@ -8,18 +8,19 @@
 </script>
 <script src="https://kit.fontawesome.com/82ef5747eb.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-{{-- <script src="https://unpkg.com/@lottiefiles/lottie-interactivity@latest/dist/lottie-interactivity.min.js"></script>
+<!-- Load jQuery MaskMoney -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 <script>
-    LottieInteractivity.create({
-        mode: 'scroll',
-        player: '#firstLottie',
-        actions: [{
-            visibility: [0, 1],
-            type: 'seek',
-            frames: [0, 160],
-        }, ],
+    $(document).ready(function() {
+        $('#alokasi_biaya').maskMoney({
+            thousands: '.',
+            decimal: ',',
+            allowZero: true,
+            prefix: 'Rp. ',
+            precision: 0
+        });
     });
-</script> --}}
+</script>
 
 <!-- datatables -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
@@ -45,9 +46,63 @@
             //     '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
             // dom: 'Bfrtip',
             buttons: [
-                'copy', 'excel', 'pdf', 'print'
+                'excel', 'pdf', 'print'
             ],
             responsive: true,
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ data",
+                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+                "infoFiltered": "(difilter dari _MAX_ total data)",
+                "zeroRecords": "Tidak ada data yang sesuai dengan pencarian",
+                "paginate": {
+                    "previous": '<i class="fa-solid fa-angle-left"></i>',
+                    "next": '<i class="fa-solid fa-angle-right"></i>'
+                },
+                "aria": {
+                    "sortAscending": ": aktifkan untuk mengurutkan kolom secara ascending",
+                    "sortDescending": ": aktifkan untuk mengurutkan kolom secara descending"
+                },
+                // "oPaginate": {
+                //     "sFirst": '<i class="bi bi-caret-left-fill"></i>',
+                //     "sLast": '<i class="bi bi-caret-right-fill"></i>',
+                //     "sNext": '<i class="bi bi-caret-right"></i>',
+                //     "sPrevious": '<i class="bi bi-caret-left"></i>'
+                // },
+                // "oAria": {
+                //     "sSortAscending": ": activate to sort column ascending",
+                //     "sSortDescending": ": activate to sort column descending"
+                // }
+            }
+        });
+
+        $('#example').DataTable({
+            responsive: true,
+            "pageLength": 5,
+            buttons: [
+                'pdf', 'print'
+            ],
+            dom: '<"row"<"col-sm-12 col-md-6 mt-2"B><"col-sm-12 col-md-6 mt-2"f>>' +
+                '<"row"<"col-sm-12"tr>>' +
+                '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ data",
+                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+                "infoFiltered": "(difilter dari _MAX_ total data)",
+                "zeroRecords": "Tidak ada data yang sesuai dengan pencarian",
+                "paginate": {
+                    "previous": '<i class="fa-solid fa-angle-left"></i>',
+                    "next": '<i class="fa-solid fa-angle-right"></i>'
+                },
+                "aria": {
+                    "sortAscending": ": aktifkan untuk mengurutkan kolom secara ascending",
+                    "sortDescending": ": aktifkan untuk mengurutkan kolom secara descending"
+                },
+
+            }
         });
     });
 </script>

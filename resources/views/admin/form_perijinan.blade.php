@@ -25,7 +25,8 @@
                 </div> --}}
             </div>
             <div class="card" style="margin:20px 55px 50px 55px; background-color: transparent;border: none;">
-                <form action="{{ isset($perijinan) ? route('admin.perijinan.edit.do', ['id' => $perijinan->id]) : route('admin.perijinan.add.do') }}"
+                <form
+                    action="{{ isset($perijinan) ? route('admin.perijinan.edit.do', ['id' => $perijinan->id]) : route('admin.perijinan.add.do') }}"
                     method="POST">
                     {{ csrf_field() }}
                     <div class="mb-3">
@@ -83,13 +84,19 @@
                         <label for="status" class="form-label"><strong>Status</strong><span
                                 class="text-danger">*</span></label>
                         <select class="form-select" aria-label="Default select example" name="status">
-                            <option selected value="0" {{ old('status', isset($perijinan) && $perijinan->status == 0 ? 'selected' : '') }}>Aktif</option>
-                            <option value="1" {{ old('status', isset($perijinan) && $perijinan->status == 1 ? 'selected' : '') }}>Non-Aktif</option>
+                            <option selected value="0"
+                                {{ old('status', isset($perijinan) && $perijinan->status == 0 ? 'selected' : '') }}>Aktif
+                            </option>
+                            <option value="1"
+                                {{ old('status', isset($perijinan) && $perijinan->status == 1 ? 'selected' : '') }}>
+                                Non-Aktif</option>
                         </select>
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="{{ isset($perijinan) ? route('admin.perijinan.detail', ['id' => $perijinan->id]) : route('admin.perijinan') }}" type="button" class="btn btn-dark">Kembali</a>
-                        <button type="submit" class="btn text-white" style="background-color: #873FFD">{{ isset($perijinan) ? 'Edit' : 'Tambah' }}</button>
+                        <a href="{{ isset($perijinan) ? route('admin.perijinan.detail', ['id' => $perijinan->id]) : route('admin.perijinan') }}"
+                            type="button" class="btn btn-dark">Kembali</a>
+                        <button type="submit" class="btn text-white"
+                            style="background-color: #873FFD">{{ isset($perijinan) ? 'Edit' : 'Tambah' }}</button>
                     </div>
                 </form>
             </div>

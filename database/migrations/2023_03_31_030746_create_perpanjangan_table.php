@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_perizinan');
             $table->date('tanggal_registrasi')->nullable();
-            $table->date('tanggal_registrasi_ulang')->nullable();
             $table->date('tanggal_berakhir')->nullable();
-            $table->bigInteger('alokasi_biaya');
+            $table->string('alokasi_biaya');
             $table->string('catatan')->nullable();
             $table->string('masa_berlaku')->nullable();
             $table->boolean('status_perpanjangan');

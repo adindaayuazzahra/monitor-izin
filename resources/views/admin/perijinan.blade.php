@@ -23,7 +23,7 @@
             <div class="d-flex align-items-center  text-white"
                 style="margin:10px;border-radius:35px;padding:18px;background-color:#342073;">
                 <i class="fas fa-search text-white" style="font-size: 12pt;"></i>
-                <h6 style="margin-left: 10px;">Daftar Perijinan</h6>
+                <h5 style="margin-left: 10px;">Daftar Perijinan</h5>
                 {{-- <div class="d-flex">
                 <i class="fas fa-search text-white" style="font-size: 12pt;"></i>
                 <h5 style="margin-left: 10px;">Daftar Perijinan</h5>
@@ -42,32 +42,32 @@
                         <i class="fa-solid fa-folder-plus" style="margin-right: 5px"></i>
                         Tambah Perijinan</a>
                 </div>
-                <table id="my_table" class="table" width=100%>
-                    <thead>
+                <table id="my_table" class="table w-100">
+                    <thead class="table-dark">
                         <tr>
-                            <th  scope="col">No</th>
-                            <th  >Nama Ijin</th>
+                            <th scope="col">No</th>
+                            <th scope="col">Nama Ijin</th>
                             <th scope="col">Tanggal Berkahir</th>
                             <th scope="col">Instansi Terkait</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
                             <th scope="col" style="width:7%">Status</th>
                             {{-- <th scope="col">Aksi</th> --}}
-                            <th  scope="col" style="width:12%">Detail</th>
+                            <th scope="col" style="width:12%">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
                             $i = 1;
                         @endphp
-                        {{-- test --}}
                         @foreach ($perijinans as $p)
+                        {{-- @dump($p) --}}
                             <tr
                                 class="
                                     @if (!$p->tanggal_berakhir) ''
                                         @if ($p->status == 1)
                                             bg-danger @endif
                                     @else
-                                        @if ($p->status == 1) bg-danger
+                                    @if ($p->status == 1) bg-danger
                                         @else
                                             {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) <= 3? 'bg-warning': '' }} @endif 
                                     @endif
@@ -77,8 +77,8 @@
                                     {{ $p['nama_perizinan'] }}
                                 </td>
                                 <td>
-                                    @if (!$p->tanggal_berakhir)
-                                        @if ($p->status_perpanjangan == 0)
+                                    @if ($p->tanggal_berakhir === NULL)
+                                        @if ($p->status_perpanjangan === 0)
                                             <p>Selama Perusahaan Menjalankan Usaha</p>
                                         @else
                                             <p>-</p>
