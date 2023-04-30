@@ -36,7 +36,6 @@
     $(document).ready(function() {
         $('#my_table').DataTable({
             // responsive: true,
-
             dom: '<"row"<"col-sm-12 col-md-6 mt-2"B><"col-sm-12 col-md-6 mt-2"f>>' +
                 '<"row"<"col-sm-12"tr>>' +
                 '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
@@ -78,15 +77,15 @@
         });
 
         $('#example').DataTable({
-            responsive: true,
-            "pageLength": 5,
+            pageLength: 5,
             buttons: [
                 'pdf', 'print'
             ],
             dom: '<"row"<"col-sm-12 col-md-6 mt-2"B><"col-sm-12 col-md-6 mt-2"f>>' +
                 '<"row"<"col-sm-12"tr>>' +
                 '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-            "language": {
+            responsive: true,
+            language: {
                 "search": "Cari:",
                 "lengthMenu": "Tampilkan _MENU_ data",
                 "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
@@ -103,6 +102,7 @@
                 },
 
             }
+
         });
     });
 </script>

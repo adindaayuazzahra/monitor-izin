@@ -27,14 +27,23 @@ class AdminController extends Controller
        
         //     ->get();
 
+        // $perijinans = Perizinan::select(
+        //     'tb_perizinan.*',
+        //     \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir'),
+        //     'tb_perpanjangan.status_perpanjangan' // menambahkan kolom status_perpanjangan
+        // )
+       
+        // ->leftJoin('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
+        // ->get();
+        // dd($perijinans);
         $perijinans = Perizinan::select(
             'tb_perizinan.*',
             \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir'),
-            'tb_perpanjangan.status_perpanjangan' // menambahkan kolom status_perpanjangan
+            'tb_perpanjangan.status_perpanjangan' 
         )
         ->leftJoin('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
+        ->groupBy('tb_perizinan.id', 'tb_perpanjangan.status_perpanjangan')
         ->get();
-        // dd($perijinans);
         return view('admin.perijinan', compact('perijinans'));
         
     }

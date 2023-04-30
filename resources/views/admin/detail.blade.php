@@ -277,118 +277,45 @@
                                 <table id="example" class="table">
                                     <thead class="table-dark">
                                         <tr>
+                                            <th scope="col">#</th>
                                             <th scope="col">Nama</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
+                                            <td>1</td>
+                                            <td>Ini nama dokumen</td>
+                                            <td>Ini akan ada tombol untuk hapus </td>
                                         </tr>
                                         <tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr>
-                                        <tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr>
-                                        <tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr>
-                                        <tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
+                                            <td>1</td>
+                                            <td>Ini nama dokumen</td>
+                                            <td>Ini akan ada tombol untuk hapus </td>
                                         </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
+                                            <td>1</td>
+                                            <td>Ini nama dokumen</td>
+                                            <td>Ini akan ada tombol untuk hapus </td>
                                         </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
+                                            <td>1</td>
+                                            <td>Ini nama dokumen</td>
+                                            <td>Ini akan ada tombol untuk hapus </td>
                                         </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
+                                            <td>1</td>
+                                            <td>Ini nama dokumen</td>
+                                            <td>Ini akan ada tombol untuk hapus </td>
                                         </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
+                                            <td>1</td>
+                                            <td>Ini nama dokumen</td>
+                                            <td>Ini akan ada tombol untuk hapus </td>
                                         </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
+                                            <td>1</td>
+                                            <td>Ini nama dokumen</td>
+                                            <td>Ini akan ada tombol untuk hapus </td>
                                         </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr>
-                                        <tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
-                                        </tr><tr>
-                                            <td>djncjs</td>
-                                            <td>djncjs</td>
+                                            <td>1</td>
+                                            <td>Ini nama dokumen</td>
+                                            <td>Ini akan ada tombol untuk hapus </td>
                                         </tr>
                                     </tbody>
                                 </table>
