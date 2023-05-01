@@ -92,7 +92,7 @@
                                 Non-Aktif</option>
                         </select>
                     </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="d-grid gap-1 d-md-flex justify-content-md-end">
                         <a href="{{ isset($perijinan) ? route('admin.perijinan.detail', ['id' => $perijinan->id]) : route('admin.perijinan') }}"
                             type="button" class="btn btn-dark">Kembali</a>
                         <button type="submit" class="btn text-white"

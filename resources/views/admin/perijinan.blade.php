@@ -74,7 +74,7 @@
                                 ">
                                 <td>{{ $i }}</td> @php $i++ @endphp
                                 <td>
-                                    {{ $p['nama_perizinan'] }}
+                                    {{ $p->nama_perizinan }}
                                 </td>
                                 <td>
                                     @if ($p->tanggal_berakhir === NULL)
@@ -88,7 +88,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $p['instansi_terkait'] }}
+                                    {{ $p->instansi_terkait }}
                                 </td>
                                 {{-- <td>
                             {{ $p['perkiraan_proses'] }}

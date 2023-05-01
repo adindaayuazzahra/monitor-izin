@@ -12,7 +12,7 @@
             <div class="d-flex align-items-center  text-white"
                 style="margin:10px;border-radius:35px;padding:18px;background-color:#342073;">
                 <i class="fas fa-search text-white" style="font-size: 12pt;"></i>
-                <h5 style="margin-left: 10px;">Form Perpanjangan</h5>
+                <h5 style="margin-left: 10px;">Form {{ isset($perpanjangan) ? 'Edit' : 'Tambah' }} Form Perpanjangan</h5>
                 {{-- <div class="d-flex">
                     <i class="fas fa-search text-white" style="font-size: 12pt;"></i>
                     <h5 style="margin-left: 10px;">Daftar Perijinan</h5>
@@ -24,14 +24,14 @@
                 </div> --}}
             </div>
             <div class="card" style="margin:20px 55px 50px 55px; background-color: transparent;border: none;">
-                <form action="{{ route('admin.perpanjangan.add.do', ['id' => $perijinan->id]) }}" method="POST">
+                <form action="{{isset($perpanjangan) ? route('admin.perpanjangan.edit.do', ['id' => $perijinan->id, 'id_perpanjangan' => $perpanjangan->id ]) : route('admin.perpanjangan.add.do', ['id' => $perijinan->id]) }}" method="POST">
                     {{ csrf_field() }}
                     <div class="mb-3">
                         <label for="tanggal_registrasi" class="form-label"><strong>Tanggal Regristrasi</strong><span
                                 class="text-danger">*</span></label>
                         <input autocomplete="off" type="date"
                             class="form-control @error('tanggal_registrasi') is-invalid @enderror" id="tanggal_registrasi"
-                            name="tanggal_registrasi" value="{{ old('tanggal_registrasi') }}">
+                            name="tanggal_registrasi" value="{{ $perpanjangan->tanggal_registrasi ?? old('tanggal_registrasi') }}">
                         @error('tanggal_registrasi')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -55,7 +55,7 @@
                         <label for="tanggal_berakhir" class="form-label"><strong>Tanggal Berkahir</strong></label>
                         <input autocomplete="off" type="date"
                             class="form-control @error('tanggal_berakhir') is-invalid @enderror" id="tanggal_berakhir"
-                            name="tanggal_berakhir" value="{{ old('tanggal_berakhir') }}">
+                            name="tanggal_berakhir" value="{{ $perpanjangan->tanggal_berakhir ?? old('tanggal_berakhir') }}">
                         <small class="fst-italic"><span class="text-danger">*</span>Kosongkan jika perijinan bersifat
                             lifetime</small>
                         @error('tanggal_berakhir')
@@ -78,7 +78,7 @@
                     </div> --}}
                     <div class="mb-3">
                         <label for="catatan" class="form-label"><strong>Catatan</strong></label>
-                        <textarea class="form-control @error('catatan') is-invalid @enderror" id="catatan" name="catatan">{{ old('catatan') }}</textarea>
+                        <textarea class="form-control @error('catatan') is-invalid @enderror" id="catatan" name="catatan">{{ $perpanjangan->catatan ?? old('catatan') }}</textarea>
                         {{-- <input autocomplete="off" type="text"
                             class="form-control  @error('catatan') is-invalid @enderror" id="catatan" name="catatan"
                             value="{{ old('catatan') }}"> --}}
@@ -107,7 +107,7 @@
                                         class="text-danger">*</span></label>
                                 <input autocomplete="off" type="text"
                                     class="form-control  @error('alokasi_biaya') is-invalid @enderror" id="alokasi_biaya"
-                                    name="alokasi_biaya" value="{{ old('alokasi_biaya') }}">
+                                    name="alokasi_biaya" value="{{ $perpanjangan->alokasi_biaya ?? old('alokasi_biaya') }}">
                                 @error('alokasi_biaya')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -119,10 +119,10 @@
                             <label for="status_perpanjangan" class="form-label"><strong>Jenis Perijinan</strong><span
                                     class="text-danger">*</span></label>
                             <select class="form-select" aria-label="Default select example" name="status_perpanjangan">
-                                <option selected value="0">
+                                <option selected value="0"  {{ old('status_perpanjangan', isset($perpanjangan) && $perpanjangan->status_perpanjangan == 0 ? 'selected' : '') }}>
                                     Lifetime
                                 </option>
-                                <option value="1">
+                                <option value="1" {{ old('status_perpanjangan', isset($perpanjangan) && $perpanjangan->status_perpanjangan == 1 ? 'selected' : '') }}>
                                     Lisensi</option>
                             </select>
                         </div>
@@ -139,10 +139,10 @@
                                 Non-Aktif</option>
                         </select>
                     </div> --}}
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="d-grid gap-1 d-md-flex justify-content-md-end">
                         <a href="{{ route('admin.perijinan.detail', ['id' => $perijinan->id]) }}" type="button"
                             class="btn btn-dark">Kembali</a>
-                        <button type="submit" class="btn text-white" style="background-color: #873FFD">Tambah</button>
+                        <button type="submit" class="btn text-white" style="background-color: #873FFD">{{ isset($perpanjangan) ? 'Edit' : 'Tambah' }}</button>
                     </div>
                 </form>
             </div>

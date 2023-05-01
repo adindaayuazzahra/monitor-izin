@@ -17,6 +17,27 @@ class AdminController extends Controller
 
     public function perijinan()
     {
+        // $perijinans = \DB::table('tb_perizinan')
+        // ->leftJoin('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
+        // ->where('tb_perpanjangan.status_aktif', 0)
+        // ->groupBy('tb_perizinan.id')
+        // ->select('tb_perizinan.*', \DB::raw('MAX(tb_perpanjangan.tanggal_berakhir) as tanggal_berakhir'), \DB::raw('MAX(tb_perpanjangan.status_perpanjangan) as status_perpanjangan'))
+        // ->get();
+
+
+        //     $perijinans = Perizinan::
+        // join('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
+        // ->select('tb_perizinan.*', 'tb_perpanjangan.status_perpanjangan', 'tb_perpanjangan.tanggal_berakhir')
+        // ->where('tb_perpanjangan.status_perpanjangan', '=', 1)
+        // ->where('tb_perpanjangan.tanggal_berakhir', '=', function ($query) {
+        //     $query->select('tanggal_berakhir')
+        //         ->from('tb_perpanjangan')
+        //         ->whereColumn('id_perizinan', 'tb_perizinan.id')
+        //         ->where('status_perpanjangan', '=', 1)
+        //         ->latest()
+        //         ->limit(1);
+        // })
+        // ->get();
         // $perijinans = Perizinan::join('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
         // ->select('tb_perizinan.*', 'tb_perpanjangan.tanggal_berakhir')->get();
 
@@ -24,7 +45,6 @@ class AdminController extends Controller
         //     'tb_perizinan.*',
         //     \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir')
         // )
-       
         //     ->get();
 
         // $perijinans = Perizinan::select(
@@ -32,20 +52,36 @@ class AdminController extends Controller
         //     \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir'),
         //     'tb_perpanjangan.status_perpanjangan' // menambahkan kolom status_perpanjangan
         // )
-       
+
         // ->leftJoin('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
         // ->get();
         // dd($perijinans);
-        $perijinans = Perizinan::select(
-            'tb_perizinan.*',
-            \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir'),
-            'tb_perpanjangan.status_perpanjangan' 
-        )
-        ->leftJoin('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
-        ->groupBy('tb_perizinan.id', 'tb_perpanjangan.status_perpanjangan')
-        ->get();
-        return view('admin.perijinan', compact('perijinans'));
+
+        // $perijinans = Perizinan::select(
+        //     'tb_perizinan.*',
+        //     \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir'),
+        //     'tb_perpanjangan.status_perpanjangan' 
+        // )
+        // ->leftJoin('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
+        // ->groupBy('tb_perizinan.id', 'tb_perpanjangan.status_perpanjangan')
+        // ->get();
+
+        // $perijinans = Perizinan::select(
+        //     'tb_perizinan.*',
+        //     \DB::raw('(SELECT tanggal_berakhir FROM tb_perpanjangan WHERE id_perizinan = tb_perizinan.id AND status_aktif = 0 ORDER BY tanggal_berakhir DESC LIMIT 1) AS tanggal_berakhir'),
+        //     'tb_perpanjangan.status_perpanjangan' 
+        // )
+        // ->leftJoin('tb_perpanjangan', 'tb_perizinan.id', '=', 'tb_perpanjangan.id_perizinan')
+        // ->groupBy('tb_perizinan.id')
+        // ->get();
+
+        $perijinans = \DB::table('tb_perizinan')
+            ->select('tb_perizinan.*', 'perpanjangan.tanggal_berakhir', 'perpanjangan.status_perpanjangan')
+            ->leftJoin(\DB::raw('(SELECT id_perizinan, MAX(tanggal_berakhir) AS tanggal_berakhir, MAX(status_perpanjangan) AS status_perpanjangan FROM tb_perpanjangan WHERE status_aktif = 0 GROUP BY id_perizinan) AS perpanjangan'), 'tb_perizinan.id', '=', 'perpanjangan.id_perizinan')
+            ->get();
+
         
+        return view('admin.perijinan', compact('perijinans'));
     }
 
     public function perijinanAdd()
@@ -136,7 +172,7 @@ class AdminController extends Controller
                 'nullable',
                 'required_if:status_perpanjangan,1',
                 'date',
-              ],
+            ],
             'alokasi_biaya' => 'required',
             // 'masa_berlaku' => 'required',
             'status_perpanjangan' => 'required'
@@ -180,5 +216,49 @@ class AdminController extends Controller
         $perijinan = Perizinan::find($id);
         // dd($perpanjangan);
         return view('admin.form_perpanjangan', compact('perijinan', 'perpanjangan'));
+    }
+
+    public function perpanjanganEditDo($id, $id_perpanjangan, Request $request)
+    {
+        $perijinan = Perizinan::find($id);
+        $perpanjangan = Perpanjangan::find($id_perpanjangan);
+        // dd($perpanjangan);
+        $request->validate([
+            'tanggal_registrasi' => 'required|date',
+            // 'tanggal_registrasi_ulang' => 'required|date|after_or_equal:tanggal_registrasi',
+            // 'tanggal_berakhir' => 'required|date',
+            'tanggal_berakhir' => [
+                'sometimes',
+                'nullable',
+                'required_if:status_perpanjangan,1',
+                'date',
+            ],
+            'alokasi_biaya' => 'required',
+            // 'masa_berlaku' => 'required',
+            'status_perpanjangan' => 'required'
+        ]);
+
+        $perpanjangan->id_perizinan = $perijinan->id;
+        $perpanjangan->tanggal_registrasi = $request->tanggal_registrasi;
+        $perpanjangan->alokasi_biaya = $request->alokasi_biaya;
+        $perpanjangan->catatan = $request->catatan;
+        $perpanjangan->status_perpanjangan = $request->status_perpanjangan;
+
+        if ($request->status_perpanjangan == 0) {
+            $perpanjangan->masa_berlaku = '-';
+            $perpanjangan->tanggal_berakhir = NULL;
+        } else {
+            $tanggalRegistrasi = Carbon::parse($request->input('tanggal_registrasi'));
+            $tanggalBerakhir = Carbon::parse($request->input('tanggal_berakhir'));
+            $selisih_tahun = $tanggalRegistrasi->diffInYears($tanggalBerakhir);
+            $selisih_hari = $tanggalRegistrasi->diffInDays($tanggalBerakhir) % 365;
+            $selisih = $selisih_tahun . ' tahun ' . $selisih_hari . ' hari';
+
+            $perpanjangan->tanggal_berakhir = $request->tanggal_berakhir;
+            $perpanjangan->masa_berlaku = $selisih;
+        }
+
+        $perpanjangan->save();
+        return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 }

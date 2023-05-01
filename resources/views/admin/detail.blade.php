@@ -99,8 +99,8 @@
                         </div>
                     </div>
                     {{-- <div class="col-md-2 d-flex align-items-start justify-content-end">
-                    <a href="" class="btn btn-primary">Perpanjangan</a>
-                </div> --}}
+                        <a href="" class="btn btn-primary">Perpanjangan</a>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@
                     </div>
                 @endif --}}
             </div>
-            <div class="card" style="margin:30px 30px 30px 30px; background-color: transparent;border: none;">
+            <div class="card" style="margin:30px 40px 40px 40px; background-color: transparent;border: none;">
                 <div class="row g-0">
                     @if ($perpanjangan_aktif->isEmpty())
                         <div class="col p-0">
@@ -148,19 +148,18 @@
                             </div>
                         </div>
                     @else
-                        {{-- <div class="col-md-2 d-flex justify-content-center align-items-center">
+                        <div class="col-md-3 d-flex justify-content-center align-items-center">
                             <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_i1mvXDRPV0.json"
                                 background="transparent" speed="1" style="width: 300px;" loop autoplay></lottie-player>
-                        </div> --}}
+                        </div>
                         @foreach ($perpanjangan_aktif as $pa)
-                        {{-- @dd($pa) --}}
-                            <div class="col-md-5 d-flex align-items-center">
+                            {{-- @dd($pa) --}}
+                            <div class="col-md-4 d-flex align-items-center">
                                 <div class="card-body">
                                     <div class="d-flex gap-1 mb-3 align-items-center">
                                         @if (!$perpanjangan_stat)
                                             <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
-                                                class="btn btn rounded-pill text-white"
-                                                style="background-color: #873FFD;">
+                                                class="btn btn rounded-pill text-white" style="background-color: #873FFD;">
                                                 Perpanjang</a>
                                         @else
                                             <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
@@ -172,7 +171,8 @@
                                             data-bs-target="#">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
-                                        <a href="{{ route('admin.perpanjangan.edit', ['id' => $pa->id_perizinan , 'id_perpanjangan' => $pa->id ])}}" class="btn btn-warning rounded-circle">
+                                        <a href="{{ route('admin.perpanjangan.edit', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                                            class="btn btn-warning rounded-circle">
                                             <i class="fa-solid fa-marker"></i>
                                         </a>
                                         {{-- <a href="{{ route('admin.perijinan') }}"
@@ -265,14 +265,14 @@
 
                         {{-- tabel file arsip --}}
 
-                        <div class="col-md-7  justify-content-center align-items-center">
-                            <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;"> 
+                        <div class="col-md-5  justify-content-center align-items-center">
+                            <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;">
                                 <div class="mb-1 d-flex justify-content-between align-items-center">
                                     <h5>Dokumen </h5>
                                     <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
-                                        class="btn btn rounded-pill text-white"
-                                        style="background-color: #873FFD;"><i class="fa-solid fa-plus"></i> Tambah</a>
-                                </div> 
+                                        class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
+                                            class="fa-solid fa-plus"></i> Tambah</a>
+                                </div>
                                 <hr class="p-0 my-1">
                                 <table id="example" class="table">
                                     <thead class="table-dark">
@@ -286,37 +286,20 @@
                                         <tr>
                                             <td>1</td>
                                             <td>Ini nama dokumen</td>
-                                            <td>Ini akan ada tombol untuk hapus </td>
+                                            <td>
+                                                <div class="gap-1">
+                                                    <button class="btn btn-danger rounded-circle" data-bs-toggle="modal"
+                                                        data-bs-target="#">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                    {{-- <a href="{{ route('admin.perpanjangan.edit', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                                                        class="btn btn-warning rounded-circle">
+                                                        <i class="fa-solid fa-marker"></i>
+                                                    </a> --}}
+                                                </div>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>Ini akan ada tombol untuk hapus </td>
-                                        </tr><tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>Ini akan ada tombol untuk hapus </td>
-                                        </tr><tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>Ini akan ada tombol untuk hapus </td>
-                                        </tr><tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>Ini akan ada tombol untuk hapus </td>
-                                        </tr><tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>Ini akan ada tombol untuk hapus </td>
-                                        </tr><tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>Ini akan ada tombol untuk hapus </td>
-                                        </tr><tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>Ini akan ada tombol untuk hapus </td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -329,7 +312,9 @@
             </div>
         </div>
 
-        <div class="card mb-3 shadow mt-5  @if ($perpanjangan->isEmpty()) invisible @endif"
+
+        {{-- Riwayat Perpanjangan --}}
+        <div class="card mb-3 shadow mt-5  @if ($perpanjangan->isEmpty()) d-none @endif"
             style="border-radius:4px;padding:15px;background-color:#342073;">
             <div class="d-flex align-items-center justify-content-center text-white">
                 {{-- <i class="fas fa-search text-white"></i> --}}
@@ -353,85 +338,83 @@
                     </h2>
                     <div id="collapseOne{{ $pr->id }}" class="accordion-collapse collapse"
                         data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class="card p-2" style="border-radius: 36px;border:none;">
-                                <div class="row mb-2">
-                                    <div class="col-md-2">
-                                        <h6 class="card-title"><i class="fa-solid fa-file-contract"></i> Jenis
-                                            Perpanjangan
-                                        </h6>
-                                    </div>
-                                    <div class="col">
-                                        @if ($pr->status_perpanjangan == 0)
-                                            <span class="rounded-pill badge  text-bg-success">Lifetime</span>
-                                        @else
-                                            <span class=" rounded-pill badge text-bg-warning">Lisensi</span>
-                                        @endif
-                                    </div>
+                        <div class="accordion-body p-5">
+                            <div class="row mb-2">
+                                <div class="col-md-2">
+                                    <h6 class="card-title"><i class="fa-solid fa-file-contract"></i> Jenis
+                                        Perpanjangan
+                                    </h6>
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-2">
-                                        <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
-                                            Registrasi
-                                        </h6>
-                                    </div>
-                                    <div class="col">
+                                <div class="col">
+                                    @if ($pr->status_perpanjangan == 0)
+                                        <span class="rounded-pill badge  text-bg-success">Lifetime</span>
+                                    @else
+                                        <span class=" rounded-pill badge text-bg-warning">Lisensi</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2">
+                                    <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
+                                        Registrasi
+                                    </h6>
+                                </div>
+                                <div class="col">
+                                    <p class="card-text">
+                                        {{ Carbon::make($pr->tanggal_registrasi)->format('d/m/Y') }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2">
+                                    <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
+                                        Berakhir
+                                    </h6>
+                                </div>
+                                <div class="col">
+                                    @if ($pr->status_perpanjangan == 0)
+                                        <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
+                                    @else
                                         <p class="card-text">
-                                            {{ Carbon::make($pr->tanggal_registrasi)->format('d/m/Y') }}
+                                            {{ Carbon::make($pr->tanggal_berakhir)->format('d/m/Y') }}
                                         </p>
-                                    </div>
+                                    @endif
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-2">
-                                        <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
-                                            Berkahir
-                                        </h6>
-                                    </div>
-                                    <div class="col">
-                                        @if ($pr->status_perpanjangan == 0)
-                                            <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                        @else
-                                            <p class="card-text">
-                                                {{ Carbon::make($pr->tanggal_berakhir)->format('d/m/Y') }}
-                                            </p>
-                                        @endif
-                                    </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2">
+                                    <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
+                                        Berlaku
+                                    </h6>
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-2">
-                                        <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
-                                            Berlaku
-                                        </h6>
-                                    </div>
-                                    <div class="col">
-                                        @if ($pr->status_perpanjangan == 0)
-                                            <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                        @else
-                                            <p class="card-text">{{ $pr->masa_berlaku }}</p>
-                                        @endif
+                                <div class="col">
+                                    @if ($pr->status_perpanjangan == 0)
+                                        <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
+                                    @else
+                                        <p class="card-text">{{ $pr->masa_berlaku }}</p>
+                                    @endif
 
-                                    </div>
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-2">
-                                        <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan</h6>
-                                    </div>
-                                    <div class="col">
-                                        @if ($pr->catatan == 0)
-                                            <p>-</p>
-                                        @else
-                                            <p>{{ $pr->catatan }}</p>
-                                        @endif
-                                    </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2">
+                                    <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan</h6>
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-2">
-                                        <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Alokasi Biaya
-                                        </h6>
-                                    </div>
-                                    <div class="col">
-                                        <p>{{ $pr->alokasi_biaya }}</p>
-                                    </div>
+                                <div class="col">
+                                    @if ($pr->catatan == 0)
+                                        <p>-</p>
+                                    @else
+                                        <p>{{ $pr->catatan }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2">
+                                    <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Alokasi Biaya
+                                    </h6>
+                                </div>
+                                <div class="col">
+                                    <p>{{ $pr->alokasi_biaya }}</p>
                                 </div>
                             </div>
                         </div>
