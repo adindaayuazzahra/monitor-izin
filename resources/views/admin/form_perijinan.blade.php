@@ -80,7 +80,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="mb-4">
+                    {{-- <div class="mb-4">
                         <label for="status" class="form-label"><strong>Status</strong><span
                                 class="text-danger">*</span></label>
                         <select class="form-select" aria-label="Default select example" name="status">
@@ -91,7 +91,7 @@
                                 {{ old('status', isset($perijinan) && $perijinan->status == 1 ? 'selected' : '') }}>
                                 Non-Aktif</option>
                         </select>
-                    </div>
+                    </div> --}}
                     <div class="d-grid gap-1 d-md-flex justify-content-md-end">
                         <a href="{{ isset($perijinan) ? route('admin.perijinan.detail', ['id' => $perijinan->id]) : route('admin.perijinan') }}"
                             type="button" class="btn btn-dark">Kembali</a>

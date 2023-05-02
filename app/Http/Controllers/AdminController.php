@@ -97,7 +97,7 @@ class AdminController extends Controller
             'lokasi' => 'required',
             'instansi_terkait' => 'required',
             'perkiraan_proses' => 'required|numeric',
-            'status' => 'required'
+            // 'status' => 'required'
         ]);
 
         $perijinan = new Perizinan();
@@ -106,7 +106,7 @@ class AdminController extends Controller
         $perijinan->lokasi = $request->lokasi;
         $perijinan->instansi_terkait = $request->instansi_terkait;
         $perijinan->perkiraan_proses = $request->perkiraan_proses;
-        $perijinan->status = $request->status;
+        $perijinan->status = 1;
         $perijinan->save();
         return redirect()->route('admin.perijinan');
     }
@@ -134,14 +134,14 @@ class AdminController extends Controller
             'lokasi' => 'required',
             'instansi_terkait' => 'required',
             'perkiraan_proses' => 'required|numeric',
-            'status' => 'required'
+            // 'status' => 'required'
         ]);
         $perijinan->id_user = auth()->user()->id;
         $perijinan->nama_perizinan = $request->nama_perizinan;
         $perijinan->lokasi = $request->lokasi;
         $perijinan->instansi_terkait = $request->instansi_terkait;
         $perijinan->perkiraan_proses = $request->perkiraan_proses;
-        $perijinan->status = $request->status;
+        // $perijinan->status = $request->status;
         $perijinan->save();
 
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
@@ -206,6 +206,9 @@ class AdminController extends Controller
         }
 
         $perpanjangan->save();
+
+        $perijinan->status = 0;
+        $perijinan->save();
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
