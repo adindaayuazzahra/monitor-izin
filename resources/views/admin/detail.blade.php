@@ -216,7 +216,7 @@
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
-                                                Berkahir
+                                                Berakhir
                                             </h6>
                                         </div>
                                         <div class="col">
