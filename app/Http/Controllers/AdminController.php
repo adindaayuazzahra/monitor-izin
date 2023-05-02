@@ -114,7 +114,7 @@ class AdminController extends Controller
     public function perijinanDetail($id)
     {
         $perijinan = Perizinan::find($id);
-        $perpanjangan = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 1)->oldest('tanggal_berakhir')->get();
+        $perpanjangan = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 1)->oldest('created_at')->get();
         $perpanjangan_aktif = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 0)->get();
         $perpanjangan_stat = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 0)->first();
         return view('admin.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat'));
@@ -258,6 +258,33 @@ class AdminController extends Controller
             $perpanjangan->masa_berlaku = $selisih;
         }
 
+        $perpanjangan->save();
+        return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+    }
+
+    public function perpanjanganNonaktifDo($id, $id_perpanjangan)
+    {
+        $perijinan = Perizinan::find($id);
+        $perpanjangan = Perpanjangan::find($id_perpanjangan);
+
+        $perpanjangan->status_aktif = 1;
+        $perpanjangan->save();
+        return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+    }
+
+    public function perpanjanganAktifDo($id, $id_perpanjangan)
+    {
+        // dd($id_perpanjangan);
+
+        $perijinan = Perizinan::find($id);
+        
+        Perpanjangan::where('id_perizinan', $id)
+        ->where('status_aktif', 0)
+        ->update(['status_aktif' => 1]);
+        
+        $perpanjangan = Perpanjangan::find($id_perpanjangan);
+        // dd($perpanjangan);
+        $perpanjangan->status_aktif = 0;
         $perpanjangan->save();
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }

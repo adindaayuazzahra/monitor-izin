@@ -67,9 +67,10 @@
                                         @if ($p->status == 1)
                                             bg-danger @endif
                                     @else
-                                    @if ($p->status == 1) bg-danger
+                                        @if ($p->status == 1) bg-danger
                                         @else
-                                            {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) <= 3? 'bg-warning': '' }} @endif 
+                                            {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) <= 3 ? 'bg-warning': '' }} 
+                                        @endif 
                                     @endif
                                 ">
                                 <td>{{ $i }}</td> @php $i++ @endphp

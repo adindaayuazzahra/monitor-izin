@@ -88,8 +88,8 @@
             language: {
                 "search": "Cari:",
                 "lengthMenu": "Tampilkan _MENU_ data",
-                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+                "info": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                "infoEmpty": "Menampilkan 0 - 0 dari 0 data",
                 "infoFiltered": "(difilter dari _MAX_ total data)",
                 "zeroRecords": "Tidak ada data yang sesuai dengan pencarian",
                 "paginate": {
