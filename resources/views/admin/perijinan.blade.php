@@ -67,7 +67,8 @@
                                         @if ($p->status == 1)
                                             bg-danger text-white @endif
                                     @else
-                                        @if ($p->status == 1) bg-danger text-white
+                                        @if ($p->status == 1 || Carbon::now() >= $p->tanggal_berakhir) bg-danger 
+                                        text-white
                                         @else
                                             {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) <= 3 ? 'bg-warning': '' }} 
                                         @endif 
