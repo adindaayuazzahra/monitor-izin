@@ -29,8 +29,10 @@ class StatusCommand extends Command
     public function handle(): void
     {
         $tanggalHariIni = Carbon::now()->toDateString();
-        $perpanjangan = Perpanjangan::where('tanggal_berakhir', $tanggalHariIni)->get();
-
+        $perpanjangan = Perpanjangan::where('tanggal_berakhir', $tanggalHariIni)
+        ->orWhere('tanggal_berakhir', '<=', $tanggalHariIni)
+        ->get();
+        
         foreach ($perpanjangan as $p) {
             $perizinan = Perizinan::find($p->id_perizinan);
             $perizinan->status = 1;

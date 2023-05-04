@@ -29,7 +29,7 @@
                     <div class="mb-3">
                         <label for="tanggal_registrasi" class="form-label"><strong>Tanggal Regristrasi</strong><span
                                 class="text-danger">*</span></label>
-                        <input autocomplete="off" type="date"
+                        <input autocomplete="off" type="date" data-date-format="dd/mm/yyyy"
                             class="form-control @error('tanggal_registrasi') is-invalid @enderror" id="tanggal_registrasi"
                             name="tanggal_registrasi" value="{{ $perpanjangan->tanggal_registrasi ?? old('tanggal_registrasi') }}">
                         @error('tanggal_registrasi')
