@@ -50,6 +50,7 @@
                             <th scope="col">Tanggal Berkahir</th>
                             <th scope="col">Instansi Terkait</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
+                            <th scope="col" style="">Sisa Hari</th>
                             <th scope="col" style="width:7%">Status</th>
                             {{-- <th scope="col">Aksi</th> --}}
                             <th scope="col" style="width:12%">Detail</th>
@@ -60,17 +61,18 @@
                             $i = 1;
                         @endphp
                         @foreach ($perijinans as $p)
-                        {{-- @dump($p) --}}
+                            {{-- @dump($p) --}}
                             <tr
                                 class="
-                                    @if (!$p->tanggal_berakhir) ''
-                                        @if ($p->status == 1)
-                                            bg-danger text-white @endif
+                                    @if (!$p->tanggal_berakhir)
+                                        {{-- @if ($p->status == 1)
+                                            bg-danger text-white 
+                                        @endif --}}
                                     @else
-                                        @if ($p->status == 1 || Carbon::now() >= $p->tanggal_berakhir) bg-danger 
-                                        text-white
+                                        @if ($p->status == 1 || Carbon::now() >= $p->tanggal_berakhir) 
+                                            bg-danger text-white
                                         @else
-                                            {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) <= 3 ? 'bg-warning': '' }} 
+                                            {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) < 3? 'bg-warning': '' }} 
                                         @endif 
                                     @endif
                                 ">
@@ -79,7 +81,7 @@
                                     {{ $p->nama_perizinan }}
                                 </td>
                                 <td>
-                                    @if ($p->tanggal_berakhir === NULL)
+                                    @if ($p->tanggal_berakhir === null)
                                         @if ($p->status_perpanjangan === 0)
                                             <p>Selama Perusahaan Menjalankan Usaha</p>
                                         @else
@@ -92,9 +94,37 @@
                                 <td>
                                     {{ $p->instansi_terkait }}
                                 </td>
-                                {{-- <td>
-                            {{ $p['perkiraan_proses'] }}
-                        </td> --}}
+                                <td>
+                                    @php
+                                        $tanggal_berakhir = Carbon::parse($p->tanggal_berakhir);
+                                        $sisa_hari = $tanggal_berakhir->diffInDays(Carbon::now());
+                                    @endphp
+                                    <p>
+                                        @if ($p->status_perpanjangan === 0 || $p->tanggal_berakhir === null)
+                                            -
+                                        @else
+                                            @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                @if ($sisa_hari == 0) 
+                                                    Besok adalah tanggal berakhir
+                                                @else
+                                                    Sisa {{$sisa_hari}} Hari
+                                                @endif
+                                            @else
+                                                @if ($sisa_hari == 0) 
+                                                    Hari ini adalah tanggal berakhir
+                                                @else
+                                                    Telat {{$sisa_hari}} Hari
+                                                @endif
+                                            @endif
+                                        @endif
+                                        
+                                        {{-- @if ($status_sisa_hari == 'lewat')
+                                             {{ $sisa_hari }}
+                                        @else
+                                            Sisa hari: {{ $sisa_hari }}
+                                        @endif --}}
+                                    </p>
+                                </td>
                                 <td>
                                     @if ($p->status == 0)
                                         <span class="rounded-pill badge text-bg-success">Aktif</span>
@@ -107,8 +137,13 @@
                                     class="fa-solid fa-up-right-from-square"></i></a>
                         </td> --}}
                                 <td>
-                                    <a href="{{ route('admin.perijinan.detail', ['id' => $p->id]) }}" class="detail">Lihat
-                                        Detail <i class="fa-solid fa-up-right-from-square"></i></i></a>
+                                    @if ($p->tanggal_berakhir == NULL && $p->status_perpanjangan !== 0)
+                                        <a href="{{ route('admin.perpanjangan.add', ['id' => $p->id]) }}"
+                                            class="btn btn btn-sm rounded-pill text-white" style="background-color: #873FFD;"><i class="fa-solid fa-plus"></i> Perpanjangan</a>
+                                    @else   
+                                        <a href="{{ route('admin.perijinan.detail', ['id' => $p->id]) }}" class="detail">Lihat
+                                            Detail <i class="fa-solid fa-up-right-from-square"></i></i></a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

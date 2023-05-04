@@ -140,7 +140,7 @@
                         </select>
                     </div> --}}
                     <div class="d-grid gap-1 d-md-flex justify-content-md-end">
-                        <a href="{{ route('admin.perijinan.detail', ['id' => $perijinan->id]) }}" type="button"
+                        <a href="{{ route('admin.perijinan') }}" type="button"
                             class="btn btn-dark">Kembali</a>
                         <button type="submit" class="btn text-white" style="background-color: #873FFD">{{ isset($perpanjangan) ? 'Edit' : 'Tambah' }}</button>
                     </div>
