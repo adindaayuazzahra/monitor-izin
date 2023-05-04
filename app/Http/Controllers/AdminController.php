@@ -7,6 +7,7 @@ use App\Models\Perpanjangan;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -75,9 +76,9 @@ class AdminController extends Controller
         // ->groupBy('tb_perizinan.id')
         // ->get();
 
-        $perijinans = \DB::table('tb_perizinan')
+        $perijinans = DB::table('tb_perizinan')
             ->select('tb_perizinan.*', 'perpanjangan.tanggal_berakhir', 'perpanjangan.status_perpanjangan')
-            ->leftJoin(\DB::raw('(SELECT id_perizinan, MAX(tanggal_berakhir) AS tanggal_berakhir, MAX(status_perpanjangan) AS status_perpanjangan FROM tb_perpanjangan WHERE status_aktif = 0 GROUP BY id_perizinan) AS perpanjangan'), 'tb_perizinan.id', '=', 'perpanjangan.id_perizinan')
+            ->leftJoin(DB::raw('(SELECT id_perizinan, MAX(tanggal_berakhir) AS tanggal_berakhir, MAX(status_perpanjangan) AS status_perpanjangan FROM tb_perpanjangan WHERE status_aktif = 0 GROUP BY id_perizinan) AS perpanjangan'), 'tb_perizinan.id', '=', 'perpanjangan.id_perizinan')
             ->get();
 
         
