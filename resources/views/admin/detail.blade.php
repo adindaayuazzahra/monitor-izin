@@ -158,7 +158,7 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-2">
                                         <button class="btn btn-dark rounded-pill" data-bs-toggle="modal"
-                                            data-bs-target="#nonaktifModal{{$pa->id}}">
+                                            data-bs-target="#nonaktifModal{{ $pa->id }}">
                                             <i class="fa-solid fa-ban"></i> Non-Aktifkan
                                         </button>
 
@@ -275,9 +275,12 @@
                             <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;">
                                 <div class="mb-1 d-flex justify-content-between align-items-center">
                                     <h5>Dokumen </h5>
-                                    <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
+                                    {{-- <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
                                         class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
-                                            class="fa-solid fa-plus"></i> Tambah</a>
+                                            class="fa-solid fa-plus"></i> Tambah</a> --}}
+                                    <button data-bs-toggle="modal" data-bs-target="#pdfmodal{{ $pa->id }}"
+                                        class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
+                                            class="fa-solid fa-plus"></i> Tambah</button>
                                 </div>
                                 <hr class="p-0 my-1">
                                 <table id="example" class="table">
@@ -289,38 +292,31 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>
-                                                <div class="gap-1">
-                                                    <button class="btn btn-danger rounded-circle" data-bs-toggle="modal"
-                                                        data-bs-target="#">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </button>
-                                                    {{-- <a href="{{ route('admin.perpanjangan.edit', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                                        {{-- @foreach ($perpanjangan_aktif as $perpanjangan)
+                                            @foreach ($dok_aktif[$perpanjangan->id] as $dokumen) --}}
+                                        @php $i = 1; @endphp
+                                        @foreach ($dok_aktif as $da)
+                                            @foreach ($da as $dokumen)
+                                                <tr>
+                                                    <td>{{ $i }}</td> @php $i++ @endphp
+                                                    <td><a target="_blank" class="detail"
+                                                            href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">{{ $dokumen->doc }}</a>
+                                                    </td>
+                                                    <td>
+                                                        <div class="gap-1">
+                                                            <button class="btn btn-danger rounded-circle"
+                                                                data-bs-toggle="modal" data-bs-target="#">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </button>
+                                                            {{-- <a href="{{ route('admin.perpanjangan.edit', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
                                                         class="btn btn-warning rounded-circle">
                                                         <i class="fa-solid fa-marker"></i>
                                                     </a> --}}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Ini nama dokumen</td>
-                                            <td>
-                                                <div class="gap-1">
-                                                    <button class="btn btn-danger rounded-circle" data-bs-toggle="modal"
-                                                        data-bs-target="#">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </button>
-                                                    {{-- <a href="{{ route('admin.perpanjangan.edit', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
-                                                        class="btn btn-warning rounded-circle">
-                                                        <i class="fa-solid fa-marker"></i>
-                                                    </a> --}}
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -359,94 +355,139 @@
                     <div id="collapseOne{{ $pr->id }}" class="accordion-collapse collapse"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body p-5">
-                            <div class="d-flex align-items-center mb-3 gap-1">
-                                <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
-                                    data-bs-target="#aktifModal{{ $pr->id }}">
-                                    <i class="fa-regular fa-circle-check"></i> Aktifkan
-                                </button>
-                                <button class="btn btn-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                            <div class="row-md-12 d-flex align-items-center">
+                                <div class="col-md-6 align-items-center">
+                                    <div class="d-flex align-items-center mb-3 gap-1">
+                                        <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
+                                            data-bs-target="#aktifModal{{ $pr->id }}">
+                                            <i class="fa-regular fa-circle-check"></i> Aktifkan
+                                        </button>
+                                        <button class="btn btn-danger rounded-circle" data-bs-toggle="modal"
+                                            data-bs-target="#">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
 
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-2">
-                                    <h6 class="card-title"><i class="fa-solid fa-file-contract"></i> Jenis
-                                        Perpanjangan
-                                    </h6>
-                                </div>
-                                <div class="col">
-                                    @if ($pr->status_perpanjangan == 0)
-                                        <span class="rounded-pill badge  text-bg-success">Lifetime</span>
-                                    @else
-                                        <span class=" rounded-pill badge text-bg-warning">Lisensi</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-2">
-                                    <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
-                                        Registrasi
-                                    </h6>
-                                </div>
-                                <div class="col">
-                                    <p class="card-text">
-                                        {{ Carbon::make($pr->tanggal_registrasi)->format('d/m/Y') }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-2">
-                                    <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
-                                        Berakhir
-                                    </h6>
-                                </div>
-                                <div class="col">
-                                    @if ($pr->status_perpanjangan == 0)
-                                        <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                    @else
-                                        <p class="card-text">
-                                            {{ Carbon::make($pr->tanggal_berakhir)->format('d/m/Y') }}
-                                        </p>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-2">
-                                    <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
-                                        Berlaku
-                                    </h6>
-                                </div>
-                                <div class="col">
-                                    @if ($pr->status_perpanjangan == 0)
-                                        <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                    @else
-                                        <p class="card-text">{{ $pr->masa_berlaku }}</p>
-                                    @endif
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-5">
+                                            <h6 class="card-title"><i class="fa-solid fa-file-contract"></i> Jenis
+                                                Perpanjangan
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            @if ($pr->status_perpanjangan == 0)
+                                                <span class="rounded-pill badge  text-bg-success">Lifetime</span>
+                                            @else
+                                                <span class=" rounded-pill badge text-bg-warning">Lisensi</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-5">
+                                            <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
+                                                Registrasi
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            <p class="card-text">
+                                                {{ Carbon::make($pr->tanggal_registrasi)->format('d/m/Y') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-5">
+                                            <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
+                                                Berakhir
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            @if ($pr->status_perpanjangan == 0)
+                                                <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
+                                            @else
+                                                <p class="card-text">
+                                                    {{ Carbon::make($pr->tanggal_berakhir)->format('d/m/Y') }}
+                                                </p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-5">
+                                            <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
+                                                Berlaku
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            @if ($pr->status_perpanjangan == 0)
+                                                <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
+                                            @else
+                                                <p class="card-text">{{ $pr->masa_berlaku }}</p>
+                                            @endif
 
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-5">
+                                            <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan</h6>
+                                        </div>
+                                        <div class="col">
+                                            @if ($pr->catatan == 0)
+                                                <p>-</p>
+                                            @else
+                                                <p>{{ $pr->catatan }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-5">
+                                            <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Alokasi
+                                                Biaya
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            <p>{{ $pr->alokasi_biaya }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 justify-content-center align-items-center">
+                                    <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;">
+                                        <div class="mb-1 d-flex justify-content-between align-items-center">
+                                            <h5>Dokumen </h5>
+                                            {{-- <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
+                                                class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
+                                                    class="fa-solid fa-plus"></i> Tambah</a> --}}
+                                            {{-- <button data-bs-toggle="modal" data-bs-target="#pdfmodal{{ $pa->id }}"
+                                                class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
+                                                    class="fa-solid fa-plus"></i> Tambah</button> --}}
+                                        </div>
+                                        <hr class="p-0 my-1">
+                                        <table id="riwayat" class="table table_1" width="100%">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Nama</th>
+                                                    {{-- <th scope="col">Action</th> --}}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{-- @foreach ($perpanjangan_aktif as $perpanjangan)
+                                                    @foreach ($dok_aktif[$perpanjangan->id] as $dokumen) --}}
+                                                @php $i = 1; @endphp
+                                                @foreach ($dok_noaktif as $da)
+                                                    @foreach ($da as $dokumen)
+                                                        <tr>
+                                                            <td>{{ $i }}</td> @php $i++ @endphp
+                                                            <td><a target="_blank" class="detail"
+                                                                    href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">{{ $dokumen->doc }}</a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mb-2">
-                                <div class="col-md-2">
-                                    <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan</h6>
-                                </div>
-                                <div class="col">
-                                    @if ($pr->catatan == 0)
-                                        <p>-</p>
-                                    @else
-                                        <p>{{ $pr->catatan }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-2">
-                                    <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Alokasi Biaya
-                                    </h6>
-                                </div>
-                                <div class="col">
-                                    <p>{{ $pr->alokasi_biaya }}</p>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     @php $i++ @endphp
@@ -468,7 +509,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Apakah anda yakin akan menghapus Perijinan ini?
+                    Apakah anda yakin akan menghapus Perijinan ini?<br>
+                    <strong>Semua data mengenai perizinan ini akan hilang.</strong>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
@@ -481,8 +523,8 @@
 
     {{-- Modal non-aktif --}}
     @foreach ($perpanjangan_aktif as $pa)
-        <div class="modal fade" id="nonaktifModal{{$pa->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="nonaktifModal{{ $pa->id }}" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -520,6 +562,57 @@
                         <a href="{{ route('admin.perpanjangan.aktif.do', ['id' => $pr->id_perizinan, 'id_perpanjangan' => $pr->id]) }}"
                             class="btn btn-success"> Aktif</a>
                     </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- modal tambah pdf --}}
+    @foreach ($perpanjangan_aktif as $pa)
+        <div class="modal fade" id="pdfmodal{{ $pa->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title"><strong>Tambah Dokumen</strong></h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form
+                        action="{{ route('admin.pdf.add.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                        method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="nama_file" class="form-label"><strong>Nama File</strong><span
+                                        class="text-danger">*</span></label>
+                                <input autocomplete="off" type="text"
+                                    class="form-control @error('nama_file') is-invalid @enderror" id="nama_file"
+                                    name="nama_file" value="{{ old('nama_file') }}">
+                                @error('nama_file')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="file_pdf" class="form-label"><strong>Pilih file PDF</strong><span
+                                        class="text-danger">*</span></label>
+                                <input class="form-control" type="file" id="file_pdf" name="file_pdf">
+                                @error('file_pdf')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                            {{-- <a href="{{ route('admin.perpanjangan.nonaktif.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                                class="btn btn-danger "> Tambah</a> --}}
+                            <button type="submit" class="btn text-white"
+                                style="background-color: #873FFD">Tambah</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

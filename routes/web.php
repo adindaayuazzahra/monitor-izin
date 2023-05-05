@@ -34,6 +34,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/nonaktif/do', [AdminController::class, 'perpanjanganNonaktifDo'])->name('admin.perpanjangan.nonaktif.do');
     Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/aktif/do', [AdminController::class, 'perpanjanganAktifDo'])->name('admin.perpanjangan.aktif.do');
 
+    Route::post('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/pdf/add/do', [AdminController::class, 'pdfAddDo'])->name('admin.pdf.add.do');
+
+    Route::get('/admin/pdf/view/{id}', [AdminController::class, 'pdfView'])->name('admin.pdf.view');
+
     // logout
     Route::get('/logout/do', [HomeController::class, 'logoutDo'])->name('home.logout.do');
 });

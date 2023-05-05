@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dokumen;
 use App\Models\Perizinan;
 use App\Models\Perpanjangan;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -76,12 +78,31 @@ class AdminController extends Controller
         // ->groupBy('tb_perizinan.id')
         // ->get();
 
+        // $perijinans = DB::table('tb_perizinan')
+        //     ->select('tb_perizinan.*', 'perpanjangan.tanggal_berakhir', 'perpanjangan.status_perpanjangan')
+        //     ->leftJoin(DB::raw('(SELECT id_perizinan, MAX(tanggal_berakhir) AS tanggal_berakhir, MAX(status_perpanjangan) AS status_perpanjangan FROM tb_perpanjangan WHERE status_aktif = 0 GROUP BY id_perizinan) AS perpanjangan'), 'tb_perizinan.id', '=', 'perpanjangan.id_perizinan')
+        //     ->orderBy('CASE WHEN perpanjangan.tanggal_berakhir IS NULL THEN 0 ELSE 1 END ASC, perpanjangan.tanggal_berakhir ASC')
+        //     ->get();
+
+        // $perijinans = DB::table('tb_perizinan')
+        //     ->select('tb_perizinan.*', 'perpanjangan.tanggal_berakhir', 'perpanjangan.status_perpanjangan')
+        //     ->leftJoin(DB::raw('(SELECT id_perizinan, MAX(tanggal_berakhir) AS tanggal_berakhir, MAX(status_perpanjangan) AS status_perpanjangan FROM tb_perpanjangan WHERE status_aktif = 0 GROUP BY id_perizinan) AS perpanjangan'), 'tb_perizinan.id', '=', 'perpanjangan.id_perizinan')
+        //     ->orderByRaw('CASE WHEN perpanjangan.id_perizinan IS NULL THEN 1 ELSE 0 END')
+        //     ->get();
+
         $perijinans = DB::table('tb_perizinan')
             ->select('tb_perizinan.*', 'perpanjangan.tanggal_berakhir', 'perpanjangan.status_perpanjangan')
             ->leftJoin(DB::raw('(SELECT id_perizinan, MAX(tanggal_berakhir) AS tanggal_berakhir, MAX(status_perpanjangan) AS status_perpanjangan FROM tb_perpanjangan WHERE status_aktif = 0 GROUP BY id_perizinan) AS perpanjangan'), 'tb_perizinan.id', '=', 'perpanjangan.id_perizinan')
+            ->orderByRaw('perpanjangan.id_perizinan IS NULL DESC')
             ->get();
 
-        
+        // $perijinans = DB::table('tb_perizinan')
+        //     ->select('tb_perizinan.*', 'perpanjangan.tanggal_berakhir', 'perpanjangan.status_perpanjangan')
+        //     ->leftJoin(DB::raw('(SELECT id_perizinan, MAX(tanggal_berakhir) AS tanggal_berakhir, MAX(status_perpanjangan) AS status_perpanjangan FROM tb_perpanjangan WHERE status_aktif = 0 GROUP BY id_perizinan) AS perpanjangan'), 'tb_perizinan.id', '=', 'perpanjangan.id_perizinan')
+        //     ->get();
+
+
+
         return view('admin.perijinan', compact('perijinans'));
     }
 
@@ -118,7 +139,23 @@ class AdminController extends Controller
         $perpanjangan = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 1)->oldest('created_at')->get();
         $perpanjangan_aktif = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 0)->get();
         $perpanjangan_stat = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 0)->first();
-        return view('admin.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat'));
+        // foreach ($perpanjangan_aktif as $p) {
+        //     $dok_aktif = Dokumen::where('id_perpanjangan', $p->id)->get();
+        //     // melakukan sesuatu dengan $dok_aktif
+        // }
+        $dok_aktif = array();
+        foreach ($perpanjangan_aktif as $p) {
+            $dok_aktif[] = Dokumen::where('id_perpanjangan', $p->id)->get();
+            // melakukan sesuatu dengan $dok_aktif
+        }
+
+        $dok_noaktif = array();
+        foreach ($perpanjangan as $p) {
+            $dok_noaktif[] = Dokumen::where('id_perpanjangan', $p->id)->get();
+            // melakukan sesuatu dengan $dok_aktif
+        }
+
+        return view('admin.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif'));
     }
 
     public function perijinanEdit($id)
@@ -281,15 +318,49 @@ class AdminController extends Controller
         // dd($id_perpanjangan);
 
         $perijinan = Perizinan::find($id);
-        
+
         Perpanjangan::where('id_perizinan', $id)
-        ->where('status_aktif', 0)
-        ->update(['status_aktif' => 1]);
-        
+            ->where('status_aktif', 0)
+            ->update(['status_aktif' => 1]);
+
         $perpanjangan = Perpanjangan::find($id_perpanjangan);
         // dd($perpanjangan);
         $perpanjangan->status_aktif = 0;
         $perpanjangan->save();
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
-}
+
+    public function pdfAddDo($id, $id_perpanjangan, Request $request)
+    {
+
+        $perijinan = Perizinan::find($id);
+
+        $perpanjangan = Perpanjangan::find($id_perpanjangan);
+
+        $request->validate([
+            'nama_file' => 'required',
+            'file_pdf' => 'required|mimes:pdf|max:10240', // maksimum 10MB
+        ]);
+
+        $file = $request->file('file_pdf');
+        $ext = $file->getClientOriginalExtension();
+        $fileName = $request->input('nama_file') . '_' . uniqid() . '.' .  $ext;
+        Storage::putFileAs('pdf', $file, $fileName);
+
+        $dokumen = new Dokumen();
+        $dokumen->id_perpanjangan = $perpanjangan->id;
+        $dokumen->doc = $fileName;
+        $dokumen->status = 0;
+
+        $dokumen->save();
+
+        return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+    }
+
+    public function pdfView($id)
+    {
+        $dokumen = Dokumen::findOrFail($id);
+        $pdfPath = storage_path('app/pdf/' . $dokumen->doc);
+        return response()->file($pdfPath);
+    }
+};

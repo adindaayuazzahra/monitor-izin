@@ -104,5 +104,34 @@
             }
 
         });
+
+        $('.table_1').DataTable({
+            pageLength: 5,
+            buttons: [
+                'pdf', 'print'
+            ],
+            dom: '<"row"<"col-sm-12 col-md-6 mt-2"B><"col-sm-12 col-md-6 mt-2"f>>' +
+                '<"row"<"col-sm-12"tr>>' +
+                '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            responsive: true,
+            language: {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ data",
+                "info": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                "infoEmpty": "Menampilkan 0 - 0 dari 0 data",
+                "infoFiltered": "(difilter dari _MAX_ total data)",
+                "zeroRecords": "Tidak ada data yang sesuai",
+                "paginate": {
+                    "previous": '<i class="fa-solid fa-angle-left"></i>',
+                    "next": '<i class="fa-solid fa-angle-right"></i>'
+                },
+                "aria": {
+                    "sortAscending": ": aktifkan untuk mengurutkan kolom secara ascending",
+                    "sortDescending": ": aktifkan untuk mengurutkan kolom secara descending"
+                },
+
+            }
+
+        });
     });
 </script>
