@@ -3,8 +3,9 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.6.4.slim.js"
     integrity="sha256-dWvV84T6BhzO4vG6gWhsWVKVoa4lVmLnpBOZh/CAHU4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-    integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+</script>
 </script>
 <script src="https://kit.fontawesome.com/82ef5747eb.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -21,6 +22,23 @@
         });
     });
 </script>
+
+{{-- sweetalert --}}
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
+"></script>
+@if (session('message'))
+    <script>
+        Swal.fire({
+            timer: 2000,
+            // imgeUrl: 'https://assets6.lottiefiles.com/packages/lf20_s2lryxtd.json',
+            icon: '{{ session('icon') }}',
+            title: '{{ session('title') }}',
+            text: '{{ session('message') }}',
+            // footer: '<a href="">Why do I have this issue?</a>'
+        });
+    </script>
+@endif
 
 <!-- datatables -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>

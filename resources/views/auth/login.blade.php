@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ovo&family=Work+Sans:wght@500;600;700;800&display=swap"
         rel="stylesheet">
+    {{-- sweetalert --}}
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #fee440;
@@ -123,12 +125,12 @@
 
     <div class="container d-flex align-items-center justify-content-center" style="height:100vh;">
         <div class="card px-4 py-5 shadow-lg" style="max-width:90vh;width:50vh;border-radius:20px;">
-            @if (session('error'))
+            {{-- @if (session('error'))
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            @endif
+            @endif --}}
             {{-- <div class="d-flex justify-content-center">
                 <img src="{{asset('assets/img-jmtm/login.gif')}}" width="300px;" alt="" class="mb-4">
             </div> --}}
@@ -147,8 +149,8 @@
             <form action="{{ route('home.login.do') }}" method="POST">
                 {{ csrf_field() }}
                 <div class="form-floating mb-3 d-block">
-                    <input type="text" class="form-control  @error('username') is-invalid @enderror" id="username" name="username" placeholder="Username"
-                        autocomplete="off">
+                    <input type="text" class="form-control  @error('username') is-invalid @enderror" id="username"
+                        name="username" placeholder="Username" autocomplete="off">
                     <label for="username">Username</label>
                     @error('username')
                         <div class="invalid-feedback">
@@ -157,8 +159,8 @@
                     @enderror
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control  @error('password') is-invalid @enderror" id="floatingPassword" name="password"
-                        placeholder="Password">
+                    <input type="password" class="form-control  @error('password') is-invalid @enderror"
+                        id="floatingPassword" name="password" placeholder="Password">
                     <label for="floatingPassword">Password</label>
                     @error('password')
                         <div class="invalid-feedback">
@@ -183,6 +185,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
     </script>
+    {{-- sweetalert --}}
+    <script src="
+        https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
+        "></script>
+    @if (session('message'))
+        <script>
+            Swal.fire({
+                timer: 2000,
+                // imgeUrl: 'https://assets6.lottiefiles.com/packages/lf20_s2lryxtd.json',
+                icon: '{{ session('icon') }}',
+                title: '{{ session('title') }}',
+                text: '{{ session('message') }}',
+                // footer: '<a href="">Why do I have this issue?</a>'
+            });
+        </script>
+    @endif
 </body>
 
 </html>

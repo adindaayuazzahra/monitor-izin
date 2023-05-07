@@ -64,16 +64,14 @@
                             {{-- @dump($p) --}}
                             <tr
                                 class="
-                                    @if (!$p->tanggal_berakhir)
-                                        {{-- @if ($p->status == 1)
+                                    @if (!$p->tanggal_berakhir) {{-- @if ($p->status == 1)
                                             bg-danger text-white 
                                         @endif --}}
                                     @else
                                         @if ($p->status == 1 || Carbon::now() >= $p->tanggal_berakhir) 
                                             bg-danger text-white
                                         @else
-                                            {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) < 3? 'bg-warning': '' }} 
-                                        @endif 
+                                            {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) < 3? 'bg-warning': '' }} @endif 
                                     @endif
                                 ">
                                 <td>{{ $i }}</td> @php $i++ @endphp
@@ -104,20 +102,20 @@
                                             -
                                         @else
                                             @if (Carbon::now()->isBefore($tanggal_berakhir))
-                                                @if ($sisa_hari == 0) 
+                                                @if ($sisa_hari == 0)
                                                     Besok adalah tanggal berakhir
                                                 @else
-                                                    Sisa {{$sisa_hari}} Hari
+                                                    Sisa {{ $sisa_hari }} Hari
                                                 @endif
                                             @else
-                                                @if ($sisa_hari == 0) 
+                                                @if ($sisa_hari == 0)
                                                     Hari ini adalah tanggal berakhir
                                                 @else
-                                                    Telat {{$sisa_hari}} Hari
+                                                    Telat {{ $sisa_hari }} Hari
                                                 @endif
                                             @endif
                                         @endif
-                                        
+
                                         {{-- @if ($status_sisa_hari == 'lewat')
                                              {{ $sisa_hari }}
                                         @else
@@ -137,12 +135,15 @@
                                     class="fa-solid fa-up-right-from-square"></i></a>
                         </td> --}}
                                 <td>
-                                    @if ($p->tanggal_berakhir == NULL && $p->status_perpanjangan !== 0)
+                                    @if ($p->tanggal_berakhir == null && $p->status_perpanjangan !== 0)
                                         <a href="{{ route('admin.perpanjangan.add', ['id' => $p->id]) }}"
-                                            class="btn btn btn-sm rounded-pill text-white" style="background-color: #873FFD;"><i class="fa-solid fa-plus"></i> Perpanjangan</a>
-                                    @else   
-                                        <a href="{{ route('admin.perijinan.detail', ['id' => $p->id]) }}" class="detail">Lihat
-                                            Detail <i class="fa-solid fa-up-right-from-square"></i></i></a>
+                                            class="btn btn btn-sm rounded-pill text-white"
+                                            style="background-color: #873FFD;"><i class="fa-solid fa-plus"></i>
+                                            Perpanjangan</a>
+                                    @else
+                                        <a class="link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"  style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                            href="{{ route('admin.perijinan.detail', ['id' => $p->id]) }}">Lihat
+                                            Detail <i class="bi bi-arrow-up-right-square"></i></a>
                                     @endif
                                 </td>
                             </tr>

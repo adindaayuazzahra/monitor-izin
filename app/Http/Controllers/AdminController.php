@@ -130,6 +130,10 @@ class AdminController extends Controller
         $perijinan->perkiraan_proses = $request->perkiraan_proses;
         $perijinan->status = 1;
         $perijinan->save();
+
+        $request->session()->flash('message', 'Berhasil Menambah Data!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan');
     }
 
@@ -182,13 +186,19 @@ class AdminController extends Controller
         // $perijinan->status = $request->status;
         $perijinan->save();
 
+        $request->session()->flash('message', 'Berhasil Mengubah Data!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
-    public function perijinanDeleteDo($id)
+    public function perijinanDeleteDo(Request $request, $id)
     {
         $perijinan = Perizinan::find($id);
         $perijinan->delete();
+        $request->session()->flash('message', 'Berhasil Menghapus Data!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan');
     }
 
@@ -247,6 +257,9 @@ class AdminController extends Controller
 
         $perijinan->status = 0;
         $perijinan->save();
+        $request->session()->flash('message', 'Berhasil Menambah Data!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
@@ -300,6 +313,9 @@ class AdminController extends Controller
         }
 
         $perpanjangan->save();
+        $request->session()->flash('message', 'Berhasil Mengubah Data!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
@@ -310,6 +326,9 @@ class AdminController extends Controller
 
         $perpanjangan->status_aktif = 1;
         $perpanjangan->save();
+        // $perijinan->status = 1;
+        // $perijinan->save();
+
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
@@ -353,7 +372,9 @@ class AdminController extends Controller
         $dokumen->status = 0;
 
         $dokumen->save();
-
+        $request->session()->flash('message', 'Berhasil Menambahkan PDF!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 

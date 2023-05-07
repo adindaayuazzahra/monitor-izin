@@ -33,10 +33,16 @@ class HomeController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             if ($user) {
+                $request->session()->flash('message', 'Anda Berhasil Login!');
+                $request->session()->flash('title', 'Selamat');
+                $request->session()->flash('icon', 'success');
                 return redirect()->route('admin');
-            } 
+            }
         }
-        return redirect()->route('home.login')->with('error', "Username atau password salah");
+        $request->session()->flash('message', 'Username atau password yang anda masukkan salah');
+        $request->session()->flash('title', 'Maaf');
+        $request->session()->flash('icon', 'error');
+        return redirect()->route('home.login');
     }
 
     public function logoutDo(Request $request)
@@ -44,6 +50,9 @@ class HomeController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        $request->session()->flash('message', 'Anda Berhasil Logout!');
+        $request->session()->flash('title', 'Selamat');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('home.login')->with('error', "Berhasil Logout");
     }
 }

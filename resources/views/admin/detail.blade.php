@@ -4,8 +4,7 @@
         {{-- <div class="overlay" style="opacity: 0.5"></div> --}}
         <div class="text-white text-center">
             <h2 class="text-center">{{ $perijinan->nama_perizinan }}</h2>
-            {{-- <p style="font-size:16pt;">Pada halaman ini anda dapat menambahkan, menyunting dan menghapus perijinan.</p>
-        --}}
+            {{-- <p style="font-size:16pt;">Pada halaman ini anda dapat menambahkan, menyunting dan menghapus perijinan.</p> --}}
         </div>
     </div>
     <section style="margin:-80px 30px 50px 30px;">
@@ -38,6 +37,11 @@
                     </div>
                     <div class="col-md-8 d-flex align-items-center">
                         <div class="card-body">
+                            @if (session('message'))
+                                {{-- <div class="alert alert-{{ Session::get('message-class', 'warning') }}" role="alert">
+                                    {{ session('message') }}
+                                </div> --}}
+                            @endif
                             <div class="d-flex gap-1 mb-3 align-items-center">
                                 <button class="btn btn-danger rounded-circle" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
@@ -156,13 +160,12 @@
                             {{-- @dd($pa) --}}
                             <div class="col-md-6 d-flex align-items-center">
                                 <div class="card-body">
-                                    <div class="d-flex align-items-center mb-2">
+                                    {{-- <div class="d-flex align-items-center mb-2">
                                         <button class="btn btn-dark rounded-pill" data-bs-toggle="modal"
                                             data-bs-target="#nonaktifModal{{ $pa->id }}">
                                             <i class="fa-solid fa-ban"></i> Non-Aktifkan
                                         </button>
-
-                                    </div>
+                                    </div> --}}
                                     <div class="d-flex gap-1 mb-3 align-items-center">
                                         @if (!$perpanjangan_stat)
                                             <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
@@ -299,7 +302,8 @@
                                             @foreach ($da as $dokumen)
                                                 <tr>
                                                     <td>{{ $i }}</td> @php $i++ @endphp
-                                                    <td><a target="_blank" class="detail"
+                                                    <td><a target="_blank"
+                                                            class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
                                                             href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">{{ $dokumen->doc }}</a>
                                                     </td>
                                                     <td>
@@ -357,7 +361,7 @@
                         <div class="accordion-body p-5">
                             <div class="row-md-12 d-flex align-items-center">
                                 <div class="col-md-6 align-items-center">
-                                    <div class="d-flex align-items-center mb-3 gap-1">
+                                    {{-- <div class="d-flex align-items-center mb-3 gap-1">
                                         <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
                                             data-bs-target="#aktifModal{{ $pr->id }}">
                                             <i class="fa-regular fa-circle-check"></i> Aktifkan
@@ -366,8 +370,7 @@
                                             data-bs-target="#">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
-
-                                    </div>
+                                    </div> --}}
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-solid fa-file-contract"></i> Jenis
@@ -476,7 +479,8 @@
                                                     @foreach ($da as $dokumen)
                                                         <tr>
                                                             <td>{{ $i }}</td> @php $i++ @endphp
-                                                            <td><a target="_blank" class="detail"
+                                                            <td><a target="_blank"
+                                                                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
                                                                     href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">{{ $dokumen->doc }}</a>
                                                             </td>
                                                         </tr>
@@ -504,19 +508,31 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
+                {{-- <div class="modal-header">
                     <h4 class="modal-title" id="confirmDeleteLabel"><strong>Hapus Perizinan</strong></h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+                </div> --}}
                 <div class="modal-body">
-                    Apakah anda yakin akan menghapus Perijinan ini?<br>
-                    <strong>Semua data mengenai perizinan ini akan hilang.</strong>
+                    <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                        <lottie-player src="https://assets.lottiefiles.com/packages/lf20_Tkwjw8.json"
+                            background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
+                            autoplay></lottie-player>
+                        <p class="text-center"> Apakah anda yakin akan menghapus Perijinan ini?<br>
+                            <strong>Semua data mengenai perizinan ini akan hilang.</strong>
+                        </p>
+                        <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                            <button type="button" class="btn btn-lg btn-secondary"
+                                data-bs-dismiss="modal">Tidak</button>
+                            <a href="{{ route('admin.perijinan.delete.do', ['id' => $perijinan->id]) }}"
+                                class="btn btn-lg btn-danger">Hapus</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-footer">
+                {{-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
                     <a href="{{ route('admin.perijinan.delete.do', ['id' => $perijinan->id]) }}"
                         class="btn btn-danger">Hapus</a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -598,6 +614,7 @@
                                 <label for="file_pdf" class="form-label"><strong>Pilih file PDF</strong><span
                                         class="text-danger">*</span></label>
                                 <input class="form-control" type="file" id="file_pdf" name="file_pdf">
+                                <small class="fst-italic">*Maks. 10Mb</small>
                                 @error('file_pdf')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -617,4 +634,8 @@
             </div>
         </div>
     @endforeach
+
+
 @endsection
+
+
