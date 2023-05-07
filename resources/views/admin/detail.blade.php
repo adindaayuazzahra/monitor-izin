@@ -309,7 +309,7 @@
                                                     <td>
                                                         <div class="gap-1">
                                                             <button class="btn btn-danger rounded-circle"
-                                                                data-bs-toggle="modal" data-bs-target="#">
+                                                                data-bs-toggle="modal" data-bs-target="#pdfDelete">
                                                                 <i class="fa-solid fa-trash"></i>
                                                             </button>
                                                             {{-- <a href="{{ route('admin.perpanjangan.edit', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
@@ -537,6 +537,41 @@
         </div>
     </div>
 
+    {{-- modal konfirmasi Delete PDF --}}
+    @foreach ($dok_aktif as $da)
+        @foreach ($da as $dokumen)
+            <div class="modal fade" id="pdfDelete" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                                <lottie-player class="my-1" src="https://assets2.lottiefiles.com/private_files/lf30_ilvzxix1.json"
+                                    background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
+                                    autoplay></lottie-player>
+                                <p class="text-center"> Apakah anda yakin akan menghapus PDF Perpanjangan ini?<br>
+                                    <strong>File PDF akan hilang dan tidak bisa dikembalikan.</strong>
+                                </p>
+                                <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-lg btn-secondary"
+                                        data-bs-dismiss="modal">Tidak</button>
+                                    <a href="{{ route('admin.pdf.delete.do', ['id' => $perijinan->id, 'id_doc' => $dokumen->id]) }}"
+                                        class="btn btn-lg btn-danger">Hapus</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                    <a href="{{ route('admin.perijinan.delete.do', ['id' => $perijinan->id]) }}"
+                        class="btn btn-danger">Hapus</a>
+                </div> --}}
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endforeach
+
+
     {{-- Modal non-aktif --}}
     @foreach ($perpanjangan_aktif as $pa)
         <div class="modal fade" id="nonaktifModal{{ $pa->id }}" tabindex="-1"
@@ -637,5 +672,3 @@
 
 
 @endsection
-
-

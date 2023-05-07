@@ -384,4 +384,17 @@ class AdminController extends Controller
         $pdfPath = storage_path('app/pdf/' . $dokumen->doc);
         return response()->file($pdfPath);
     }
+
+    public function pdfDeleteDo(Request $request, $id, $id_doc)
+    {
+        $perijinan = Perizinan::find($id);
+
+        $pdfFile = Dokumen::findOrFail($id_doc);
+        Storage::delete('pdf/' . $pdfFile->doc);
+        $pdfFile->delete();
+        $request->session()->flash('message', 'Berhasil Menghapus PDF!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
+        return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+    }
 };
