@@ -36,8 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/perijinan/{id}/perpanjangan/add/do', [AdminController::class, 'perpanjanganAddDo'])->name('admin.perpanjangan.add.do');
     Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/edit', [AdminController::class, 'perpanjanganEdit'])->name('admin.perpanjangan.edit');
     Route::post('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/edit/do', [AdminController::class, 'perpanjanganEditDo'])->name('admin.perpanjangan.edit.do');
-    // Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/nonaktif/do', [AdminController::class, 'perpanjanganNonaktifDo'])->name('admin.perpanjangan.nonaktif.do');
-    // Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/aktif/do', [AdminController::class, 'perpanjanganAktifDo'])->name('admin.perpanjangan.aktif.do');
+    Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/nonaktif/do', [AdminController::class, 'perpanjanganNonaktifDo'])->name('admin.perpanjangan.nonaktif.do');
+    Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/aktif/do', [AdminController::class, 'perpanjanganAktifDo'])->name('admin.perpanjangan.aktif.do');
 
     // PDF
     Route::post('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/pdf/add/do', [AdminController::class, 'pdfAddDo'])->name('admin.pdf.add.do');
