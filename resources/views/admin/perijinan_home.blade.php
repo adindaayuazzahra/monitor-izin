@@ -77,7 +77,7 @@
                                     $date = $now->copy()->addMonths($i);
                                     $daysInMonth = Carbon::createFromDate($date->year, $date->month, 1)->daysInMonth;
                                     $tigabulan += $daysInMonth;
-                                }
+                                } 
                                 // $tigabulan = Carbon::createFromDate($threeMonthsLater->year, $threeMonthsLater->month, 1)->daysInMonth;
                             @endphp
                             <tr
