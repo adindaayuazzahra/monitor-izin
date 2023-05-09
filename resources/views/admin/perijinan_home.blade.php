@@ -57,7 +57,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php $no = 1; @endphp
+                        @php $no = 1; @endphp  
                         @foreach ($perijinans as $p)
                             @php
                                 // menghitung sisa hari
