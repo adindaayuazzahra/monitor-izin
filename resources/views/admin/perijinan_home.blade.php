@@ -57,7 +57,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php $i = 1; @endphp
+                        @php $no = 1; @endphp
                         @foreach ($perijinans as $p)
                             @php
                                 // menghitung sisa hari
@@ -103,7 +103,8 @@
                                         {{-- @endif  --}}
                                     @endif
                                 ">
-                                <td>{{ $i }}</td> @php $i++ @endphp
+                                
+                                <td>{{ $no }}</td> @php $no++; @endphp
                                 <td>
                                     {{ $p->nama_perizinan }}
                                 </td>
@@ -160,10 +161,6 @@
                                         @endif --}}
                                     </p>
                                 </td>
-                                {{-- <td>
-                            <a href="" class="btn btn-danger">Lihat Detail <i
-                                    class="fa-solid fa-up-right-from-square"></i></a>
-                        </td> --}}
                                 <td>
                                     @if ($p->tanggal_berakhir == null && $p->status_perpanjangan !== 0)
                                         <a href="{{ route('admin.perpanjangan.add', ['id' => $p->id]) }}"
@@ -190,7 +187,6 @@
                                     @endif
                                 </td>
                             </tr>
-                            @php $i++ @endphp
                         @endforeach
                     </tbody>
                 </table>
