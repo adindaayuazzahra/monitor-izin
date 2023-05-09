@@ -103,12 +103,11 @@ class AdminController extends Controller
 
 
 
-        return view('admin.perijinan', compact('perijinans'));
+        return view('admin.perijinan_home', compact('perijinans'));
     }
 
     public function perijinanAdd()
     {
-
         return view('admin.form_perijinan');
     }
 
@@ -363,7 +362,7 @@ class AdminController extends Controller
 
         $file = $request->file('file_pdf');
         $ext = $file->getClientOriginalExtension();
-        $fileName = $request->input('nama_file') . '_' . uniqid() . '.' .  $ext;
+        $fileName = $request->input('nama_file') . '_' . Carbon::now()->format('dmy') . '.' .  $ext;
         Storage::putFileAs('pdf', $file, $fileName);
 
         $dokumen = new Dokumen();

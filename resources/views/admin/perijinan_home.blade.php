@@ -50,28 +50,57 @@
                             <th scope="col">Tanggal Berkahir</th>
                             <th scope="col">Instansi Terkait</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
-                            <th scope="col" style="">Sisa Hari</th>
                             <th scope="col" style="width:7%">Status</th>
+                            <th scope="col" style="width:9%">Sisa Hari</th>
                             {{-- <th scope="col">Aksi</th> --}}
                             <th scope="col" style="width:12%">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $i = 1;
-                        @endphp
+                        @php $i = 1; @endphp
                         @foreach ($perijinans as $p)
-                            {{-- @dump($p) --}}
+                            @php
+                                // menghitung sisa hari
+                                $tanggal_berakhir = Carbon::parse($p->tanggal_berakhir);
+                                $sisa_hari = $tanggal_berakhir->diffInDays(Carbon::now());
+                                
+                                // Menentukan warna rows
+                                $now = Carbon::now();
+                                // menghitung 1 bulan
+                                $sebulan = $now->daysInMonth;
+                                // Menghitung 3 bulan
+                                // $threeMonthsLater = $now->addMonths(3);
+                                // $tigabulan = $threeMonthsLater->daysInMonth;
+
+                                $tigabulan = 0;
+                                for ($i = 1; $i <= 3; $i++) {
+                                    $date = $now->copy()->addMonths($i);
+                                    $daysInMonth = Carbon::createFromDate($date->year, $date->month, 1)->daysInMonth;
+                                    $tigabulan += $daysInMonth;
+                                }
+                                // $tigabulan = Carbon::createFromDate($threeMonthsLater->year, $threeMonthsLater->month, 1)->daysInMonth;
+                            @endphp
                             <tr
                                 class="
-                                    @if (!$p->tanggal_berakhir) {{-- @if ($p->status == 1)
-                                            bg-danger text-white 
-                                        @endif --}}
-                                    @else
-                                        @if ($p->status == 1 || Carbon::now() >= $p->tanggal_berakhir) 
+                                    {{-- @if (!$p->tanggal_berakhir) @else
+                                        @if ($p->status == 1 || Carbon::now() == $p->tanggal_berakhir) 
                                             bg-danger text-white
                                         @else
                                             {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) < 3? 'bg-warning': '' }} @endif 
+                                    @endif --}}
+                                    @if (!$p->tanggal_berakhir) @else
+                                        {{-- @if ($p->status == 1 || Carbon::now() == $p->tanggal_berakhir) 
+                                            bg-danger text-white
+                                        @else --}}
+                                            @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                @if ($sisa_hari <= $tigabulan && $sisa_hari > 30)
+                                                    bg-warning 
+                                                @elseif($sisa_hari <= $sebulan && $sisa_hari >= 0)
+                                                    bg-danger text-white @endif
+                                                @else
+                                                    bg-black text-white    
+                                            @endif 
+                                        {{-- @endif  --}}
                                     @endif
                                 ">
                                 <td>{{ $i }}</td> @php $i++ @endphp
@@ -93,10 +122,17 @@
                                     {{ $p->instansi_terkait }}
                                 </td>
                                 <td>
-                                    @php
+                                    @if ($p->status == 0)
+                                        <span class="rounded-pill badge text-bg-success">Aktif</span>
+                                    @else
+                                        <span class=" rounded-pill badge text-bg-danger">Non-Aktif</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{-- @php
                                         $tanggal_berakhir = Carbon::parse($p->tanggal_berakhir);
                                         $sisa_hari = $tanggal_berakhir->diffInDays(Carbon::now());
-                                    @endphp
+                                    @endphp --}}
                                     <p>
                                         @if ($p->status_perpanjangan === 0 || $p->tanggal_berakhir === null)
                                             -
@@ -105,13 +141,14 @@
                                                 @if ($sisa_hari == 0)
                                                     Besok adalah tanggal berakhir
                                                 @else
-                                                    Sisa {{ $sisa_hari }} Hari
+                                                    - {{ $sisa_hari }} Hari
                                                 @endif
                                             @else
                                                 @if ($sisa_hari == 0)
                                                     Hari ini adalah tanggal berakhir
                                                 @else
-                                                    Telat {{ $sisa_hari }} Hari
+                                                    Expired <br>
+                                                    + {{ $sisa_hari }} Hari
                                                 @endif
                                             @endif
                                         @endif
@@ -122,13 +159,6 @@
                                             Sisa hari: {{ $sisa_hari }}
                                         @endif --}}
                                     </p>
-                                </td>
-                                <td>
-                                    @if ($p->status == 0)
-                                        <span class="rounded-pill badge text-bg-success">Aktif</span>
-                                    @else
-                                        <span class=" rounded-pill badge text-bg-danger">Non-Aktif</span>
-                                    @endif
                                 </td>
                                 {{-- <td>
                             <a href="" class="btn btn-danger">Lihat Detail <i
@@ -141,12 +171,26 @@
                                             style="background-color: #873FFD;"><i class="fa-solid fa-plus"></i>
                                             Perpanjangan</a>
                                     @else
-                                        <a class="link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"  style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                        <a class="
+                                            @if (!$p->tanggal_berakhir) @else
+                                                @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                    @if ($sisa_hari <= 90 && $sisa_hari > 30)
+                                                        text-black
+                                                    @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
+                                                        text-white @endif
+                                                @else
+                                                    text-white    
+                                                @endif
+                                            @endif
+                                        
+                                        link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
+                                            style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
                                             href="{{ route('admin.perijinan.detail', ['id' => $p->id]) }}">Lihat
                                             Detail <i class="bi bi-arrow-up-right-square"></i></a>
                                     @endif
                                 </td>
                             </tr>
+                            @php $i++ @endphp
                         @endforeach
                     </tbody>
                 </table>

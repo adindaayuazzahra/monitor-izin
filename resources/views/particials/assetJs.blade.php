@@ -9,6 +9,8 @@
 </script>
 <script src="https://kit.fontawesome.com/82ef5747eb.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+
 <!-- Load jQuery MaskMoney -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 <script>
@@ -23,7 +25,7 @@
     });
 </script>
 
-{{-- sweetalert --}}
+{{-- sweetalert Notif --}}
 <script src="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
 "></script>
@@ -31,21 +33,20 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
     <script>
         Swal.fire({
             timer: 2000,
-            // imgeUrl: 'https://assets6.lottiefiles.com/packages/lf20_s2lryxtd.json',
             icon: '{{ session('icon') }}',
             title: '{{ session('title') }}',
             text: '{{ session('message') }}',
-            // footer: '<a href="">Why do I have this issue?</a>'
         });
     </script>
 @endif
 
+
+
+
+
 <!-- datatables -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-{{-- <script
-    src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/cr-1.6.2/date-1.4.0/fc-4.2.2/fh-3.3.2/sc-2.1.1/datatables.min.js">
-</script> --}}
 <script
     src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/datatables.min.js">
 </script>
@@ -153,3 +154,5 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
         });
     });
 </script>
+
+

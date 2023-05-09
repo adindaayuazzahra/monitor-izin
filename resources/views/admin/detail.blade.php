@@ -198,9 +198,9 @@
                                         </div>
                                         <div class="col">
                                             @if ($pa->status_perpanjangan == 0)
-                                                <span class="rounded-pill badge  text-bg-success">Lifetime</span>
+                                                <span class="rounded-pill badge  text-bg-success">Non-Periodik</span>
                                             @else
-                                                <span class=" rounded-pill badge text-bg-warning">Lisensi</span>
+                                                <span class=" rounded-pill badge text-bg-warning">Periodik</span>
                                             @endif
                                         </div>
                                     </div>
@@ -244,12 +244,13 @@
                                             @else
                                                 <p class="card-text">{{ $pa->masa_berlaku }}</p>
                                             @endif
-
+                                            alokasi
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan</h6>
+                                            <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan
+                                                Khusus</h6>
                                         </div>
                                         <div class="col">
                                             @if ($pa->catatan == 0)
@@ -261,7 +262,7 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Alokasi
+                                            <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Estimasi
                                                 Biaya
                                             </h6>
                                         </div>
@@ -277,7 +278,7 @@
                         <div class="col-md-6 justify-content-center align-items-center">
                             <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;">
                                 <div class="mb-1 d-flex justify-content-between align-items-center">
-                                    <h5>Dokumen </h5>
+                                    <h5>Dokumen yang dibutuhkan </h5>
                                     {{-- <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
                                         class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
                                             class="fa-solid fa-plus"></i> Tambah</a> --}}
@@ -353,7 +354,7 @@
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseOne{{ $pr->id }}" aria-expanded="false"
                             aria-controls="collapseOne{{ $pr->id }}">
-                            Perpanjangan Ke - {{ $i }}
+                            Perpanjangan {{ Carbon::make($pr->tanggal_berakhir)->format('d/m/Y') }}
                         </button>
                     </h2>
                     <div id="collapseOne{{ $pr->id }}" class="accordion-collapse collapse"
@@ -379,9 +380,9 @@
                                         </div>
                                         <div class="col">
                                             @if ($pr->status_perpanjangan == 0)
-                                                <span class="rounded-pill badge  text-bg-success">Lifetime</span>
+                                                <span class="rounded-pill badge  text-bg-success">Non-Periodik</span>
                                             @else
-                                                <span class=" rounded-pill badge text-bg-warning">Lisensi</span>
+                                                <span class=" rounded-pill badge text-bg-warning">Periodik</span>
                                             @endif
                                         </div>
                                     </div>
@@ -430,7 +431,8 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan</h6>
+                                            <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan
+                                                Khusus</h6>
                                         </div>
                                         <div class="col">
                                             @if ($pr->catatan == 0)
@@ -491,20 +493,18 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     @php $i++ @endphp
                 </div>
             </div>
         @endforeach
-        {{-- @endif --}}
 
     </section>
 
 
 
-    <!-- Modal Konfirmasi Delete -->
+    {{-- Modal Konfirmasi Delete --}}
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -546,7 +546,8 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="row d-flex justify-content-center align-items-center p-0 m-0">
-                                <lottie-player class="my-1" src="https://assets2.lottiefiles.com/private_files/lf30_ilvzxix1.json"
+                                <lottie-player class="my-1"
+                                    src="https://assets2.lottiefiles.com/private_files/lf30_ilvzxix1.json"
                                     background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
                                     autoplay></lottie-player>
                                 <p class="text-center"> Apakah anda yakin akan menghapus PDF Perpanjangan ini?<br>
@@ -648,7 +649,8 @@
                             <div class="mb-3">
                                 <label for="file_pdf" class="form-label"><strong>Pilih file PDF</strong><span
                                         class="text-danger">*</span></label>
-                                <input class="form-control" type="file" id="file_pdf" name="file_pdf">
+                                <input class="form-control @error('file_pdf') is-invalid @enderror" type="file"
+                                    id="file_pdf" name="file_pdf" value="{{ old('file_pdf') }}">
                                 <small class="fst-italic">*Maks. 10Mb</small>
                                 @error('file_pdf')
                                     <div class="invalid-feedback">
@@ -671,4 +673,15 @@
     @endforeach
 
 
+@endsection
+
+@section('alert')
+    {{-- modal add PDF --}}
+    @if ($errors->any())
+        <script>
+            $(document).ready(function() {
+                $('#pdfmodal{{ $pa->id }}').modal('show');
+            });
+        </script>
+    @endif
 @endsection

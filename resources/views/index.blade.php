@@ -9,7 +9,7 @@
     @include('particials.navbar')
     @yield('content')
     @include('particials/assetJs')
-    {{-- @yield('alert') --}}
+    @yield('alert')
 </body>
 
 </html>

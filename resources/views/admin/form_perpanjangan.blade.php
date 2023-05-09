@@ -57,10 +57,10 @@
                             class="form-control @error('tanggal_berakhir') is-invalid @enderror" id="tanggal_berakhir"
                             name="tanggal_berakhir" value="{{ $perpanjangan->tanggal_berakhir ?? old('tanggal_berakhir') }}">
                         <small class="fst-italic"><span class="text-danger">*</span>Kosongkan jika perijinan bersifat
-                            lifetime</small>
+                            Non-Periodik</small>
                         @error('tanggal_berakhir')
                             <div class="invalid-feedback">
-                                The tanggal berakhir field is required when status perpanjangan is lisensi.
+                                The tanggal berakhir field is required when status perpanjangan is Periodik.
                             </div>
                         @enderror
                     </div>
@@ -77,7 +77,7 @@
                         @enderror
                     </div> --}}
                     <div class="mb-3">
-                        <label for="catatan" class="form-label"><strong>Catatan</strong></label>
+                        <label for="catatan" class="form-label"><strong>Catatan Khusus</strong></label>
                         <textarea class="form-control @error('catatan') is-invalid @enderror" id="catatan" name="catatan">{{ $perpanjangan->catatan ?? old('catatan') }}</textarea>
                         {{-- <input autocomplete="off" type="text"
                             class="form-control  @error('catatan') is-invalid @enderror" id="catatan" name="catatan"
@@ -103,7 +103,7 @@
                         </div> --}}
                         <div class="col-md-6 col-sm-12">
                             <div class="mb-3">
-                                <label for="alokasi_biaya" class="form-label"><strong>Alokasi Biaya</strong><span
+                                <label for="alokasi_biaya" class="form-label"><strong>Estimasi Biaya</strong><span
                                         class="text-danger">*</span></label>
                                 <input autocomplete="off" type="text"
                                     class="form-control  @error('alokasi_biaya') is-invalid @enderror" id="alokasi_biaya"
@@ -120,10 +120,10 @@
                                     class="text-danger">*</span></label>
                             <select class="form-select" aria-label="Default select example" name="status_perpanjangan">
                                 <option selected value="0"  {{ old('status_perpanjangan', isset($perpanjangan) && $perpanjangan->status_perpanjangan == 0 ? 'selected' : '') }}>
-                                    Lifetime
+                                    Non-Periodik
                                 </option>
                                 <option value="1" {{ old('status_perpanjangan', isset($perpanjangan) && $perpanjangan->status_perpanjangan == 1 ? 'selected' : '') }}>
-                                    Lisensi</option>
+                                    Periodik</option>
                             </select>
                         </div>
                     </div>
