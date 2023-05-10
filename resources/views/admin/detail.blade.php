@@ -160,6 +160,23 @@
                             {{-- @dd($pa) --}}
                             <div class="col-md-6 d-flex align-items-center">
                                 <div class="card-body">
+                                    @if ($perpanjangan_stat->status_perpanjangan == 0)
+                                        @if ($perijinan->status == 0)
+                                            <div class="d-flex align-items-center mb-2">
+                                                <button class="btn btn-dark rounded-pill" data-bs-toggle="modal"
+                                                    data-bs-target="#nonaktifModal{{ $pa->id }}">
+                                                    <i class="fa-solid fa-ban"></i> Non-Aktifkan
+                                                </button>
+                                            </div>
+                                        @else
+                                            <div class="d-flex align-items-center mb-2">
+                                                <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
+                                                    data-bs-target="#aktifModal{{ $pa->id }}">
+                                                    <i class="fa-regular fa-circle-check"></i> Aktifkan
+                                                </button>
+                                            </div>
+                                        @endif
+                                    @endif
                                     {{-- <div class="d-flex align-items-center mb-2">
                                         <button class="btn btn-dark rounded-pill" data-bs-toggle="modal"
                                             data-bs-target="#nonaktifModal{{ $pa->id }}">
@@ -169,7 +186,8 @@
                                     <div class="d-flex gap-1 mb-3 align-items-center">
                                         @if (!$perpanjangan_stat)
                                             <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
-                                                class="btn btn rounded-pill text-white" style="background-color: #873FFD;">
+                                                class="btn btn rounded-pill text-white"
+                                                style="background-color: #873FFD;">
                                                 Perpanjang</a>
                                         @else
                                             <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
@@ -244,7 +262,6 @@
                                             @else
                                                 <p class="card-text">{{ $pa->masa_berlaku }}</p>
                                             @endif
-                                            alokasi
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -444,7 +461,7 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Alokasi
+                                            <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Estimasi
                                                 Biaya
                                             </h6>
                                         </div>
@@ -579,41 +596,70 @@
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    {{-- <div class="modal-header">
                         <h4 class="modal-title" id="confirmDeleteLabel"><strong>Non-Aktifkan Perpanjangan</strong></h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+                    </div> --}}
                     <div class="modal-body">
-                        Apakah anda yakin akan menonaktifkan perpanjangan ini?
+                        <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                            <h4 class="text-center mt-3">
+                                <strong>Non-Aktifan Perijinan</strong>
+                            </h4>
+                            <lottie-player class="my-1"
+                                src="https://assets10.lottiefiles.com/packages/lf20_l9zbnyau.json"
+                                background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
+                                autoplay></lottie-player>
+                            <p class="text-center"> Apakah anda yakin akan menonaktifkan perizinan ini?<br>
+                                <strong>Status perijinan akan berubah menjadi non-aktif.</strong>
+                            </p>
+                            <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                                <a href="{{ route('admin.perpanjangan.nonaktif.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                                    class="btn btn-danger "> Non-Aktif</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
+                    {{-- <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
                         <a href="{{ route('admin.perpanjangan.nonaktif.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
                             class="btn btn-danger "> Non-Aktif</a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
     @endforeach
 
     {{-- Modal Aktif --}}
-    @foreach ($perpanjangan as $pr)
-        <div class="modal fade" id="aktifModal{{ $pr->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    @foreach ($perpanjangan_aktif as $pa)
+        <div class="modal fade" id="aktifModal{{ $pa->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="confirmDeleteLabel"><strong>Aktifkan Perpanjangan</strong></h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
                     <div class="modal-body">
-                        Apakah anda yakin akan mengaktifkan perpanjangan ini?
+                        <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                            <h4 class="text-center mt-3">
+                                <strong>Aktifan Perijinan</strong>
+                            </h4>
+                            <lottie-player class="my-1"
+                                src="https://assets8.lottiefiles.com/packages/lf20_j0qjOHEesX.json"
+                                background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
+                                autoplay></lottie-player>
+                            <p class="text-center"> Apakah anda yakin akan mengaktifkan perijinan ini?<br>
+                                <strong>Status perijinan akan berubah menjadi aktif.</strong>
+                            </p>
+                            <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                                <a href="{{ route('admin.perpanjangan.aktif.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                                    class="btn btn-success"> Aktif</a>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="modal-footer">
+                    {{-- <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                        <a href="{{ route('admin.perpanjangan.aktif.do', ['id' => $pr->id_perizinan, 'id_perpanjangan' => $pr->id]) }}"
+                        <a href="{{ route('admin.perpanjangan.aktif.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
                             class="btn btn-success"> Aktif</a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -671,7 +717,6 @@
             </div>
         </div>
     @endforeach
-
 
 @endsection
 

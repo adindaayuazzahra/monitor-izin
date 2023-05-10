@@ -68,16 +68,17 @@
                                 $now = Carbon::now();
                                 // menghitung 1 bulan
                                 $sebulan = $now->daysInMonth;
-                                // Menghitung 3 bulan
                                 // $threeMonthsLater = $now->addMonths(3);
                                 // $tigabulan = $threeMonthsLater->daysInMonth;
-
+                                
+                                // Menghitung 3 bulan
                                 $tigabulan = 0;
                                 for ($i = 1; $i <= 3; $i++) {
                                     $date = $now->copy()->addMonths($i);
                                     $daysInMonth = Carbon::createFromDate($date->year, $date->month, 1)->daysInMonth;
                                     $tigabulan += $daysInMonth;
                                 } 
+                                // @dd($tigabulan,$sebulan)
                                 // $tigabulan = Carbon::createFromDate($threeMonthsLater->year, $threeMonthsLater->month, 1)->daysInMonth;
                             @endphp
                             <tr
@@ -89,18 +90,14 @@
                                             {{ Carbon::now()->startOfDay()->diffInMonths($p->tanggal_berakhir, false) < 3? 'bg-warning': '' }} @endif 
                                     @endif --}}
                                     @if (!$p->tanggal_berakhir) @else
-                                        {{-- @if ($p->status == 1 || Carbon::now() == $p->tanggal_berakhir) 
-                                            bg-danger text-white
-                                        @else --}}
-                                            @if (Carbon::now()->isBefore($tanggal_berakhir))
-                                                @if ($sisa_hari <= $tigabulan && $sisa_hari > 30)
-                                                    bg-warning 
-                                                @elseif($sisa_hari <= $sebulan && $sisa_hari >= 0)
-                                                    bg-danger text-white @endif
-                                                @else
-                                                    bg-black text-white    
-                                            @endif 
-                                        {{-- @endif  --}}
+                                        @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                            @if ($sisa_hari <= $tigabulan && $sisa_hari > 30)
+                                                bg-warning 
+                                            @elseif($sisa_hari <= $sebulan && $sisa_hari >= 0)
+                                                bg-danger text-white @endif
+                                            @else
+                                                bg-black text-white    
+                                        @endif 
                                     @endif
                                 ">
                                 
@@ -153,12 +150,6 @@
                                                 @endif
                                             @endif
                                         @endif
-
-                                        {{-- @if ($status_sisa_hari == 'lewat')
-                                             {{ $sisa_hari }}
-                                        @else
-                                            Sisa hari: {{ $sisa_hari }}
-                                        @endif --}}
                                     </p>
                                 </td>
                                 <td>

@@ -318,33 +318,43 @@ class AdminController extends Controller
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
-    public function perpanjanganNonaktifDo($id, $id_perpanjangan)
+    public function perpanjanganNonaktifDo(Request $request, $id, $id_perpanjangan)
     {
         $perijinan = Perizinan::find($id);
         $perpanjangan = Perpanjangan::find($id_perpanjangan);
 
-        $perpanjangan->status_aktif = 1;
-        $perpanjangan->save();
-        // $perijinan->status = 1;
-        // $perijinan->save();
+        // $perpanjangan->status_aktif = 1;
+        // $perpanjangan->save();
+        $perijinan->status = 1;
+        $perijinan->save();
 
+        $request->session()->flash('message', 'Berhasil Menon-Aktifkan Perizinan!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
-    public function perpanjanganAktifDo($id, $id_perpanjangan)
+    public function perpanjanganAktifDo(Request $request, $id, $id_perpanjangan)
     {
         // dd($id_perpanjangan);
 
         $perijinan = Perizinan::find($id);
 
-        Perpanjangan::where('id_perizinan', $id)
-            ->where('status_aktif', 0)
-            ->update(['status_aktif' => 1]);
+        // Perpanjangan::where('id_perizinan', $id)
+        //     ->where('status_aktif', 0)
+        //     ->update(['status_aktif' => 1]);
 
         $perpanjangan = Perpanjangan::find($id_perpanjangan);
-        // dd($perpanjangan);
-        $perpanjangan->status_aktif = 0;
-        $perpanjangan->save();
+
+        // $perpanjangan->status_aktif = 0;
+        // $perpanjangan->save();
+
+        $perijinan->status = 0;
+        $perijinan->save();
+
+        $request->session()->flash('message', 'Berhasil Mengaktifkan Perizinan!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
