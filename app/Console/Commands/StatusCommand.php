@@ -31,6 +31,8 @@ class StatusCommand extends Command
         /* ini kalo tanggal berakhir nya jadi parameter, kalo tanggal berkahirnya di majuin dari hari ini, 
         ini bakalan ga bisa ngerubah status non aktif jadi aktif lagi 
         kalo ngedit dari lisensi di edit jadi lifetime ga bisa berubah statusnya juga jadi aktif */
+
+
         // $tanggalHariIni = Carbon::now()->toDateString();
         // $perpanjangan = Perpanjangan::where('tanggal_berakhir', $tanggalHariIni)
         // ->orWhere('tanggal_berakhir', '<=', $tanggalHariIni)
@@ -49,7 +51,7 @@ class StatusCommand extends Command
             $perizinan = Perizinan::find($p->id_perizinan);
             if ($p->tanggal_berakhir > $tanggalHariIni) {
                 $perizinan->status = 0; // jika tanggal berakhir lebih besar dari tanggal sekarang
-            }elseif ($p->status_perpanjangan == 0) {
+            }elseif ($p->status_perpanjangan == 0 && $p->confirm == 1) {
                 $perizinan->status = 0;
             } 
             else {

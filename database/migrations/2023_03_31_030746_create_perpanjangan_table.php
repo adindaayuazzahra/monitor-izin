@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tb_perpanjangan', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perizinan');
+            $table->integer('perkiraan_proses');
             $table->date('tanggal_registrasi')->nullable();
             $table->date('tanggal_berakhir')->nullable();
             $table->string('alokasi_biaya');
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->string('masa_berlaku')->nullable();
             $table->boolean('status_perpanjangan');
             $table->boolean('status_aktif');
+            $table->boolean('confirm')->nullable();
             $table->timestamp('created_at')->useCurrent()->defaultFormat('d/m/Y H:i:s');
             $table->timestamp('updated_at')->useCurrent()->defaultFormat('d/m/Y H:i:s');
             $table->foreign('id_perizinan')->references('id')->on('tb_perizinan')->cascadeOnUpdate()->cascadeOnDelete();

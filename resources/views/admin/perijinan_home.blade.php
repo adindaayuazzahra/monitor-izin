@@ -122,8 +122,10 @@
                                 <td>
                                     @if ($p->status == 0)
                                         <span class="rounded-pill badge text-bg-success">Aktif</span>
-                                    @else
+                                    @elseif($p->status == 1)
                                         <span class=" rounded-pill badge text-bg-danger">Non-Aktif</span>
+                                    @else
+                                        <span class=" rounded-pill badge text-bg-primary">Sedang Proses</span>
                                     @endif
                                 </td>
                                 <td>
@@ -153,7 +155,7 @@
                                     </p>
                                 </td>
                                 <td>
-                                    @if ($p->tanggal_berakhir == null && $p->status_perpanjangan !== 0)
+                                    @if ($p->status_perpanjangan === NULL)
                                         <a href="{{ route('admin.perpanjangan.add', ['id' => $p->id]) }}"
                                             class="btn btn btn-sm rounded-pill text-white"
                                             style="background-color: #873FFD;"><i class="fa-solid fa-plus"></i>
@@ -165,16 +167,16 @@
                                                     @if ($sisa_hari <= 90 && $sisa_hari > 30)
                                                         text-black
                                                     @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
-                                                        text-white @endif
+                                                        text-white 
+                                                    @endif
                                                 @else
                                                     text-white    
                                                 @endif
                                             @endif
-                                        
                                         link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
-                                            style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
-                                            href="{{ route('admin.perijinan.detail', ['id' => $p->id]) }}">Lihat
-                                            Detail <i class="bi bi-arrow-up-right-square"></i></a>
+                                        style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                        href="{{ route('admin.perijinan.detail', ['id' => $p->id]) }}">Lihat
+                                        Detail <i class="bi bi-arrow-up-right-square"></i></a>
                                     @endif
                                 </td>
                             </tr>

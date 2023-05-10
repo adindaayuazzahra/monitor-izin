@@ -82,21 +82,15 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3">
-                                    <h6 class="card-title"><i class="fa-regular fa-clock"></i> Perkiraan Proses</h6>
-                                </div>
-                                <div class="col">
-                                    <p class="card-text">{{ $perijinan->perkiraan_proses }} Hari</p>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-3">
                                     <h6 class="card-title"><i class="fa-solid fa-circle-info"></i> Status</h6>
                                 </div>
                                 <div class="col">
                                     @if ($perijinan->status == 0)
                                         <span class="rounded-pill badge text-bg-success">Aktif</span>
-                                    @else
+                                    @elseif($perijinan->status == 1)
                                         <span class=" rounded-pill badge text-bg-danger">Non-Aktif</span>
+                                    @else
+                                        <span class=" rounded-pill badge text-bg-danger">Sedang Proses</span>
                                     @endif
                                 </div>
                             </div>
@@ -168,7 +162,7 @@
                                                     <i class="fa-solid fa-ban"></i> Non-Aktifkan
                                                 </button>
                                             </div>
-                                        @else
+                                        @elseif ($perijinan->status == 1)
                                             <div class="d-flex align-items-center mb-2">
                                                 <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
                                                     data-bs-target="#aktifModal{{ $pa->id }}">
@@ -224,46 +218,71 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
-                                                Registrasi
-                                            </h6>
+                                            <h6 class="card-title"><i class="fa-regular fa-clock"></i> Perkiraan Proses</h6>
                                         </div>
                                         <div class="col">
-                                            <p class="card-text">
-                                                {{ Carbon::make($pa->tanggal_registrasi)->format('d/m/Y') }}
-                                            </p>
+                                            <p class="card-text">{{ $pa->perkiraan_proses }} Hari</p>
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
-                                                Berakhir
-                                            </h6>
-                                        </div>
-                                        <div class="col">
-                                            @if ($pa->status_perpanjangan == 0)
-                                                <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                            @else
+                                    @if ($pa->tanggal_registrasi)
+                                        <div class="row mb-2">
+                                            <div class="col-md-5">
+                                                <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
+                                                    Registrasi
+                                                </h6>
+                                            </div>
+                                            <div class="col">
                                                 <p class="card-text">
-                                                    {{ Carbon::make($pa->tanggal_berakhir)->format('d/m/Y') }}
+                                                    {{ Carbon::make($pa->tanggal_registrasi)->format('d/m/Y') }}
                                                 </p>
-                                            @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
-                                                Berlaku
-                                            </h6>
+                                    @endif
+                                    @if ($pa->tanggal_berakhir)
+                                        <div class="row mb-2">
+                                            <div class="col-md-5">
+                                                <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
+                                                    Berakhir
+                                                </h6>
+                                            </div>
+                                            <div class="col">
+                                                @if ($pa->status_perpanjangan == 0)
+                                                    <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
+                                                @elseif($pa->status_perpanjangan == 1)
+                                                    <p class="card-text">
+                                                        {{ Carbon::make($pa->tanggal_berakhir)->format('d/m/Y') }}
+                                                    </p>
+                                                @endif
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            @if ($pa->status_perpanjangan == 0)
+                                    @endif
+                                    @if ($pa->masa_berlaku == '-')
+                                        <div class="row mb-2">
+                                            <div class="col-md-5">
+                                                <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
+                                                    Berlaku
+                                                </h6>
+                                            </div>
+                                            <div class="col">
+                                                {{-- @if ($pa->status_perpanjangan == 0) --}}
                                                 <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                            @else
+                                                {{-- @else
                                                 <p class="card-text">{{ $pa->masa_berlaku }}</p>
-                                            @endif
+                                            @endif --}}
+                                            </div>
                                         </div>
-                                    </div>
+                                    @elseif($pa->masa_berlaku != 'n')
+                                        <div class="row mb-2">
+                                            <div class="col-md-5">
+                                                <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
+                                                    Berlaku
+                                                </h6>
+                                            </div>
+                                            <div class="col">
+                                                <p class="card-text">{{ $pa->masa_berlaku }}</p>
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan
@@ -403,18 +422,21 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
-                                                Registrasi
-                                            </h6>
+                                    @if ($pr->tanggal_registrasi)
+                                        <div class="row mb-2">
+                                            <div class="col-md-5">
+                                                <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
+                                                    Registrasi
+                                                </h6>
+                                            </div>
+                                            <div class="col">
+                                                <p class="card-text">
+                                                    {{ Carbon::make($pr->tanggal_registrasi)->format('d/m/Y') }}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            <p class="card-text">
-                                                {{ Carbon::make($pr->tanggal_registrasi)->format('d/m/Y') }}
-                                            </p>
-                                        </div>
-                                    </div>
+                                    @endif
+
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal

@@ -24,20 +24,23 @@
                 </div> --}}
             </div>
             <div class="card" style="margin:20px 55px 50px 55px; background-color: transparent;border: none;">
-                <form action="{{isset($perpanjangan) ? route('admin.perpanjangan.edit.do', ['id' => $perijinan->id, 'id_perpanjangan' => $perpanjangan->id ]) : route('admin.perpanjangan.add.do', ['id' => $perijinan->id]) }}" method="POST">
+                <form
+                    action="{{ isset($perpanjangan) ? route('admin.perpanjangan.edit.do', ['id' => $perijinan->id, 'id_perpanjangan' => $perpanjangan->id]) : route('admin.perpanjangan.add.do', ['id' => $perijinan->id]) }}"
+                    method="POST">
                     {{ csrf_field() }}
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="tanggal_registrasi" class="form-label"><strong>Tanggal Regristrasi</strong><span
                                 class="text-danger">*</span></label>
                         <input autocomplete="off" type="date" data-date-format="dd/mm/yyyy"
                             class="form-control @error('tanggal_registrasi') is-invalid @enderror" id="tanggal_registrasi"
-                            name="tanggal_registrasi" value="{{ $perpanjangan->tanggal_registrasi ?? old('tanggal_registrasi') }}">
+                            name="tanggal_registrasi"
+                            value="{{ $perpanjangan->tanggal_registrasi ?? old('tanggal_registrasi') }}">
                         @error('tanggal_registrasi')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div>
+                    </div> --}}
                     {{-- <div class="mb-3">
                         <label for="tanggal_registrasi_ulang" class="form-label"><strong>Tanggal Regristrasi
                                 Ulang</strong><span class="text-danger">*</span></label>
@@ -51,16 +54,29 @@
                             </div>
                         @enderror
                     </div> --}}
-                    <div class="mb-3">
-                        <label for="tanggal_berakhir" class="form-label"><strong>Tanggal Berkahir</strong></label>
+                    {{-- <div class="mb-3">
+                        <label for="tanggal_berakhir" class="form-label"><strong>Tanggal Berakhir</strong></label>
                         <input autocomplete="off" type="date"
                             class="form-control @error('tanggal_berakhir') is-invalid @enderror" id="tanggal_berakhir"
-                            name="tanggal_berakhir" value="{{ $perpanjangan->tanggal_berakhir ?? old('tanggal_berakhir') }}">
+                            name="tanggal_berakhir"
+                            value="{{ $perpanjangan->tanggal_berakhir ?? old('tanggal_berakhir') }}">
                         <small class="fst-italic"><span class="text-danger">*</span>Kosongkan jika perijinan bersifat
                             Non-Periodik</small>
                         @error('tanggal_berakhir')
                             <div class="invalid-feedback">
                                 The tanggal berakhir field is required when status perpanjangan is Periodik.
+                            </div>
+                        @enderror
+                    </div> --}}
+                    <div class="mb-3">
+                        <label for="perkiraan_proses"
+                            class="form-label @error('perkiraan_proses') is-invalid @enderror"><strong>Proses
+                                (Hari)</strong><span class="text-danger">*</span></label>
+                        <input autocomplete="off" type="number" class="form-control" id="perkiraan_proses"
+                            name="perkiraan_proses" value="{{ $perpanjangan->perkiraan_proses ?? old('perkiraan_proses') }}">
+                        @error('perkiraan_proses')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
                         @enderror
                     </div>
@@ -107,7 +123,8 @@
                                         class="text-danger">*</span></label>
                                 <input autocomplete="off" type="text"
                                     class="form-control  @error('alokasi_biaya') is-invalid @enderror" id="alokasi_biaya"
-                                    name="alokasi_biaya" value="{{ $perpanjangan->alokasi_biaya ?? old('alokasi_biaya') }}">
+                                    name="alokasi_biaya"
+                                    value="{{ $perpanjangan->alokasi_biaya ?? old('alokasi_biaya') }}">
                                 @error('alokasi_biaya')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -119,10 +136,12 @@
                             <label for="status_perpanjangan" class="form-label"><strong>Jenis Perijinan</strong><span
                                     class="text-danger">*</span></label>
                             <select class="form-select" aria-label="Default select example" name="status_perpanjangan">
-                                <option selected value="0"  {{ old('status_perpanjangan', isset($perpanjangan) && $perpanjangan->status_perpanjangan == 0 ? 'selected' : '') }}>
+                                <option selected value="0"
+                                    {{ old('status_perpanjangan', isset($perpanjangan) && $perpanjangan->status_perpanjangan == 0 ? 'selected' : '') }}>
                                     Non-Periodik
                                 </option>
-                                <option value="1" {{ old('status_perpanjangan', isset($perpanjangan) && $perpanjangan->status_perpanjangan == 1 ? 'selected' : '') }}>
+                                <option value="1"
+                                    {{ old('status_perpanjangan', isset($perpanjangan) && $perpanjangan->status_perpanjangan == 1 ? 'selected' : '') }}>
                                     Periodik</option>
                             </select>
                         </div>
@@ -140,9 +159,9 @@
                         </select>
                     </div> --}}
                     <div class="d-grid gap-1 d-md-flex justify-content-md-end">
-                        <a href="{{ route('admin.perijinan') }}" type="button"
-                            class="btn btn-dark">Kembali</a>
-                        <button type="submit" class="btn text-white" style="background-color: #873FFD">{{ isset($perpanjangan) ? 'Edit' : 'Tambah' }}</button>
+                        <a href="{{ route('admin.perijinan') }}" type="button" class="btn btn-dark">Kembali</a>
+                        <button type="submit" class="btn text-white"
+                            style="background-color: #873FFD">{{ isset($perpanjangan) ? 'Edit' : 'Tambah' }}</button>
                     </div>
                 </form>
             </div>

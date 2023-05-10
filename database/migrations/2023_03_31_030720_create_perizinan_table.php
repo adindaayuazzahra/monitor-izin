@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('nama_perizinan');
             $table->string('lokasi');
             $table->string('instansi_terkait');
-            $table->string('perkiraan_proses');
-            $table->boolean('status');
+            // $table->string('perkiraan_proses');
+            $table->integer('status');
             $table->timestamp('created_at')->useCurrent()->defaultFormat('d/m/Y H:i:s');
             $table->timestamp('updated_at')->useCurrent()->defaultFormat('d/m/Y H:i:s');
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();

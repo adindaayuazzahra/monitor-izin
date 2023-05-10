@@ -52,7 +52,19 @@
                             </div>
                         @enderror
                     </div>
-                    <div class="row mb-3">
+                    <div class="mb-3">
+                        <label for="instansi_terkait" class="form-label"><strong>Instansi Terkait</strong><span
+                                class="text-danger">*</span></label>
+                        <input autocomplete="off" type="text"
+                            class="form-control @error('instansi_terkait') is-invalid @enderror" id="instansi_terkait"
+                            name="instansi_terkait" value="{{ $perijinan->instansi_terkait ?? old('instasi_terkait') }}">
+                        @error('instansi_terkait')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    {{-- <div class="row mb-3">
                         <div class="col-md-6 col-sm-12">
                             <label for="instansi_terkait" class="form-label"><strong>Instansi Terkait</strong><span
                                     class="text-danger">*</span></label>
@@ -79,7 +91,7 @@
                                 </div>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- <div class="mb-4">
                         <label for="status" class="form-label"><strong>Status</strong><span
                                 class="text-danger">*</span></label>

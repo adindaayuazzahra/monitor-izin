@@ -117,7 +117,7 @@ class AdminController extends Controller
             'nama_perizinan' => 'required',
             'lokasi' => 'required',
             'instansi_terkait' => 'required',
-            'perkiraan_proses' => 'required|numeric',
+            
             // 'status' => 'required'
         ]);
 
@@ -126,7 +126,7 @@ class AdminController extends Controller
         $perijinan->nama_perizinan = $request->nama_perizinan;
         $perijinan->lokasi = $request->lokasi;
         $perijinan->instansi_terkait = $request->instansi_terkait;
-        $perijinan->perkiraan_proses = $request->perkiraan_proses;
+        
         $perijinan->status = 1;
         $perijinan->save();
 
@@ -174,14 +174,14 @@ class AdminController extends Controller
             'nama_perizinan' => 'required',
             'lokasi' => 'required',
             'instansi_terkait' => 'required',
-            'perkiraan_proses' => 'required|numeric',
+            
             // 'status' => 'required'
         ]);
         $perijinan->id_user = auth()->user()->id;
         $perijinan->nama_perizinan = $request->nama_perizinan;
         $perijinan->lokasi = $request->lokasi;
         $perijinan->instansi_terkait = $request->instansi_terkait;
-        $perijinan->perkiraan_proses = $request->perkiraan_proses;
+        // $perijinan->perkiraan_proses = $request->perkiraan_proses;
         // $perijinan->status = $request->status;
         $perijinan->save();
 
@@ -211,15 +211,16 @@ class AdminController extends Controller
     {
         $perijinan = Perizinan::find($id);
         $request->validate([
-            'tanggal_registrasi' => 'required|date',
+            // 'tanggal_registrasi' => 'required|date',
             // 'tanggal_registrasi_ulang' => 'required|date|after_or_equal:tanggal_registrasi',
             // 'tanggal_berakhir' => 'required|date',
-            'tanggal_berakhir' => [
-                'sometimes',
-                'nullable',
-                'required_if:status_perpanjangan,1',
-                'date',
-            ],
+            // 'tanggal_berakhir' => [
+            //     'sometimes',
+            //     'nullable',
+            //     'required_if:status_perpanjangan,1',
+            //     'date',
+            // ],
+            'perkiraan_proses' => 'required|numeric',
             'alokasi_biaya' => 'required',
             // 'masa_berlaku' => 'required',
             'status_perpanjangan' => 'required'
@@ -232,30 +233,32 @@ class AdminController extends Controller
 
         $perpanjangan = new Perpanjangan;
         $perpanjangan->id_perizinan = $perijinan->id;
-        $perpanjangan->tanggal_registrasi = $request->tanggal_registrasi;
-        // $perpanjangan->tanggal_registrasi_ulang = $request->tanggal_registrasi_ulang;
+        // $perpanjangan->tanggal_registrasi = $request->tanggal_registrasi;
         $perpanjangan->alokasi_biaya = $request->alokasi_biaya;
         $perpanjangan->catatan = $request->catatan;
         $perpanjangan->status_perpanjangan = $request->status_perpanjangan;
+        $perpanjangan->perkiraan_proses = $request->perkiraan_proses;
         $perpanjangan->status_aktif = 0;
 
         if ($request->status_perpanjangan == 0) {
             $perpanjangan->masa_berlaku = '-';
         } else {
-            $tanggalRegistrasi = Carbon::parse($request->input('tanggal_registrasi'));
-            $tanggalBerakhir = Carbon::parse($request->input('tanggal_berakhir'));
-            $selisih_tahun = $tanggalRegistrasi->diffInYears($tanggalBerakhir);
-            $selisih_hari = $tanggalRegistrasi->diffInDays($tanggalBerakhir) % 365;
-            $selisih = $selisih_tahun . ' tahun ' . $selisih_hari . ' hari';
+            // $tanggalRegistrasi = Carbon::parse($request->input('tanggal_registrasi'));
+            // $tanggalBerakhir = Carbon::parse($request->input('tanggal_berakhir'));
+            // $selisih_tahun = $tanggalRegistrasi->diffInYears($tanggalBerakhir);
+            // $selisih_hari = $tanggalRegistrasi->diffInDays($tanggalBerakhir) % 365;
+            // $selisih = $selisih_tahun . ' tahun ' . $selisih_hari . ' hari';
 
-            $perpanjangan->tanggal_berakhir = $request->tanggal_berakhir;
-            $perpanjangan->masa_berlaku = $selisih;
+            // $perpanjangan->tanggal_berakhir = $request->tanggal_berakhir;
+            // $perpanjangan->masa_berlaku = $selisih;
+            $perpanjangan->masa_berlaku = 'n';
         }
 
         $perpanjangan->save();
 
-        $perijinan->status = 0;
+        $perijinan->status = 2;
         $perijinan->save();
+        
         $request->session()->flash('message', 'Berhasil Menambah Data!');
         $request->session()->flash('title', 'Sukses');
         $request->session()->flash('icon', 'success');
@@ -277,38 +280,40 @@ class AdminController extends Controller
         $perpanjangan = Perpanjangan::find($id_perpanjangan);
         // dd($perpanjangan);
         $request->validate([
-            'tanggal_registrasi' => 'required|date',
-            // 'tanggal_registrasi_ulang' => 'required|date|after_or_equal:tanggal_registrasi',
-            // 'tanggal_berakhir' => 'required|date',
-            'tanggal_berakhir' => [
-                'sometimes',
-                'nullable',
-                'required_if:status_perpanjangan,1',
-                'date',
-            ],
+            // 'tanggal_registrasi' => 'required|date',
+            // // 'tanggal_registrasi_ulang' => 'required|date|after_or_equal:tanggal_registrasi',
+            // // 'tanggal_berakhir' => 'required|date',
+            // 'tanggal_berakhir' => [
+            //     'sometimes',
+            //     'nullable',
+            //     'required_if:status_perpanjangan,1',
+            //     'date',
+            // ],
+            'perkiraan_proses' => 'required|numeric',
             'alokasi_biaya' => 'required',
             // 'masa_berlaku' => 'required',
             'status_perpanjangan' => 'required'
         ]);
 
         $perpanjangan->id_perizinan = $perijinan->id;
-        $perpanjangan->tanggal_registrasi = $request->tanggal_registrasi;
+        // $perpanjangan->tanggal_registrasi = $request->tanggal_registrasi;
         $perpanjangan->alokasi_biaya = $request->alokasi_biaya;
         $perpanjangan->catatan = $request->catatan;
         $perpanjangan->status_perpanjangan = $request->status_perpanjangan;
+        $perpanjangan->perkiraan_proses = $request->perkiraan_proses;
 
         if ($request->status_perpanjangan == 0) {
             $perpanjangan->masa_berlaku = '-';
-            $perpanjangan->tanggal_berakhir = NULL;
+            // $perpanjangan->tanggal_berakhir = NULL;
         } else {
-            $tanggalRegistrasi = Carbon::parse($request->input('tanggal_registrasi'));
-            $tanggalBerakhir = Carbon::parse($request->input('tanggal_berakhir'));
-            $selisih_tahun = $tanggalRegistrasi->diffInYears($tanggalBerakhir);
-            $selisih_hari = $tanggalRegistrasi->diffInDays($tanggalBerakhir) % 365;
-            $selisih = $selisih_tahun . ' tahun ' . $selisih_hari . ' hari';
+            // $tanggalRegistrasi = Carbon::parse($request->input('tanggal_registrasi'));
+            // $tanggalBerakhir = Carbon::parse($request->input('tanggal_berakhir'));
+            // $selisih_tahun = $tanggalRegistrasi->diffInYears($tanggalBerakhir);
+            // $selisih_hari = $tanggalRegistrasi->diffInDays($tanggalBerakhir) % 365;
+            // $selisih = $selisih_tahun . ' tahun ' . $selisih_hari . ' hari';
 
-            $perpanjangan->tanggal_berakhir = $request->tanggal_berakhir;
-            $perpanjangan->masa_berlaku = $selisih;
+            // $perpanjangan->tanggal_berakhir = $request->tanggal_berakhir;
+            $perpanjangan->masa_berlaku = 'n';
         }
 
         $perpanjangan->save();
