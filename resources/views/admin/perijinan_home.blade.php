@@ -47,7 +47,7 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Ijin</th>
-                            <th scope="col">Tanggal Berkahir</th>
+                            <th scope="col">Tanggal Berakhir</th>
                             <th scope="col">Instansi Terkait</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
                             <th scope="col" style="width:7%">Status</th>
