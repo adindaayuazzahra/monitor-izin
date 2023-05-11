@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/pdf/view/{id}', [AdminController::class, 'pdfView'])->name('admin.pdf.view');
     Route::get('/admin/perijinan/{id}/pdf/{id_doc}/delete/do', [AdminController::class, 'pdfDeleteDo'])->name('admin.pdf.delete.do');
 
+    // confirm Perpanjanga selesai
+    Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/confrim/do', [AdminController::class, 'confirmDo'])->name('admin.perpanjangan.confirm.do');
     // logout
     Route::get('/logout/do', [HomeController::class, 'logoutDo'])->name('home.logout.do');
 });

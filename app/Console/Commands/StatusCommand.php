@@ -49,14 +49,14 @@ class StatusCommand extends Command
 
         foreach ($perpanjangan as $p) {
             $perizinan = Perizinan::find($p->id_perizinan);
-            if ($p->tanggal_berakhir > $tanggalHariIni) {
-                $perizinan->status = 0; // jika tanggal berakhir lebih besar dari tanggal sekarang
-            }elseif ($p->status_perpanjangan == 0 && $p->confirm == 1) {
+            if ($p->tanggal_berakhir >= $tanggalHariIni) {
+                $perizinan->status = 1; // jika tanggal berakhir lebih besar dari tanggal sekarang
+            }elseif ( $p->confirm == 1) {
                 $perizinan->status = 0;
-            } 
-            else {
-                $perizinan->status = 1;
-            }
+            }   
+            // else {
+            //     $perizinan->status = 0;
+            // }
             $perizinan->save();
         }
     }

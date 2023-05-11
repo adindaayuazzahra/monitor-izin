@@ -239,6 +239,7 @@ class AdminController extends Controller
         $perpanjangan->status_perpanjangan = $request->status_perpanjangan;
         $perpanjangan->perkiraan_proses = $request->perkiraan_proses;
         $perpanjangan->status_aktif = 0;
+        $perpanjangan->confirm = 0;
 
         if ($request->status_perpanjangan == 0) {
             $perpanjangan->masa_berlaku = '-';
@@ -408,6 +409,23 @@ class AdminController extends Controller
         $pdfFile->delete();
         $request->session()->flash('message', 'Berhasil Menghapus PDF!');
         $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
+        return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+    }
+
+    public function confirmDo($id, $id_perpanjangan, Request $request)
+    {
+        $perijinan = Perizinan::find($id);
+        $perpanjangan = Perpanjangan::find($id_perpanjangan);
+
+        $perpanjangan->confirm = 1;
+        $perpanjangan->save();
+        
+        $perijinan->status = 0;
+        $perijinan->save();
+
+        $request->session()->flash('message', 'Berhasil Menyelesaikan Proses Perpanjangan!');
+        $request->session()->flash('title', 'Selamat');
         $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }

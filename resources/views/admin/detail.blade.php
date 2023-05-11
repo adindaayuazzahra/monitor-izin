@@ -80,6 +80,87 @@
                                     <p class="card-text">{{ $perijinan->instansi_terkait }}</p>
                                 </div>
                             </div>
+                            @foreach ($perpanjangan_aktif as $pa)
+                                @if ($pa->tanggal_registrasi)
+                                    <div class="row mb-2">
+                                        <div class="col-md-3">
+                                            <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
+                                                Registrasi
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            <p class="card-text">
+                                                {{ Carbon::make($pa->tanggal_registrasi)->format('d/m/Y') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if ($pa->tanggal_berakhir)
+                                    <div class="row mb-2">
+                                        <div class="col-md-3">
+                                            <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
+                                                Berakhir
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            @if ($pa->status_perpanjangan == 0)
+                                                <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
+                                            @elseif($pa->status_perpanjangan == 1)
+                                                <p class="card-text">
+                                                    {{ Carbon::make($pa->tanggal_berakhir)->format('d/m/Y') }}
+                                                </p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                                @if ($pa->masa_berlaku == '-')
+                                    <div class="row mb-2">
+                                        <div class="col-md-3">
+                                            <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
+                                                Berlaku
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            {{-- @if ($pa->status_perpanjangan == 0) --}}
+                                            <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
+                                            {{-- @else
+                                    <p class="card-text">{{ $pa->masa_berlaku }}</p>
+                                @endif --}}
+                                        </div>
+                                    </div>
+                                @elseif($pa->masa_berlaku != 'n')
+                                    <div class="row mb-2">
+                                        <div class="col-md-3">
+                                            <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
+                                                Berlaku
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            <p class="card-text">{{ $pa->masa_berlaku }}</p>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if ($pa->confirm == 1)
+                                    <div class="row mb-2">
+                                        <div class="col-md-3">
+                                            <h6 class="card-title"><i class="fa-regular fa-file-pdf"></i> Surat Perijinan
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            @if ($pa->tanggal_berakhir)
+                                                <a target="_blank"
+                                                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
+                                                    href="">Buka Link</a>
+                                            @else
+                                                <form action="">
+                                                    <input class=" @error('file_pdf') is-invalid @enderror" type="file"
+                                                        id="file_pdf" name="file_pdf" value="{{ old('file_pdf') }}">
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                             <div class="row mb-2">
                                 <div class="col-md-3">
                                     <h6 class="card-title"><i class="fa-solid fa-circle-info"></i> Status</h6>
@@ -90,7 +171,7 @@
                                     @elseif($perijinan->status == 1)
                                         <span class=" rounded-pill badge text-bg-danger">Non-Aktif</span>
                                     @else
-                                        <span class=" rounded-pill badge text-bg-danger">Sedang Proses</span>
+                                        <span class=" rounded-pill badge text-bg-primary">Sedang Proses</span>
                                     @endif
                                 </div>
                             </div>
@@ -178,25 +259,29 @@
                                         </button>
                                     </div> --}}
                                     <div class="d-flex gap-1 mb-3 align-items-center">
-                                        @if (!$perpanjangan_stat)
-                                            <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
+                                        @if ($perijinan->status == 2)
+                                            {{-- <div class="d-flex align-items-center mb-2"> --}}
+                                            <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
+                                                data-bs-target="#confirmModal{{ $pa->id }}">
+                                                <i class="fa-regular fa-circle-check"></i> Konfirmasi Selesai
+                                            </button>
+                                            {{-- </div> --}}
+                                        @endif
+                                        {{-- @if ($perpanjangan_stat) --}}
+                                        {{-- <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
                                                 class="btn btn rounded-pill text-white"
                                                 style="background-color: #873FFD;">
                                                 Perpanjang</a>
-                                        @else
-                                            <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
-                                                class="btn btn rounded-pill text-white  @if ($perpanjangan_stat->status_perpanjangan == 0) d-none @endif"
-                                                style="background-color: #873FFD;">
-                                                Perpanjang</a>
-                                        @endif
+                                        @else --}}
+                                        <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
+                                            class="btn btn rounded-pill text-white  @if ($perpanjangan_stat->status_perpanjangan == 0 || $perpanjangan_stat->confirm == 0) d-none @endif"
+                                            style="background-color: #873FFD;">
+                                            Perpanjang</a>
+                                        {{-- @endif --}}
                                         <a href="{{ route('admin.perpanjangan.edit', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
                                             class="btn btn-warning rounded-circle">
                                             <i class="fa-solid fa-marker"></i>
                                         </a>
-                                        <button class="btn btn-danger rounded-circle" data-bs-toggle="modal"
-                                            data-bs-target="#">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
                                         {{-- <a href="{{ route('admin.perijinan') }}"
                                             class="btn btn-secondary rounded-circle">
                                             <i class="fa-solid fa-arrow-left"></i>
@@ -218,7 +303,8 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-md-5">
-                                            <h6 class="card-title"><i class="fa-regular fa-clock"></i> Perkiraan Proses</h6>
+                                            <h6 class="card-title"><i class="fa-regular fa-clock"></i> Perkiraan Proses
+                                            </h6>
                                         </div>
                                         <div class="col">
                                             <p class="card-text">{{ $pa->perkiraan_proses }} Hari</p>
@@ -306,6 +392,15 @@
                                             <p>{{ $pa->alokasi_biaya }}</p>
                                         </div>
                                     </div>
+                                    @if ($pa->confirm == 1)
+                                        <div class="row d-flex align-items-center mt-3">
+                                            <p>
+                                                <i class="fa-solid fa-circle-check text-success"></i>
+                                                <strong>Proses Mengurus Perpanjangan Sudah
+                                                    Selesai!</strong>
+                                            </p>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
@@ -611,7 +706,6 @@
         @endforeach
     @endforeach
 
-
     {{-- Modal non-aktif --}}
     @foreach ($perpanjangan_aktif as $pa)
         <div class="modal fade" id="nonaktifModal{{ $pa->id }}" tabindex="-1"
@@ -673,6 +767,42 @@
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
                                 <a href="{{ route('admin.perpanjangan.aktif.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
                                     class="btn btn-success"> Aktif</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    {{-- <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                        <a href="{{ route('admin.perpanjangan.aktif.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                            class="btn btn-success"> Aktif</a>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- modal confirm --}}
+    @foreach ($perpanjangan_aktif as $pa)
+        <div class="modal fade" id="confirmModal{{ $pa->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                            <h4 class="text-center mt-3">
+                                <strong>Selesaikan Proses Perpanjangan</strong>
+                            </h4>
+                            <lottie-player class="my-1"
+                                src="https://assets8.lottiefiles.com/packages/lf20_j0qjOHEesX.json"
+                                background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
+                                autoplay></lottie-player>
+                            <p class="text-center"> Apakah anda yakin akan menyelesaikain proses perijinan ini?<br>
+                                <strong>Semua daata yang dibutuhkan dalam proses tidak dapat diubah lagi.</strong>
+                            </p>
+                            <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                                <a href="{{ route('admin.perpanjangan.confirm.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                                    class="btn btn-success"> Konfirmasi</a>
                             </div>
                         </div>
 
