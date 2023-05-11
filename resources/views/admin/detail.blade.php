@@ -146,15 +146,19 @@
                                             <h6 class="card-title"><i class="fa-regular fa-file-pdf"></i> Surat Perijinan
                                             </h6>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-md-5">
                                             @if ($pa->tanggal_berakhir)
                                                 <a target="_blank"
                                                     class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
                                                     href="">Buka Link</a>
                                             @else
                                                 <form action="">
-                                                    <input class=" @error('file_pdf') is-invalid @enderror" type="file"
-                                                        id="file_pdf" name="file_pdf" value="{{ old('file_pdf') }}">
+                                                    {{-- <input class=" @error('file_pdf') is-invalid @enderror" type="file"
+                                                        id="file_pdf" name="file_pdf" value="{{ old('file_pdf') }}"> --}}
+                                                        <div class="input-group">
+                                                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                                            <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
+                                                          </div>
                                                 </form>
                                             @endif
                                         </div>
