@@ -21,7 +21,7 @@
 
 <nav class="navbar navbar-expand-lg mt-0 sticky-top" style="background-color:#FBDC9E;">
     <div class="container-fluid" style="padding-left: 30px;padding-right: 30px;">
-        <a class="navbar-brand" href=""><img src="{{ asset('assets/img-jmtm/jmtmpng.png') }}" width="180px"></a>
+        <a class="navbar-brand" href=""><img src="{{ asset('assets/img-jmtm/logojmtm.png') }}" width="180px"></a>
         <!-- <a class="navbar-brand" href=""><img src="assets/img-jmtm/bumn.png" width="180px"></a> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
             aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">

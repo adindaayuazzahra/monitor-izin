@@ -148,17 +148,29 @@ class AdminController extends Controller
         // }
         $dok_aktif = array();
         foreach ($perpanjangan_aktif as $p) {
-            $dok_aktif[] = Dokumen::where('id_perpanjangan', $p->id)->get();
+            $dok_aktif[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 0)->get();
             // melakukan sesuatu dengan $dok_aktif
         }
 
         $dok_noaktif = array();
         foreach ($perpanjangan as $p) {
-            $dok_noaktif[] = Dokumen::where('id_perpanjangan', $p->id)->get();
+            $dok_noaktif[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 0)->get();
             // melakukan sesuatu dengan $dok_aktif
         }
 
-        return view('admin.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif'));
+        $dok_noaktif_result = array();
+        foreach ($perpanjangan as $p) {
+            $dok_noaktif_result[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 1)->get();
+            // melakukan sesuatu dengan $dok_aktif
+        }
+
+        $dok_aktif_result = array();
+        foreach ($perpanjangan_aktif as $p) {
+            $dok_aktif_result[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 1)->get();
+            // melakukan sesuatu dengan $dok_aktif
+        }
+
+        return view('admin.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif', 'dok_aktif_result', 'dok_noaktif_result'));
     }
 
     public function perijinanEdit($id)
@@ -421,12 +433,85 @@ class AdminController extends Controller
         $perpanjangan->confirm = 1;
         $perpanjangan->save();
         
-        $perijinan->status = 0;
-        $perijinan->save();
+        // $perijinan->status = 0;
+        // $perijinan->save();
 
         $request->session()->flash('message', 'Berhasil Menyelesaikan Proses Perpanjangan!');
         $request->session()->flash('title', 'Selamat');
         $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+    }
+
+    public function pdfResultAddDo($id, $id_perpanjangan, Request $request)
+    {
+        $perijinan = Perizinan::find($id);
+        $perpanjangan = Perpanjangan::find($id_perpanjangan);
+        // dd($perpanjangan);
+        $status_perpanjangan = $perpanjangan->status_perpanjangan;
+
+        if($status_perpanjangan == 1){
+            $request->validate([
+                'nama_doc' => 'required',
+                'tanggal_registrasi' =>'required|date',
+                'tanggal_berakhir' => 'required|date',
+                // 'tanggal_berakhir' => [
+                //     'nullable',
+                //     'required_if:' . $perpanjangan->status_perpanjangan . ',1',
+                //     'date'
+                // ],
+                'file_result' => 'required|mimes:pdf|max:10240', // maksimum 10MB
+            ]);
+        }else {
+            $request->validate([
+                'nama_doc' => 'required',
+                'tanggal_registrasi' =>'required|date',
+                // 'tanggal_berakhir' => 'required|date',
+                // 'tanggal_berakhir' => [
+                //     'nullable',
+                //     'required_if:' . $perpanjangan->status_perpanjangan . ',1',
+                //     'date'
+                // ],
+                'file_result' => 'required|mimes:pdf|max:10240', // maksimum 10MB
+            ]);
+        }
+        
+
+        $file = $request->file('file_result');
+        $ext = $file->getClientOriginalExtension();
+        $fileName = $request->input('nama_doc') . '_' . Carbon::now()->format('dmy') . '.' .  $ext;
+        Storage::putFileAs('pdf', $file, $fileName);
+
+        $dokumen = new Dokumen();
+        $dokumen->id_perpanjangan = $perpanjangan->id;
+        $dokumen->doc = $fileName;
+        $dokumen->status = 1;
+        $dokumen->save();
+
+
+        $perpanjangan->tanggal_registrasi = $request->tanggal_registrasi;
+
+        if ($perpanjangan->status_perpanjangan == 0) {
+            $perpanjangan->masa_berlaku = '-';
+        } else {
+            $tanggalRegistrasi = Carbon::parse($request->input('tanggal_registrasi'));
+            $tanggalBerakhir = Carbon::parse($request->input('tanggal_berakhir'));
+            $selisih_tahun = $tanggalRegistrasi->diffInYears($tanggalBerakhir);
+            $selisih_hari = $tanggalRegistrasi->diffInDays($tanggalBerakhir) % 365;
+            $selisih = $selisih_tahun . ' tahun ' . $selisih_hari . ' hari';
+
+            $perpanjangan->tanggal_berakhir = $request->tanggal_berakhir;
+            $perpanjangan->masa_berlaku = $selisih;
+            // $perpanjangan->masa_berlaku = 'n';
+        }
+        $perpanjangan->save();
+
+        $perijinan->status = 0;
+        $perijinan->save();
+
+        $request->session()->flash('message', 'Berhasil Menambahkan PDF!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
+        return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+
     }
 };

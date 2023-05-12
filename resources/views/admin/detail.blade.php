@@ -147,10 +147,17 @@
                                             </h6>
                                         </div>
                                         <div class="col-md-5">
-                                            @if ($pa->tanggal_berakhir)
-                                                <a target="_blank"
-                                                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
-                                                    href="">Buka Link</a>
+                                            {{-- @dd($dok_aktif_result) --}}
+                                            @if (!$pa->tanggal_registrasi == null)
+                                                @foreach ($dok_aktif_result as $ds)
+                                                    @foreach ($ds as $dokumen)
+                                                        <a target="_blank"
+                                                            class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
+                                                            href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">Lihat
+                                                            Dokumen <i
+                                                                class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                                    @endforeach
+                                                @endforeach
                                             @else
                                                 @foreach ($perpanjangan_aktif as $pa)
                                                     <button type="button" class="btn btn-secondary btn-sm"
@@ -158,106 +165,6 @@
                                                         data-bs-target="#docresult{{ $pa->id }}">
                                                         <i class="fa-solid fa-upload"></i> Upload Perijinan
                                                     </button>
-
-                                                    {{-- Modalnya --}}
-                                                    <div class="modal fade" id="docresult{{ $pa->id }}"
-                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h6 class="modal-title"><strong>Tambah Dokumen</strong>
-                                                                    </h6>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <form
-                                                                    action="{{ route('admin.pdf.add.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
-                                                                    method="POST" enctype="multipart/form-data">
-                                                                    {{ csrf_field() }}
-                                                                    <div class="modal-body">
-                                                                        <div class="mb-3">
-                                                                            <label for="nama_doc"
-                                                                                class="form-label"><strong>Nama
-                                                                                    File</strong><span
-                                                                                    class="text-danger">*</span></label>
-                                                                            <input autocomplete="off" type="text"
-                                                                                class="form-control @error('nama_doc') is-invalid @enderror"
-                                                                                id="nama_doc" name="nama_doc"
-                                                                                value="{{ old('nama_doc') }}">
-                                                                            @error('nama_doc')
-                                                                                <div class="invalid-feedback">
-                                                                                    {{ $message }}
-                                                                                </div>
-                                                                            @enderror
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="tanggal_registrasi"
-                                                                                class="form-label"><strong>Tanggal
-                                                                                    Berlaku</strong><span
-                                                                                    class="text-danger">*</span></label>
-                                                                            <input autocomplete="off" type="date"
-                                                                                data-date-format="dd/mm/yyyy"
-                                                                                class="form-control @error('tanggal_registrasi') is-invalid @enderror"
-                                                                                id="tanggal_registrasi"
-                                                                                name="tanggal_registrasi"
-                                                                                value="{{ old('tanggal_registrasi') }}">
-                                                                            @error('tanggal_registrasi')
-                                                                                <div class="invalid-feedback">
-                                                                                    {{ $message }}
-                                                                                </div>
-                                                                            @enderror
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="tanggal_berakhir"
-                                                                                class="form-label"><strong>Tanggal
-                                                                                    Berakhir</strong></label>
-                                                                            <input autocomplete="off" type="date"
-                                                                                class="form-control @error('tanggal_berakhir') is-invalid @enderror"
-                                                                                id="tanggal_berakhir"
-                                                                                name="tanggal_berakhir"
-                                                                                value="{{ old('tanggal_berakhir') }}">
-                                                                            <small class="fst-italic"><span
-                                                                                    class="text-danger">*</span>Kosongkan
-                                                                                jika perijinan bersifat
-                                                                                Non-Periodik</small>
-                                                                            @error('tanggal_berakhir')
-                                                                                <div class="invalid-feedback">
-                                                                                    The tanggal berakhir field is required when
-                                                                                    status perpanjangan is Periodik.
-                                                                                </div>
-                                                                            @enderror
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="file_pdf"
-                                                                                class="form-label"><strong>Pilih file
-                                                                                    PDF</strong><span
-                                                                                    class="text-danger">*</span></label>
-                                                                            <input
-                                                                                class="form-control @error('file_pdf') is-invalid @enderror"
-                                                                                type="file" id="file_pdf"
-                                                                                name="file_pdf"
-                                                                                value="{{ old('file_pdf') }}">
-                                                                            <small class="fst-italic">*Maks. 10Mb</small>
-                                                                            @error('file_pdf')
-                                                                                <div class="invalid-feedback">
-                                                                                    {{ $message }}
-                                                                                </div>
-                                                                            @enderror
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Tidak</button>
-                                                                        {{-- <a href="{{ route('admin.perpanjangan.nonaktif.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}" class="btn btn-danger "> Tambah</a> --}}
-                                                                        <button type="submit" class="btn text-white"
-                                                                            style="background-color: #873FFD">Tambah</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 @endforeach
                                             @endif
                                         </div>
@@ -325,7 +232,7 @@
                             <div class="col-md-6 d-flex align-items-center">
                                 <div class="card-body">
                                     <div class="d-flex gap-1 mb-3 align-items-center">
-                                        @if ($perijinan->status == 2)
+                                        @if ($pa->confirm == 0)
                                             {{-- <div class="d-flex align-items-center mb-2"> --}}
                                             <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
                                                 data-bs-target="#confirmModal{{ $pa->id }}">
@@ -392,7 +299,7 @@
                                             <p class="card-text">{{ $pa->perkiraan_proses }} Hari</p>
                                         </div>
                                     </div>
-                                    @if ($pa->tanggal_registrasi)
+                                    {{-- @if ($pa->tanggal_registrasi)
                                         <div class="row mb-2">
                                             <div class="col-md-5">
                                                 <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
@@ -432,11 +339,7 @@
                                                 </h6>
                                             </div>
                                             <div class="col">
-                                                {{-- @if ($pa->status_perpanjangan == 0) --}}
                                                 <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                                {{-- @else
-                                                <p class="card-text">{{ $pa->masa_berlaku }}</p>
-                                            @endif --}}
                                             </div>
                                         </div>
                                     @elseif($pa->masa_berlaku != 'n')
@@ -450,7 +353,7 @@
                                                 <p class="card-text">{{ $pa->masa_berlaku }}</p>
                                             </div>
                                         </div>
-                                    @endif
+                                    @endif --}}
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan
@@ -670,11 +573,27 @@
                                             <p>{{ $pr->alokasi_biaya }}</p>
                                         </div>
                                     </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-5">
+                                            <h6 class="card-title"><i class="fa-regular fa-file-pdf"></i> Surat Perijinan
+                                            </h6>
+                                        </div>
+                                        <div class="col">
+                                            @foreach ($dok_noaktif_result as $ds)
+                                                @foreach ($ds as $dokumen)
+                                                    <a target="_blank"
+                                                        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
+                                                        href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">Lihat
+                                                        Dokumen <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                                @endforeach
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 justify-content-center align-items-center">
                                     <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;">
                                         <div class="mb-1 d-flex justify-content-between align-items-center">
-                                            <h5>Dokumen </h5>
+                                            <h5>Dokumen yang dibutuhkan </h5>
                                             {{-- <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
                                                 class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
                                                     class="fa-solid fa-plus"></i> Tambah</a> --}}
@@ -732,7 +651,10 @@
                 </div> --}}
                 <div class="modal-body">
                     <div class="row d-flex justify-content-center align-items-center p-0 m-0">
-                        <lottie-player src="https://assets.lottiefiles.com/packages/lf20_Tkwjw8.json"
+                        <h4 class="text-center mt-3">
+                            <strong>Hapus Perijinan</strong>
+                        </h4>
+                        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_khh1znj5.json"
                             background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
                             autoplay></lottie-player>
                         <p class="text-center"> Apakah anda yakin akan menghapus Perijinan ini?<br>
@@ -764,6 +686,9 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                                <h4 class="text-center mt-3">
+                                    <strong>Hapus Dokumen</strong>
+                                </h4>
                                 <lottie-player class="my-1"
                                     src="https://assets2.lottiefiles.com/private_files/lf30_ilvzxix1.json"
                                     background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
@@ -954,23 +879,106 @@
         </div>
     @endforeach
 
+    {{-- Modalnya pdf result add --}}
+    @foreach ($perpanjangan_aktif as $pa)
+        <div class="modal fade" id="docresult{{ $pa->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title"><strong>Tambah Dokumen</strong>
+                        </h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form
+                        action="{{ route('admin.pdf.result.add.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                        method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="nama_doc" class="form-label"><strong>Nama
+                                        File</strong><span class="text-danger">*</span></label>
+                                <input autocomplete="off" type="text"
+                                    class="form-control @error('nama_doc') is-invalid @enderror" id="nama_doc"
+                                    name="nama_doc" value="{{ old('nama_doc') }}">
+                                @error('nama_doc')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="tanggal_registrasi" class="form-label"><strong>Tanggal
+                                        Berlaku</strong><span class="text-danger">*</span></label>
+                                <input autocomplete="off" type="date" data-date-format="dd/mm/yyyy"
+                                    class="form-control @error('tanggal_registrasi') is-invalid @enderror"
+                                    id="tanggal_registrasi" name="tanggal_registrasi"
+                                    value="{{ old('tanggal_registrasi') }}">
+                                @error('tanggal_registrasi')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="tanggal_berakhir" class="form-label"><strong>Tanggal
+                                        Berakhir</strong></label>
+                                <input autocomplete="off" type="date"
+                                    class="form-control @error('tanggal_berakhir') is-invalid @enderror"
+                                    id="tanggal_berakhir" name="tanggal_berakhir" value="{{ old('tanggal_berakhir') }}">
+                                <small class="fst-italic"><span class="text-danger">*</span>Kosongkan
+                                    jika perijinan bersifat
+                                    Non-Periodik</small>
+                                @error('tanggal_berakhir')
+                                    <div class="invalid-feedback">
+                                        The tanggal berakhir field is required when
+                                        status perpanjangan is Periodik.
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="file_result" class="form-label"><strong>Pilih file
+                                        PDF</strong><span class="text-danger">*</span></label>
+                                <input class="form-control @error('file_result') is-invalid @enderror" type="file"
+                                    id="file_result" name="file_result" value="{{ old('file_result') }}">
+                                <small class="fst-italic">*Maks. 10Mb</small>
+                                @error('file_result')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                            <button type="submit" class="btn text-white"
+                                style="background-color: #873FFD">Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 @section('alert')
     {{-- modal add PDF --}}
-    @if ($errors->any())
+    {{-- @if ($errors->any()) --}}
+    @if ($errors->any(['nama_doc', 'tanggal_registrasi', 'tanggal_berakhir', 'file_result']))
         <script>
-            // $(document).ready(function() {
-            //     $('#docresult{{ $pa->id }}').modal('show');
-            //     $('#pdfmodal{{ $pa->id }}').modal('show');
-            // });
-            @if ($errors->has('nama_doc'))
+            $(document).ready(function() {
                 $('#docresult{{ $pa->id }}').modal('show');
-                $('#pdfmodal{{ $pa->id }}').addClass('was-validated');
-            @elseif ($errors->has('nama_file'))
+                // $('#pdfmodal{{ $pa->id }}').addClass('was-validated');
+            });
+        </script>
+        {{-- @endif --}}
+    @elseif ($errors->has(['nama_file', 'file_pdf']))
+        <script>
+            $(document).ready(function() {
                 $('#pdfmodal{{ $pa->id }}').modal('show');
-                $('#docresult{{ $pa->id }}').addClass('was-validated');
-            @endif
+                // $('#docresult{{ $pa->id }}').addClass('was-validated');
+            });
         </script>
     @endif
+    {{-- @endif --}}
 @endsection
