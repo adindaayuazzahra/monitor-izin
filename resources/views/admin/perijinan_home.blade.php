@@ -12,7 +12,7 @@
         <div class="overlay" style="opacity: 0.5"></div>
         <div class="container align-items-center justify-content-center d-flex" style="padding-top: 90px; ">
             <div class="text-white text-center">
-                <h1>Mengelola Perijinan</h1>
+                <h1>Pengelolaan Perijinan</h1>
                 <p>Pada halaman ini anda dapat menambahkan, menyunting dan menghapus perijinan.</p>
             </div>
         </div>
@@ -42,8 +42,8 @@
                         <i class="fa-solid fa-folder-plus" style="margin-right: 5px"></i>
                         Tambah Perijinan</a>
                 </div>
-                <table id="my_table" class="table w-100">
-                    <thead class="table-dark">
+                <table id="my_table" class="my_table table w-100">
+                    <thead class="table-primary">
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Ijin</th>

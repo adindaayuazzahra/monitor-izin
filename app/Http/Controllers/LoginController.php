@@ -5,13 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class LoginController extends Controller
 {
-    public function index()
-    {
-        return view('user.index');
-    }
-
     public function login()
     {
         if (Auth::check()) {
@@ -36,7 +31,7 @@ class HomeController extends Controller
                 $request->session()->flash('message', 'Anda Berhasil Login!');
                 $request->session()->flash('title', 'Selamat');
                 $request->session()->flash('icon', 'success');
-                return redirect()->route('admin');
+                return redirect()->route('admin.perijinan');
             }
         }
         $request->session()->flash('message', 'Username atau password yang anda masukkan salah');

@@ -53,7 +53,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
 
 <script>
     $(document).ready(function() {
-        $('#my_table').DataTable({
+        $('.my_table').DataTable({
             // responsive: true,
             dom: '<"row"<"col-sm-12 col-md-6 mt-2"B><"col-sm-12 col-md-6 mt-2"f>>' +
                 '<"row"<"col-sm-12"tr>>' +
@@ -95,7 +95,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
             }
         });
 
-        $('#example').DataTable({
+        $('.example').DataTable({
             pageLength: 5,
             buttons: [
                 'pdf', 'print'
@@ -154,5 +154,4 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
         });
     });
 </script>
-
 

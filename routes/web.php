@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/login', [HomeController::class, 'login'])->name('home.login');
-Route::post('/login/do', [HomeController::class, 'loginDo'])->name('home.login.do');
+Route::get('/', [UserController::class, 'index'])->name('loading');
+Route::get('/home', [UserController::class, 'home'])->name('home');
+Route::get('/login', [LoginController::class, 'login'])->name('home.login');
+Route::post('/login/do', [LoginController::class, 'loginDo'])->name('home.login.do');
+Route::get('/perijinan/{id}', [Usercontroller::class, 'perijinanDetail'])->name('perijinan.detail');
+Route::get('/pdf/view/{id}', [UserController::class, 'pdfView'])->name('pdf.view');
+
 Route::middleware(['auth'])->group(function () {
     
     // CRUD PERIJINAN
@@ -43,9 +48,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/pdf/view/{id}', [AdminController::class, 'pdfView'])->name('admin.pdf.view');
     Route::get('/admin/perijinan/{id}/pdf/{id_doc}/delete/do', [AdminController::class, 'pdfDeleteDo'])->name('admin.pdf.delete.do');
     Route::post('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/pdf/result/add/do', [AdminController::class, 'pdfResultAddDo'])->name('admin.pdf.result.add.do');
+    Route::post('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/pdf/result/edit/do', [AdminController::class, 'pdfResultEditDo'])->name('admin.pdf.result.edit.do');
+    Route::post('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/pdf/proses/add/do', [AdminController::class, 'pdfProsesAddDo'])->name('admin.pdf.proses.add.do');
 
     // confirm Perpanjanga selesai
     Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/confrim/do', [AdminController::class, 'confirmDo'])->name('admin.perpanjangan.confirm.do');
     // logout
-    Route::get('/logout/do', [HomeController::class, 'logoutDo'])->name('home.logout.do');
+    Route::get('/logout/do', [LoginController::class, 'logoutDo'])->name('home.logout.do');
 });

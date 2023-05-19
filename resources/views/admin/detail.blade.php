@@ -31,8 +31,8 @@
             </div>
             <div class="card" style="margin:30px 30px 30px 30px; background-color: transparent;border: none;">
                 <div class="row g-0">
-                    <div class="col-md-4 d-flex justify-content-center align-items-center">
-                        <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_gtbdf5vn.json"
+                    <div class="col-md-4 d-flex py-3 justify-content-center align-items-center">
+                        <lottie-player src="https://assets8.lottiefiles.com/private_files/lf30_rsT9V2.json"
                             background="transparent" speed="1" style="width: 350px;" loop autoplay></lottie-player>
                     </div>
                     <div class="col-md-8 d-flex align-items-center">
@@ -147,7 +147,6 @@
                                             </h6>
                                         </div>
                                         <div class="col-md-5">
-                                            {{-- @dd($dok_aktif_result) --}}
                                             @if (!$pa->tanggal_registrasi == null)
                                                 @foreach ($dok_aktif_result as $ds)
                                                     @foreach ($ds as $dokumen)
@@ -155,7 +154,12 @@
                                                             class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
                                                             href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">Lihat
                                                             Dokumen <i
-                                                                class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                                                class="fa-solid fa-arrow-up-right-from-square"></i></a><br>
+                                                        <button type="button" class="btn btn-warning rounded-circle btn-sm"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#doceditresult{{ $pa->id }}">
+                                                            <i class="fa-solid fa-marker"></i>
+                                                        </button>
                                                     @endforeach
                                                 @endforeach
                                             @else
@@ -167,6 +171,52 @@
                                                     </button>
                                                 @endforeach
                                             @endif
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="row mb-2">
+                                        <div class="col-md-3">
+                                            <h6 class="card-title"><i class="fa-regular fa-file-pdf"></i> Surat Ket.Proses
+                                            </h6>
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{-- @dd($dok_aktif_result) --}}
+                                            {{-- @if (count($dok_aktif_result) > 0) --}}
+                                            @foreach ($dok_aktif_result as $ds)
+                                                @foreach ($ds as $dokumen)
+                                                    <a target="_blank"
+                                                        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
+                                                        href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">Lihat
+                                                        Dokumen <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                                @endforeach
+                                            @endforeach
+                                            {{-- @elseif(count($dok_aktif_result) == 0) --}}
+                                            @foreach ($perpanjangan_aktif as $pa)
+                                                <form
+                                                    action="{{ route('admin.pdf.proses.add.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="input-group">
+                                                        <input type="file"
+                                                            class="form-control @error('pdf_proses') is-invalid @enderror"
+                                                            id="pdf_proses" aria-describedby="pdf_proses"
+                                                            aria-label="Upload" name="pdf_proses">
+                                                        <button class="btn btn-outline-secondary" type="submit"
+                                                            id="pdf_proses">Button</button>
+                                                        @error('pdf_proses')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </form>
+                                                {{-- <button type="button" class="btn btn-secondary btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#docresult{{ $pa->id }}">
+                                                        <i class="fa-solid fa-upload"></i> Upload Surat Keterangan
+                                                    </button> --}}
+                                            @endforeach
+                                            {{-- @endif --}}
                                         </div>
                                     </div>
                                 @endif
@@ -267,7 +317,7 @@
                                             <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
                                                 class="btn btn rounded-pill text-white  @if ($perpanjangan_stat->status_perpanjangan == 0 || $perpanjangan_stat->confirm == 0) d-none @endif"
                                                 style="background-color: #873FFD;"><i class="fa-solid fa-plus"></i>
-                                                Perpanjang</a>
+                                                Perpanjangan</a>
                                         @endif
                                         {{-- @endif --}}
 
@@ -377,15 +427,25 @@
                                             <p>{{ $pa->alokasi_biaya }}</p>
                                         </div>
                                     </div>
-                                    @if ($pa->confirm == 1)
-                                        <div class="row d-flex align-items-center mt-3">
-                                            <p>
+                                    <div class="row d-flex align-items-center mt-3">
+                                        @if ($pa->confirm == 1)
+                                            {{-- <p>
                                                 <i class="fa-solid fa-circle-check text-success"></i>
                                                 <strong>Proses Mengurus Perpanjangan Sudah
                                                     Selesai!</strong>
+                                            </p> --}}
+                                            <p style="font-size: 14pt;"><span class="badge text-bg-success"><i
+                                                        class="fa-solid fa-circle-check"></i> Proses Mengurus Perpanjangan
+                                                    Sudah
+                                                    Selesai</span>
                                             </p>
-                                        </div>
-                                    @endif
+                                        @else
+                                            <p style="font-size: 14pt;"><span class="badge text-bg-warning"><i
+                                                        class="fa-solid fa-triangle-exclamation"></i>
+                                                    Perpanjangan masih dalam proses</span>
+                                            </p>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -404,8 +464,8 @@
                                         Tambah</button>
                                 </div>
                                 <hr class="p-0 my-1">
-                                <table id="example" class="table">
-                                    <thead class="table-dark">
+                                <table id="example" class="example table">
+                                    <thead class="table-primary">
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Nama</th>
@@ -465,6 +525,7 @@
         @php
             $i = 1;
         @endphp
+        {{-- @dd($dok_noaktif) --}}
         @foreach ($perpanjangan as $pr)
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
@@ -579,12 +640,15 @@
                                             </h6>
                                         </div>
                                         <div class="col">
-                                            @foreach ($dok_noaktif_result as $ds)
-                                                @foreach ($ds as $dokumen)
-                                                    <a target="_blank"
-                                                        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
-                                                        href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">Lihat
-                                                        Dokumen <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                            @foreach ($dok_noaktif_result as $dns)
+                                                @foreach ($dns as $dok)
+                                                    @if ($dok->id_perpanjangan == $pr->id)
+                                                        <a target="_blank"
+                                                            class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
+                                                            href="{{ route('admin.pdf.view', ['id' => $dok->id]) }}">Lihat
+                                                            Dokumen <i
+                                                                class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                                    @endif
                                                 @endforeach
                                             @endforeach
                                         </div>
@@ -603,7 +667,7 @@
                                         </div>
                                         <hr class="p-0 my-1">
                                         <table id="riwayat" class="table table_1" width="100%">
-                                            <thead class="table-dark">
+                                            <thead class="table-primary">
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Nama</th>
@@ -616,13 +680,15 @@
                                                 @php $i = 1; @endphp
                                                 @foreach ($dok_noaktif as $da)
                                                     @foreach ($da as $dokumen)
-                                                        <tr>
-                                                            <td>{{ $i }}</td> @php $i++ @endphp
-                                                            <td><a target="_blank"
-                                                                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
-                                                                    href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">{{ $dokumen->doc }}</a>
-                                                            </td>
-                                                        </tr>
+                                                        @if ($dokumen->id_perpanjangan == $pr->id)
+                                                            <tr>
+                                                                <td>{{ $i }}</td> @php $i++ @endphp
+                                                                <td><a target="_blank"
+                                                                        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
+                                                                        href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">{{ $dokumen->doc }}</a>
+                                                                </td>
+                                                            </tr>
+                                                        @endif
                                                     @endforeach
                                                 @endforeach
                                             </tbody>
@@ -848,17 +914,20 @@
                                     class="form-control @error('nama_file') is-invalid @enderror" id="nama_file"
                                     name="nama_file" value="{{ old('nama_file') }}">
                                 @error('nama_file')
+                                    {{-- @if ($errors->has('nama_file')) --}}
                                     <div class="invalid-feedback">
+
                                         {{ $message }}
                                     </div>
+                                    {{-- @endif --}}
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="file_pdf" class="form-label"><strong>Pilih file PDF</strong><span
+                                <label for="file_pdf" class="form-label"><strong>Pilih File</strong><span
                                         class="text-danger">*</span></label>
                                 <input class="form-control @error('file_pdf') is-invalid @enderror" type="file"
                                     id="file_pdf" name="file_pdf" value="{{ old('file_pdf') }}">
-                                <small class="fst-italic">*Maks. 10Mb</small>
+                                <small class="fst-italic">*Maks. 50Mb</small>
                                 @error('file_pdf')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -895,7 +964,7 @@
                         method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="modal-body">
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="nama_doc" class="form-label"><strong>Nama
                                         File</strong><span class="text-danger">*</span></label>
                                 <input autocomplete="off" type="text"
@@ -906,7 +975,7 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label for="tanggal_registrasi" class="form-label"><strong>Tanggal
                                         Berlaku</strong><span class="text-danger">*</span></label>
@@ -941,7 +1010,96 @@
                                         PDF</strong><span class="text-danger">*</span></label>
                                 <input class="form-control @error('file_result') is-invalid @enderror" type="file"
                                     id="file_result" name="file_result" value="{{ old('file_result') }}">
-                                <small class="fst-italic">*Maks. 10Mb</small>
+                                <small class="fst-italic">*Maks. 50Mb</small>
+                                @error('file_result')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                            <button type="submit" class="btn text-white"
+                                style="background-color: #873FFD">Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- Modal pdf result edit --}}
+    @foreach ($perpanjangan_aktif as $pa)
+        <div class="modal fade" id="doceditresult{{ $pa->id }}" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title"><strong>Edit Dokumen Perijinan</strong>
+                        </h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form
+                        action="{{ route('admin.pdf.result.edit.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
+                        method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            {{-- @foreach ($dok_aktif_result as $ds)
+                                @foreach ($ds as $dokumen)
+                                    @if ($pa->id == $dokumen->id_perpanjangan)
+                                        <div class="mb-3">
+                                            <label for="nama_doc" class="form-label"><strong>Nama
+                                                    File</strong><span class="text-danger">*</span></label>
+                                            <input autocomplete="off" type="text"
+                                                class="form-control @error('nama_doc') is-invalid @enderror"
+                                                id="nama_doc" name="nama_doc" value="{{ $dokumen->doc }}">
+                                            @error('nama_doc')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach --}}
+                            <div class="mb-3">
+                                <label for="tanggal_registrasi" class="form-label"><strong>Tanggal
+                                        Berlaku</strong><span class="text-danger">*</span></label>
+                                <input autocomplete="off" type="date" data-date-format="dd/mm/yyyy"
+                                    class="form-control @error('tanggal_registrasi') is-invalid @enderror"
+                                    id="tanggal_registrasi" name="tanggal_registrasi"
+                                    value="{{ $pa->tanggal_registrasi }}">
+                                @error('tanggal_registrasi')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="tanggal_berakhir" class="form-label"><strong>Tanggal
+                                        Berakhir</strong></label>
+                                <input autocomplete="off" type="date"
+                                    class="form-control @error('tanggal_berakhir') is-invalid @enderror"
+                                    id="tanggal_berakhir" name="tanggal_berakhir" value="{{ $pa->tanggal_berakhir }}">
+                                    <small class="form-text text-muted">
+                                       Kosongkan Jika Perijinan Berisfat Non-Periodik.
+                                      </small>
+                                @error('tanggal_berakhir')
+                                    <div class="invalid-feedback">
+                                        The tanggal berakhir field is required when
+                                        status perpanjangan is Periodik.
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="file_result" class="form-label"><strong>Pilih file
+                                        PDF</strong><span class="text-danger">*</span></label>
+                                <input class="form-control @error('file_result') is-invalid @enderror" type="file"
+                                    id="file_result" name="file_result" value="{{ old('file_result') }}">
+                                    <small class="form-text text-muted">
+                                        Maks. 50Mb (Biarkan kosong jika tidak ingin mengubah file.)
+                                      </small>
                                 @error('file_result')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -964,18 +1122,26 @@
 @section('alert')
     {{-- modal add PDF --}}
     {{-- @if ($errors->any()) --}}
-    @if ($errors->any(['nama_doc', 'tanggal_registrasi', 'tanggal_berakhir', 'file_result']))
+    @if ($errors->has('result'))
         <script>
             $(document).ready(function() {
                 $('#docresult{{ $pa->id }}').modal('show');
                 // $('#pdfmodal{{ $pa->id }}').addClass('was-validated');
             });
         </script>
-        {{-- @endif --}}
-    @elseif ($errors->has(['nama_file', 'file_pdf']))
+    @endif
+    @if ($errors->has('pdf'))
         <script>
             $(document).ready(function() {
                 $('#pdfmodal{{ $pa->id }}').modal('show');
+                // $('#docresult{{ $pa->id }}').addClass('was-validated');
+            });
+        </script>
+    @endif
+    @if ($errors->has('edit'))
+        <script>
+            $(document).ready(function() {
+                $('#doceditresult{{ $pa->id }}').modal('show');
                 // $('#docresult{{ $pa->id }}').addClass('was-validated');
             });
         </script>
