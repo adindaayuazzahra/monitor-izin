@@ -254,7 +254,7 @@
                     <h5 style="margin-left: 10px;">Perpanjangan Aktif</h5>
                 </div>
             </div>
-            <div class="card " style="margin:25px 30px 30px 30px; background-color: transparent;border: none;">
+            <div class="card" style="margin:25px 30px 30px 30px; background-color: transparent;border: none;">
                 <div class="row g-0 d-flex align-items-center ">
                     @if ($perpanjangan_aktif->isEmpty())
                         <div class="col p-0">

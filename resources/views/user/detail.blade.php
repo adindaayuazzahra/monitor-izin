@@ -225,9 +225,9 @@
                         </div>
                     @else
                         @foreach ($perpanjangan_aktif as $pa)
-                            <div class="col-md-8 d-flex align-items-center">
+                            <div class="col-md-8 ">
                                 <div class="card-body">
-                                    <div class="d-flex gap-1 mb-3 align-items-center">
+                                    {{-- <div class="d-flex gap-1 mb-3 align-items-center"> --}}
                                         {{-- @if ($pa->confirm == 0)
                                             <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
                                                 data-bs-target="#confirmModal{{ $pa->id }}">
@@ -262,7 +262,7 @@
                                             class="btn btn-warning rounded-circle @if ($perpanjangan_stat->confirm == 1) d-none @endif">
                                             <i class="fa-solid fa-marker"></i>
                                         </a> --}}
-                                    </div>
+                                    {{-- </div> --}}
                                     <div class="row d-flex align-items-center mb-4">
                                         @if ($pa->confirm == 1)
                                             <p style="font-size: 14pt;"><span class="badge text-bg-success"><i
@@ -377,13 +377,12 @@
                                             <p>{{ $pa->alokasi_biaya }}</p>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         @endforeach
 
                         {{-- tabel file arsip --}}
-                        <div class="col-md-4 justify-content-end align-items-end">
+                        <div class="col-md-4 ">
                             <lottie-player src="https://assets1.lottiefiles.com/private_files/lf30_gwiwd1mq.json" background="transparent" speed="1" style="width: 300px;" loop autoplay>
                             </lottie-player>
                             {{-- <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;">

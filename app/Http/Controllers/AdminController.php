@@ -618,11 +618,12 @@ class AdminController extends Controller
             $selisih = $selisih_tahun . ' tahun ' . $selisih_hari . ' hari';
 
             $perpanjangan->tanggal_berakhir = $request->tanggal_berakhir;
-            $tanggalHariIni = Carbon::now();
-            if ($request->tanggal_berkahir == $tanggalHariIni) {
-                $perijinan->status = 1;
-                $perijinan->save();
-            }elseif($request->tanggal_berakhir >= $tanggalHariIni) {
+            $tanggalHariIni = Carbon::now()->toDateString();
+            // if ($request->tanggal_berkahir == $tanggalHariIni) {
+            //     $perijinan->status = 1;
+            //     $perijinan->save();
+            // }else
+            if($request->tanggal_berakhir >= $tanggalHariIni) {
                 $perijinan->status = 0;
                 $perijinan->save();
             } elseif ($request->tanggal_berakhir < $tanggalHariIni) {
