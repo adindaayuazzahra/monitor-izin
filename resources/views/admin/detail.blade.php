@@ -720,7 +720,7 @@
                         <h4 class="text-center mt-3">
                             <strong>Hapus Perijinan</strong>
                         </h4>
-                        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_khh1znj5.json"
+                        <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_khh1znj5.json"
                             background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
                             autoplay></lottie-player>
                         <p class="text-center"> Apakah anda yakin akan menghapus Perijinan ini?<br>
@@ -756,7 +756,7 @@
                                     <strong>Hapus Dokumen</strong>
                                 </h4>
                                 <lottie-player class="my-1"
-                                    src="https://assets2.lottiefiles.com/private_files/lf30_ilvzxix1.json"
+                                    src="https://assets8.lottiefiles.com/private_files/lf30_ilvzxix1.json"
                                     background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
                                     autoplay></lottie-player>
                                 <p class="text-center"> Apakah anda yakin akan menghapus PDF Perpanjangan ini?<br>
@@ -797,7 +797,7 @@
                                 <strong>Non-Aktifan Perijinan</strong>
                             </h4>
                             <lottie-player class="my-1"
-                                src="https://assets10.lottiefiles.com/packages/lf20_l9zbnyau.json"
+                                src="https://assets1.lottiefiles.com/packages/lf20_xzu7hgpf.json"
                                 background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
                                 autoplay></lottie-player>
                             <p class="text-center"> Apakah anda yakin akan menonaktifkan perizinan ini?<br>

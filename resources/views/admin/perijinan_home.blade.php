@@ -1,13 +1,13 @@
 @extends('index')
 @section('content')
     {{-- <section style="height:250px;background-color:#0288F6;">
-    <div class="align-items-start justify-content-center d-flex pt-5">
-        <div class="text-white text-center ">
-            <h1 style="font-size:26pt;">Mengelola Perijinan</h1>
-            <p style="font-size:16pt;">Pada halaman ini anda dapat menambahkan, menyunting dan menghpaus perizinan</p>
+        <div class="align-items-start justify-content-center d-flex pt-5">
+            <div class="text-white text-center ">
+                <h1 style="font-size:26pt;">Mengelola Perijinan</h1>
+                <p style="font-size:16pt;">Pada halaman ini anda dapat menambahkan, menyunting dan menghpaus perizinan</p>
+            </div>
         </div>
-    </div>
-</section> --}}
+    </section> --}}
     <div class="hero-container" style="background-image: url({{ asset('assets/img-jmtm/gambar1.jpg') }})">
         <div class="overlay" style="opacity: 0.5"></div>
         <div class="container align-items-center justify-content-center d-flex" style="padding-top: 90px; ">
@@ -47,13 +47,13 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Ijin</th>
-                            <th scope="col">Tanggal Berakhir</th>
+                            <th scope="col" style="width:12%">Tanggal Berakhir</th>
                             <th scope="col">Instansi Terkait</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
                             {{-- <th scope="col">Aksi</th> --}}
-                            <th scope="col" style="width:12%">Detail</th>
+                            <th scope="col" style="width:10%">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -135,7 +135,7 @@
                                     @endphp --}}
                                     <p>
                                         @if ($p->status_perpanjangan === 0 || $p->tanggal_berakhir === null)
-                                            -
+                                            
                                         @else
                                             @if (Carbon::now()->isBefore($tanggal_berakhir))
                                                 @if ($sisa_hari == 0)

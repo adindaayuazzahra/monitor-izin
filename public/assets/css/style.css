@@ -1,0 +1,68 @@
+body {
+    font-family: 'Ovo', serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    font-family: 'Ovo', serif;
+    margin: 0;
+}
+
+.hero-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    /* atur tinggi yang diinginkan */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+}
+
+button:hover {
+    /* opacity: 80%; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+a.btn:hover {
+    /* opacity: 80%; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+.tombol .card {
+    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+    cursor: pointer;
+}
+
+.tombol .card:hover {
+    transform: scale(1.05);
+}

@@ -19,72 +19,6 @@
         </div>
     </div>
 
-
-    {{-- <div style="margin-top:-70px;margin-left: 30px;margin-right: 30px;">
-        <div class="row d-flex justify-content-center">
-            <div class="col-sm-12 col-md text-center mt-4">
-                <div class="card shadow py-3 " style="border-radius:20px;">
-                    <i class="fi fi-tr-file-signature text-success" style="font-size:30pt;margin:0;padding:0;"></i>
-                    <h5> Lifetime</h5>
-                        <p><strong>6</strong> perizinan</p>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md text-center mt-4">
-                <div class="card shadow py-3 " style="border-radius:20px;">
-                    <i class="fi fi-tr-license text-primary" style="font-size:30pt;margin:0;padding:0;"></i>
-                    <h5> Lisensi</h5>
-                        <p><strong>6</strong> perizinan</p>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md text-center mt-4">
-                <div class="card shadow py-3 " style="border-radius:20px;">
-                    <i class="fi fi-tr-tally" style="font-size:30pt;margin:0;padding:0;"></i>
-                    <h5>Total</h5>
-                        <p><strong>6</strong> perizinan</p>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md text-center mt-4">
-                <div class="card shadow py-3 " style="border-radius:20px;">
-                    <i class="fi fi-tr-triangle-warning text-warning" style="font-size:30pt;margin:0;padding:0;"></i>
-                    <h5>Perpanjang</h5>
-                        <p><strong>6</strong> perizinan</p>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md text-center mt-4">
-                <div class="card shadow py-3 " style="border-radius:20px;">
-                    <i class="fi fi-tr-rectangle-xmark text-danger" style="font-size:30pt;margin:0;padding:0;"></i>
-                    <h5>Non-Aktif</h5>
-                        <p><strong>6</strong> perizinan</p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    {{-- <div class="card mb-4 shadow"
-        style="margin-top:-80px;;margin-left: 30px;margin-right: 30px; border-radius: 35px 35px 35px 35px;border:none;">
-        <div class="row p-4 d-flex justify-content-center">
-            <div class="col-md-4 text-center border-end border-3" style="border-color: #FF588E  !important;">
-                <i class="fi fi-tr-file-signature" style="font-size:30pt;margin:0;padding:0;"></i>
-                <h4>Perijinan Lifetime</h3>
-                    <p>6 perizinan</p>
-            </div>
-            <div class="col-md-4 border-end border-3 d-flex justify-content-center"
-                style="border-color: #FF588E  !important;">
-                <h1>xcqjcx</h1>
-            </div>
-            <div class="col-md-4 d-flex justify-content-center">
-                <h1>xcqjcx</h1>
-            </div>
-            <div class="col-md-4 border-end border-3 d-flex justify-content-center mt-5"
-                style="border-color: #FF588E  !important;">
-                <h1>xcqjcx</h1>
-            </div>
-            <div class="col-md-4 d-flex justify-content-center mt-5">
-                <h1>xcqjcx</h1>
-            </div>
-        </div>
-    </div> --}}
-
     <section style="margin-left:30px; margin-right:30px; margin-top:-80px; margin-bottom:50px;">
         <div class="row d-flex justify-content-center">
             <div class="tombol col-sm-12 col-md text-center mt-4" data-target="lifetime">
@@ -139,19 +73,20 @@
                 <h5 style="margin-left: 10px;">Daftar Perijinan</h5>
             </div>
             <div class="card" style="margin:10px 30px 30px 30px; background-color: transparent;border: none;">
+                
                 {{-- All perijinan --}}
                 <table id="my_table" class="my_table table w-100">
                     <thead class="table-primary">
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col" style="width:3%">No</th>
                             <th scope="col">Nama Ijin</th>
-                            <th scope="col">Tanggal Berakhir</th>
+                            <th scope="col" style="width:12%">Tanggal Berakhir</th>
                             <th scope="col">Instansi Terkait</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
                             {{-- <th scope="col">Aksi</th> --}}
-                            <th scope="col" style="width:12%">Detail</th>
+                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -227,7 +162,7 @@
                                     @endphp --}}
                                     <p>
                                         @if ($p->status_perpanjangan === 0 || $p->tanggal_berakhir === null)
-                                            -
+                                            
                                         @else
                                             @if (Carbon::now()->isBefore($tanggal_berakhir))
                                                 @if ($sisa_hari == 0)
@@ -246,7 +181,7 @@
                                         @endif
                                     </p>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <a class="
                                             @if (!$p->tanggal_berakhir) @else
                                                 @if (Carbon::now()->isBefore($tanggal_berakhir))
@@ -262,8 +197,7 @@
                                         style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
                                         href="{{ route('perijinan.detail', ['id' => $p->id]) }}">Lihat
                                         Detail <i class="bi bi-arrow-up-right-square"></i></a>
-                                    {{-- @endif --}}
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -276,11 +210,11 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Ijin</th>
-                            <th scope="col">Tanggal Berakhir</th>
+                            <th scope="col" style="width:12%">Tanggal Berakhir</th>
                             <th scope="col">Instansi Terkait</th>
-                            <th scope="col" style="width:7%">Status</th>
+                            <th scope="col" style="width:6%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            <th scope="col" style="width:12%">Detail</th>
+                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -312,8 +246,8 @@
                                                 bg-warning 
                                             @elseif($sisa_hari <= $sebulan && $sisa_hari >= 0)
                                                 bg-danger text-white @endif
-@else
-bg-black text-white    
+                                            @else
+                                            bg-black text-white    
                                         @endif 
                                     @endif
                                 ">
@@ -367,7 +301,7 @@ bg-black text-white
                                         @endif
                                     </p>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <a class="
                                             @if (!$lisensi->tanggal_berakhir) @else
                                                 @if (Carbon::now()->isBefore($tanggal_berakhir))
@@ -375,8 +309,8 @@ bg-black text-white
                                                         text-black
                                                     @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
                                                         text-white @endif
-@else
-text-white    
+                                                        @else
+                                                        text-white    
                                                 @endif
                                             @endif
                                         link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
@@ -384,7 +318,7 @@ text-white
                                         href="{{ route('perijinan.detail', ['id' => $lisensi->id]) }}">Lihat
                                         Detail <i class="bi bi-arrow-up-right-square"></i></a>
 
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -395,13 +329,13 @@ text-white
                 <table id="lifetime" class="table w-100">
                     <thead class="table-primary">
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col" style="width:3%">No</th>
                             <th scope="col">Nama Ijin</th>
-                            <th scope="col">Tanggal Berakhir</th>
+                            <th scope="col" style="width:12%">Tanggal Berakhir</th>
                             <th scope="col">Instansi Terkait</th>
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            <th scope="col" style="width:12%">Detail</th>
+                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -433,8 +367,8 @@ text-white
                                                 bg-warning 
                                             @elseif($sisa_hari <= $sebulan && $sisa_hari >= 0)
                                                 bg-danger text-white @endif
-@else
-bg-black text-white    
+                                            @else
+                                            bg-black text-white    
                                         @endif 
                                     @endif
                                 ">
@@ -488,7 +422,7 @@ bg-black text-white
                                         @endif
                                     </p>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <a class="
                                             @if (!$lifetime->tanggal_berakhir) @else
                                                 @if (Carbon::now()->isBefore($tanggal_berakhir))
@@ -496,8 +430,8 @@ bg-black text-white
                                                         text-black
                                                     @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
                                                         text-white @endif
-@else
-text-white    
+                                                    @else
+                                                    text-white    
                                                 @endif
                                             @endif
                                         link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
@@ -505,7 +439,7 @@ text-white
                                         href="{{ route('perijinan.detail', ['id' => $lifetime->id]) }}">Lihat
                                         Detail <i class="bi bi-arrow-up-right-square"></i></a>
 
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -516,13 +450,13 @@ text-white
                 <table id="proses" class="table w-100">
                     <thead class="table-primary">
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col" style="width:3%">No</th>
                             <th scope="col">Nama Ijin</th>
-                            <th scope="col">Tanggal Berakhir</th>
+                            <th scope="col" style="width:12%">Tanggal Berakhir</th>
                             <th scope="col">Instansi Terkait</th>
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            <th scope="col" style="width:12%">Detail</th>
+                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -554,8 +488,8 @@ text-white
                                                 bg-warning 
                                             @elseif($sisa_hari <= $sebulan && $sisa_hari >= 0)
                                                 bg-danger text-white @endif
-@else
-bg-black text-white    
+                                            @else
+                                            bg-black text-white    
                                         @endif 
                                     @endif
                                 ">
@@ -609,7 +543,7 @@ bg-black text-white
                                         @endif
                                     </p>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <a class="
                                             @if (!$pros->tanggal_berakhir) @else
                                                 @if (Carbon::now()->isBefore($tanggal_berakhir))
@@ -617,8 +551,8 @@ bg-black text-white
                                                         text-black
                                                     @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
                                                         text-white @endif
-@else
-text-white    
+                                                    @else
+                                                    text-white    
                                                 @endif
                                             @endif
                                         link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
@@ -626,7 +560,7 @@ text-white
                                         href="{{ route('perijinan.detail', ['id' => $pros->id]) }}">Lihat
                                         Detail <i class="bi bi-arrow-up-right-square"></i></a>
 
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -636,15 +570,15 @@ text-white
                 <table id="warning" class="table w-100">
                     <thead class="table-primary">
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col" style="width:3%">No</th>
                             <th scope="col">Nama Ijin</th>
-                            <th scope="col">Tanggal Berakhir</th>
+                            <th scope="col" style="width:12%">Tanggal Berakhir</th>
                             <th scope="col">Instansi Terkait</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
                             {{-- <th scope="col">Aksi</th> --}}
-                            <th scope="col" style="width:12%">Detail</th>
+                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -676,8 +610,8 @@ text-white
                                                 bg-warning 
                                             @elseif($sisa_hari <= $sebulan && $sisa_hari >= 0)
                                                 bg-danger text-white @endif
-@else
-bg-black text-white    
+                                            @else
+                                            bg-black text-white    
                                         @endif 
                                     @endif
                                 ">
@@ -731,7 +665,7 @@ bg-black text-white
                                         @endif
                                     </p>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <a class="
                                             @if (!$warning->tanggal_berakhir) @else
                                                 @if (Carbon::now()->isBefore($tanggal_berakhir))
@@ -739,8 +673,8 @@ bg-black text-white
                                                         text-black
                                                     @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
                                                         text-white @endif
-@else
-text-white    
+                                                    @else
+                                                        text-white    
                                                 @endif
                                             @endif
                                         link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
@@ -748,7 +682,7 @@ text-white
                                         href="{{ route('perijinan.detail', ['id' => $warning->id]) }}">Lihat
                                         Detail <i class="bi bi-arrow-up-right-square"></i></a>
 
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -759,13 +693,13 @@ text-white
                 <table id="nonaktif" class="table w-100">
                     <thead class="table-primary">
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col" style="width:3%">No</th>
                             <th scope="col">Nama Ijin</th>
-                            <th scope="col">Tanggal Berakhir</th>
+                            <th scope="col" style="width:12%">Tanggal Berakhir</th>
                             <th scope="col">Instansi Terkait</th>
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            <th scope="col" style="width:12%">Detail</th>
+                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -797,8 +731,8 @@ text-white
                                                 bg-warning 
                                             @elseif($sisa_hari <= $sebulan && $sisa_hari >= 0)
                                                 bg-danger text-white @endif
-@else
-bg-black text-white    
+                                            @else
+                                            bg-black text-white    
                                         @endif 
                                     @endif
                                 ">
@@ -852,7 +786,7 @@ bg-black text-white
                                         @endif
                                     </p>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <a class="
                                             @if (!$non->tanggal_berakhir) @else
                                                 @if (Carbon::now()->isBefore($tanggal_berakhir))
@@ -868,7 +802,7 @@ bg-black text-white
                                         style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
                                         href="{{ route('perijinan.detail', ['id' => $non->id]) }}">Lihat
                                         Detail <i class="bi bi-arrow-up-right-square"></i></a>
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -879,7 +813,7 @@ bg-black text-white
 @endsection
 
 @section('alert')
-    <script>
+    <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
         $(document).ready(function() {
             $('table').not('#my_table').hide().DataTable().destroy();
             $('.tombol').click(function() {

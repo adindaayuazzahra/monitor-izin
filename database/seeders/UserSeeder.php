@@ -23,5 +23,20 @@ class UserSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+        DB::table('users')->insert([
+            'nama' => 'yoga',
+            'username' => 'yoga',
+            'password' => Hash::make('Welcomejmtm2023'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('users')->insert([
+            'nama' => 'Muhammad Rusdi',
+            'username' => '08728',
+            'password' => Hash::make('JMTM-08728'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
     }
 }

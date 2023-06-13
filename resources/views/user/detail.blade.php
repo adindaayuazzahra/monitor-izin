@@ -383,7 +383,7 @@
 
                         {{-- tabel file arsip --}}
                         <div class="col-md-4 ">
-                            <lottie-player src="https://assets1.lottiefiles.com/private_files/lf30_gwiwd1mq.json" background="transparent" speed="1" style="width: 300px;" loop autoplay>
+                            <lottie-player src="https://assets8.lottiefiles.com/private_files/lf30_gwiwd1mq.json" background="transparent" speed="1" style="width: 300px;" loop autoplay>
                             </lottie-player>
                             {{-- <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;">
                                 <div class="mb-1 d-flex justify-content-between align-items-center">
@@ -554,7 +554,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex justify-content-end align-items-end">
-                                    <lottie-player src="https://assets1.lottiefiles.com/private_files/lf30_gwiwd1mq.json"
+                                    <lottie-player src="https://assets8.lottiefiles.com/private_files/lf30_gwiwd1mq.json"
                                         background="transparent" speed="1" style="width: 350px;" loop autoplay>
                                     </lottie-player>
                                     {{-- <div class="card w-100 d-flex p-3" style="border:#0288F6 solid 1px;">

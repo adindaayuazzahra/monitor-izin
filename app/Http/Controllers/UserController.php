@@ -13,53 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('loading');
-        
-    }
 
-    public function perijinanDetail($id)
-    {
-        $perijinan = Perizinan::find($id);
-        $perpanjangan = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 1)->oldest('created_at')->get();
-        $perpanjangan_aktif = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 0)->get();
-        $perpanjangan_stat = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 0)->first();
-        // foreach ($perpanjangan_aktif as $p) {
-        //     $dok_aktif = Dokumen::where('id_perpanjangan', $p->id)->get();
-        //     // melakukan sesuatu dengan $dok_aktif
-        // }
-        $dok_aktif = array();
-        foreach ($perpanjangan_aktif as $p) {
-            $dok_aktif[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 0)->get();
-            // melakukan sesuatu dengan $dok_aktif
-        }
-
-        $dok_aktif_result = array();
-        foreach ($perpanjangan_aktif as $p) {
-            $dok_aktif_result[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 1)->get();
-            // melakukan sesuatu dengan $dok_aktif
-        }
-
-
-
-        $dok_noaktif = array();
-        foreach ($perpanjangan as $p) {
-            $dok_noaktif[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 0)->get();
-            // melakukan sesuatu dengan $dok_aktif
-        }
-
-        $dok_noaktif_result = array();
-        foreach ($perpanjangan as $p) {
-            $dok_noaktif_result[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 1)->get();
-            // melakukan sesuatu dengan $dok_aktif
-        }
-
-
-
-        return view('user.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif', 'dok_aktif_result', 'dok_noaktif_result'));
-    }
-
-    public function home()
-    {
         $lifetimecount = Perpanjangan::where('status_perpanjangan', 0)->where('status_aktif', 0)->count();
         $lisensicount = Perpanjangan::where('status_perpanjangan', 1)->where('status_aktif', 0)->count();
         $perijinancount = Perizinan::count();
@@ -123,7 +77,48 @@ class UserController extends Controller
             ->orderByRaw('perpanjangan.id_perizinan IS NULL DESC')
             ->get();
 
-        return view('user.index', compact('perijinans', 'lisensis', 'lifetimes', 'proses', 'warnings','nonaktifs', 'lifetimecount', 'lisensicount', 'perijinancount', 'nonaktifcount', 'tigabulancount', 'prosescount'));
+        return view('user.index', compact('perijinans', 'lisensis', 'lifetimes', 'proses', 'warnings', 'nonaktifs', 'lifetimecount', 'lisensicount', 'perijinancount', 'nonaktifcount', 'tigabulancount', 'prosescount'));
+    }
+
+    public function perijinanDetail($id)
+    {
+        $perijinan = Perizinan::find($id);
+        $perpanjangan = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 1)->oldest('created_at')->get();
+        $perpanjangan_aktif = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 0)->get();
+        $perpanjangan_stat = Perpanjangan::where('id_perizinan', $perijinan->id)->where('status_aktif', 0)->first();
+        // foreach ($perpanjangan_aktif as $p) {
+        //     $dok_aktif = Dokumen::where('id_perpanjangan', $p->id)->get();
+        //     // melakukan sesuatu dengan $dok_aktif
+        // }
+        $dok_aktif = array();
+        foreach ($perpanjangan_aktif as $p) {
+            $dok_aktif[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 0)->get();
+            // melakukan sesuatu dengan $dok_aktif
+        }
+
+        $dok_aktif_result = array();
+        foreach ($perpanjangan_aktif as $p) {
+            $dok_aktif_result[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 1)->get();
+            // melakukan sesuatu dengan $dok_aktif
+        }
+
+
+
+        $dok_noaktif = array();
+        foreach ($perpanjangan as $p) {
+            $dok_noaktif[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 0)->get();
+            // melakukan sesuatu dengan $dok_aktif
+        }
+
+        $dok_noaktif_result = array();
+        foreach ($perpanjangan as $p) {
+            $dok_noaktif_result[] = Dokumen::where('id_perpanjangan', $p->id)->where('status', 1)->get();
+            // melakukan sesuatu dengan $dok_aktif
+        }
+
+
+
+        return view('user.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif', 'dok_aktif_result', 'dok_noaktif_result'));
     }
 
     public function pdfView($id)

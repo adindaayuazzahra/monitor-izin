@@ -32,7 +32,7 @@ class SendCommand extends Command
         $tanggalSekarang = Carbon::now();
         $tanggalBatas = $tanggalSekarang->copy()->addMonths(3);
         // $perpanjangan = Perpanjangan::whereDate('tanggal_berakhir', '>', $tanggalSekarang)
-        //     ->whereDate('tanggal_berakhir', '<=', $tanggalBatas)->where('status_perpanjangan', 1)->where('status_aktif', 0)->get();
+        // ->whereDate('tanggal_berakhir', '<=', $tanggalBatas)->where('status_perpanjangan', 1)->where('status_aktif', 0)->get();
         $warnings = Perizinan::select('tb_perizinan.*', 'perpanjangan.tanggal_berakhir', 'perpanjangan.status_perpanjangan')
             ->leftJoin(DB::raw('(SELECT id_perizinan, MAX(tanggal_berakhir) AS tanggal_berakhir, MAX(status_perpanjangan) AS status_perpanjangan FROM tb_perpanjangan WHERE status_aktif = 0 GROUP BY id_perizinan) AS perpanjangan'), 'tb_perizinan.id', '=', 'perpanjangan.id_perizinan')
 
@@ -47,16 +47,20 @@ class SendCommand extends Command
             } else {
                 $client = new Client();
                 $numbers = [
-                    '+6287718183852',
-                    '+6287770071748'
+                    // '+6287718183852',
+                    // '+6287770071748',
+                    // '+6281288668996',
+                    // '+6285215609439',
+                    '+6285773559090'
                 ];
                 foreach ($numbers as $number) {
-                    $message = "Halo, Ini merupakan pesan notifikasi dari *Monitoring Perijinan*\n\nAda beberapa Perizinan yang harus di perpanjangan karena ingin habis masa berlakunya Berikut adalah peringatan daftar Perijinan yang akan segera berakhir:";
-                    foreach ($warnings as $item) {
+                    $message = "*Halo*,\nIni merupakan pesan notifikasi dari *Monitoring Perijinan*\n\nAda beberapa perizinan yang membutuhkan perpanjangan segera karena  akan segera berakhir masa berlakunya. Berikut ini adalah daftar perijinan yang harus Anda perhatikan: \n";
+                    foreach ($warnings as $loopIndex => $item) {
                         $tanggalBerakhir = Carbon::parse($item->tanggal_berakhir)->format('d M Y');
-                        $message .= "\n- *" . $item->nama_perizinan . "* Tanggal Berakhir : *" . $tanggalBerakhir . "*";
+                        $nomorUrut = $loopIndex + 1;
+                        $message .= "\n" . $nomorUrut . ". *" . $item->nama_perizinan . "* \nTanggal Berakhir : *" . $tanggalBerakhir . "*";
                     }
-                    $message .= "\n\nSegera Cek webnya ya! monit-izin.proyekskripsi.site (●'◡'●)";
+                    $message .= "\n\nUntuk informasi lebih lanjut dan melakukan perpanjangan segera cek webnya di link berikut\nmonit-izin.proyekskripsi.site \n\nTerima kasih atas perhatiannya, \n*Have a nice day!* (●'◡'●)";
                     $response = $client->post('http://121.100.18.51:8000/send-message1234567890987654321', [
                         'form_params' => [
                             'number' => $number,
@@ -71,7 +75,7 @@ class SendCommand extends Command
                     if ($statusCode == 200) {
                         // Pesan berhasil dikirim
                         // Lakukan tindakan sesuai kebutuhan Anda
-                        echo "Pesan berhasil dikirim ";
+                        echo "Pesan berhasil dikirim";
                     } else {
                         // Pesan gagal dikirim
                         // Lakukan tindakan sesuai kebutuhan Anda
@@ -79,6 +83,8 @@ class SendCommand extends Command
                     }
                 }
             }
+        } else {
+            echo "Sekarang bukan hari rabu yang tanggal ganjil";
         }
     }
 }

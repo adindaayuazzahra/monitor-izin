@@ -16,12 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [UserController::class, 'index'])->name('loading');
-Route::get('/home', [UserController::class, 'home'])->name('home');
+Route::get('/', [UserController::class, 'index'])->name('home');
 Route::get('/login', [LoginController::class, 'login'])->name('home.login');
 Route::post('/login/do', [LoginController::class, 'loginDo'])->name('home.login.do');
-Route::get('/perijinan/{id}', [Usercontroller::class, 'perijinanDetail'])->name('perijinan.detail');
-Route::get('/pdf/view/{id}', [UserController::class, 'pdfView'])->name('pdf.view');
+// Route::get('/perijinan/{id}', [Usercontroller::class, 'perijinanDetail'])->name('perijinan.detail');
+// Route::get('/pdf/view/{id}', [UserController::class, 'pdfView'])->name('pdf.view');
 
 Route::middleware(['auth'])->group(function () {
     

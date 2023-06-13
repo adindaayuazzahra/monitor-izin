@@ -190,7 +190,7 @@
         https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
         "></script>
     @if (session('message'))
-        <script>
+        <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
             Swal.fire({
                 timer: 2000,
                 // imgeUrl: 'https://assets6.lottiefiles.com/packages/lf20_s2lryxtd.json',
