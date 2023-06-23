@@ -42,13 +42,13 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('users')->insert([
-            'nama' => 'user',
-            'username' => 'user',
-            'akses_level' => 1,
-            'password' => Hash::make('Welcomejmtm1!'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        // DB::table('users')->insert([
+        //     'nama' => 'user',
+        //     'username' => 'user',
+        //     'akses_level' => 1,
+        //     'password' => Hash::make('Welcomejmtm1!'),
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
     }
 }

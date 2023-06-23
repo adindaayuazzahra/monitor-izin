@@ -25,20 +25,32 @@
                         <i class="fa-solid fa-folder-plus" style="margin-right: 5px"></i>
                         Tambah Akta</a>
                 </div>
-                <table id="my_table" class="my_table table w-100">
+                <table class="my_table table w-100">
                     <thead class="table-primary">
                         <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nama Ijin</th>
-                            <th scope="col" style="width:12%">Tanggal Berakhir</th>
-                            <th scope="col">Instansi Terkait</th>
+                            <th scope="col" style="width:3%">No</th>
+                            <th scope="col">Nama Akta</th>
+                            <th scope="col">No. Akta</th>
+                            <th scope="col">Tahun</th>
                             {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
-                            <th scope="col" style="width:7%">Status</th>
-                            <th scope="col" style="width:9%">Sisa Hari</th>
+                            {{-- <th scope="col" style="width:7%">Status</th>
+                            <th scope="col" style="width:9%">Sisa Hari</th> --}}
                             {{-- <th scope="col">Aksi</th> --}}
-                            <th scope="col" style="width:10%">Detail</th>
+                            {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                <th scope="col" style="width:12%">Detail</th>
+                            {{-- @endif --}}
                         </tr>
                     </thead>
+                    <tbody>
+                        @php $no = 1; @endphp
+                        <tr>
+                            <td>{{ $no }}</td> @php $no++; @endphp
+                            <td>{{ $no }}</td> @php $no++; @endphp
+                            <td>{{ $no }}</td> @php $no++; @endphp
+                            <td>{{ $no }}</td> @php $no++; @endphp
+                            <td>{{ $no }}</td> @php $no++; @endphp
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
