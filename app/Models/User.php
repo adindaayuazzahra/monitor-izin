@@ -44,4 +44,8 @@ class User extends Authenticatable
     public function perizinans(){
         return $this->hasMany(Perizinan::class, 'id_user');
     }
+
+    public function aktas(){
+        return $this->hasMany(Akta::class, 'id_user');
+    }
 }

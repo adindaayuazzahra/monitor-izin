@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('username');
             $table->string('password');
+            $table->integer('akses_level');
             $table->timestamp('created_at')->useCurrent()->defaultFormat('d-m-Y H:i:s');
             $table->timestamp('updated_at')->useCurrent()->defaultFormat('d-m-Y H:i:s');
         });

@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_dokumen', function (Blueprint $table) {
+        Schema::create('tb_akta', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_perpanjangan');
-            $table->string('doc');
+            $table->unsignedBigInteger('id_user');
+            $table->string('nama_akta');
+            $table->string('nomor_akta');
+            $table->biginteger('tahun');
+            $table->string('doc_akta');
             $table->string('token')->nullable();
             $table->timestamp('created_at')->useCurrent()->defaultFormat('d/m/Y H:i:s');
             $table->timestamp('updated_at')->useCurrent()->defaultFormat('d/m/Y H:i:s');
-            $table->boolean('status');
-            $table->foreign('id_perpanjangan')->references('id')->on('tb_perpanjangan')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('id_user')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_dokumen');
+        Schema::dropIfExists('tb_akta');
     }
 };

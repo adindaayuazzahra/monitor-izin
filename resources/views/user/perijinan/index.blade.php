@@ -12,8 +12,8 @@
         <div class="overlay" style="opacity: 0.5"></div>
         <div class="container align-items-center justify-content-center d-flex" style="padding-top: 90px; ">
             <div class="text-white text-center">
-                <h1>Monitoring Perijinan</h1>
-                <p>Selamat datang di aplikasi <strong>Monitoring Perijinan PT Jasamarga
+                <h1>e-Legal</h1>
+                <p>Selamat datang di aplikasi <strong>e-Legal PT Jasamarga
                         Tollroad Maintenance</strong></p>
             </div>
         </div>
@@ -86,7 +86,9 @@
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
                             {{-- <th scope="col">Aksi</th> --}}
-                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
+                            {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                <th scope="col" style="width:12%">Detail</th>
+                            {{-- @endif --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -156,13 +158,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{-- @php
-                                        $tanggal_berakhir = Carbon::parse($p->tanggal_berakhir);
-                                        $sisa_hari = $tanggal_berakhir->diffInDays(Carbon::now());
-                                    @endphp --}}
                                     <p>
                                         @if ($p->status_perpanjangan === 0 || $p->tanggal_berakhir === null)
-                                            
+                                            -
                                         @else
                                             @if (Carbon::now()->isBefore($tanggal_berakhir))
                                                 @if ($sisa_hari == 0)
@@ -181,23 +179,25 @@
                                         @endif
                                     </p>
                                 </td>
-                                {{-- <td>
-                                    <a class="
-                                            @if (!$p->tanggal_berakhir) @else
-                                                @if (Carbon::now()->isBefore($tanggal_berakhir))
-                                                    @if ($sisa_hari <= 90 && $sisa_hari > 30)
-                                                        text-black
-                                                    @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
-                                                        text-white @endif
-                                                @else
-                                                        text-white    
+                                {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                    <td>
+                                        <a class="
+                                                @if (!$p->tanggal_berakhir) @else
+                                                    @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                        @if ($sisa_hari <= 90 && $sisa_hari > 30)
+                                                            text-black
+                                                        @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
+                                                            text-white @endif
+                                                    @else
+                                                            text-white    
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
-                                        style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
-                                        href="{{ route('perijinan.detail', ['id' => $p->id]) }}">Lihat
-                                        Detail <i class="bi bi-arrow-up-right-square"></i></a>
-                                </td> --}}
+                                            link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
+                                            style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                            href="{{ route('perijinan.detail', ['id' => $p->id]) }}">Lihat
+                                            Detail <i class="bi bi-arrow-up-right-square"></i></a>
+                                    </td>
+                                {{-- @endif --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -214,7 +214,9 @@
                             <th scope="col">Instansi Terkait</th>
                             <th scope="col" style="width:6%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
+                            {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                <th scope="col" style="width:12%">Detail</th>
+                            {{-- @endif --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -301,24 +303,26 @@
                                         @endif
                                     </p>
                                 </td>
-                                {{-- <td>
-                                    <a class="
-                                            @if (!$lisensi->tanggal_berakhir) @else
-                                                @if (Carbon::now()->isBefore($tanggal_berakhir))
-                                                    @if ($sisa_hari <= 90 && $sisa_hari > 30)
-                                                        text-black
-                                                    @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
-                                                        text-white @endif
-                                                        @else
-                                                        text-white    
+                                {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                    <td>
+                                        <a class="
+                                                @if (!$lisensi->tanggal_berakhir) @else
+                                                    @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                        @if ($sisa_hari <= 90 && $sisa_hari > 30)
+                                                            text-black
+                                                        @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
+                                                            text-white @endif
+                                                            @else
+                                                            text-white    
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
-                                        style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
-                                        href="{{ route('perijinan.detail', ['id' => $lisensi->id]) }}">Lihat
-                                        Detail <i class="bi bi-arrow-up-right-square"></i></a>
+                                            link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
+                                            style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                            href="{{ route('perijinan.detail', ['id' => $lisensi->id]) }}">Lihat
+                                            Detail <i class="bi bi-arrow-up-right-square"></i></a>
 
-                                </td> --}}
+                                    </td>
+                                {{-- @endif --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -335,7 +339,9 @@
                             <th scope="col">Instansi Terkait</th>
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
+                            {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                <th scope="col" style="width:12%">Detail</th>
+                            {{-- @endif --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -422,24 +428,26 @@
                                         @endif
                                     </p>
                                 </td>
-                                {{-- <td>
-                                    <a class="
-                                            @if (!$lifetime->tanggal_berakhir) @else
-                                                @if (Carbon::now()->isBefore($tanggal_berakhir))
-                                                    @if ($sisa_hari <= 90 && $sisa_hari > 30)
-                                                        text-black
-                                                    @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
-                                                        text-white @endif
-                                                    @else
-                                                    text-white    
+                                {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                    <td>
+                                        <a class="
+                                                @if (!$lifetime->tanggal_berakhir) @else
+                                                    @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                        @if ($sisa_hari <= 90 && $sisa_hari > 30)
+                                                            text-black
+                                                        @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
+                                                            text-white @endif
+                                                        @else
+                                                        text-white    
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
-                                        style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
-                                        href="{{ route('perijinan.detail', ['id' => $lifetime->id]) }}">Lihat
-                                        Detail <i class="bi bi-arrow-up-right-square"></i></a>
+                                            link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
+                                            style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                            href="{{ route('perijinan.detail', ['id' => $lifetime->id]) }}">Lihat
+                                            Detail <i class="bi bi-arrow-up-right-square"></i></a>
 
-                                </td> --}}
+                                    </td>
+                                {{-- @endif --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -456,7 +464,9 @@
                             <th scope="col">Instansi Terkait</th>
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
+                            {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                <th scope="col" style="width:12%">Detail</th>
+                            {{-- @endif --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -543,24 +553,26 @@
                                         @endif
                                     </p>
                                 </td>
-                                {{-- <td>
-                                    <a class="
-                                            @if (!$pros->tanggal_berakhir) @else
-                                                @if (Carbon::now()->isBefore($tanggal_berakhir))
-                                                    @if ($sisa_hari <= 90 && $sisa_hari > 30)
-                                                        text-black
-                                                    @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
-                                                        text-white @endif
-                                                    @else
-                                                    text-white    
+                                {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                    <td>
+                                        <a class="
+                                                @if (!$pros->tanggal_berakhir) @else
+                                                    @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                        @if ($sisa_hari <= 90 && $sisa_hari > 30)
+                                                            text-black
+                                                        @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
+                                                            text-white @endif
+                                                        @else
+                                                        text-white    
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
-                                        style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
-                                        href="{{ route('perijinan.detail', ['id' => $pros->id]) }}">Lihat
-                                        Detail <i class="bi bi-arrow-up-right-square"></i></a>
+                                            link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
+                                            style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                            href="{{ route('perijinan.detail', ['id' => $pros->id]) }}">Lihat
+                                            Detail <i class="bi bi-arrow-up-right-square"></i></a>
 
-                                </td> --}}
+                                    </td>
+                                {{-- @endif --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -578,7 +590,9 @@
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
                             {{-- <th scope="col">Aksi</th> --}}
-                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
+                            {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                <th scope="col" style="width:12%">Detail</th>
+                            {{-- @endif --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -665,24 +679,26 @@
                                         @endif
                                     </p>
                                 </td>
-                                {{-- <td>
-                                    <a class="
-                                            @if (!$warning->tanggal_berakhir) @else
-                                                @if (Carbon::now()->isBefore($tanggal_berakhir))
-                                                    @if ($sisa_hari <= 90 && $sisa_hari > 30)
-                                                        text-black
-                                                    @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
-                                                        text-white @endif
-                                                    @else
-                                                        text-white    
+                                {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                    <td>
+                                        <a class="
+                                                @if (!$warning->tanggal_berakhir) @else
+                                                    @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                        @if ($sisa_hari <= 90 && $sisa_hari > 30)
+                                                            text-black
+                                                        @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
+                                                            text-white @endif
+                                                        @else
+                                                            text-white    
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
-                                        style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
-                                        href="{{ route('perijinan.detail', ['id' => $warning->id]) }}">Lihat
-                                        Detail <i class="bi bi-arrow-up-right-square"></i></a>
+                                            link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
+                                            style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                            href="{{ route('perijinan.detail', ['id' => $warning->id]) }}">Lihat
+                                            Detail <i class="bi bi-arrow-up-right-square"></i></a>
 
-                                </td> --}}
+                                    </td>
+                                {{-- @endif --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -699,7 +715,9 @@
                             <th scope="col">Instansi Terkait</th>
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            {{-- <th scope="col" style="width:12%">Detail</th> --}}
+                            @if (Auth::check() && Auth::user()->akses_level == 1)
+                                <th scope="col" style="width:12%">Detail</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -786,23 +804,25 @@
                                         @endif
                                     </p>
                                 </td>
-                                {{-- <td>
-                                    <a class="
-                                            @if (!$non->tanggal_berakhir) @else
-                                                @if (Carbon::now()->isBefore($tanggal_berakhir))
-                                                    @if ($sisa_hari <= 90 && $sisa_hari > 30)
-                                                        text-black
-                                                    @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
-                                                        text-white @endif
-                                                    @else
-                                                        text-white    
+                                {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
+                                    <td>
+                                        <a class="
+                                                @if (!$non->tanggal_berakhir) @else
+                                                    @if (Carbon::now()->isBefore($tanggal_berakhir))
+                                                        @if ($sisa_hari <= 90 && $sisa_hari > 30)
+                                                            text-black
+                                                        @elseif($sisa_hari <= 30 && $sisa_hari >= 0)
+                                                            text-white @endif
+                                                        @else
+                                                            text-white    
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
-                                        style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
-                                        href="{{ route('perijinan.detail', ['id' => $non->id]) }}">Lihat
-                                        Detail <i class="bi bi-arrow-up-right-square"></i></a>
-                                </td> --}}
+                                            link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
+                                            style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                            href="{{ route('perijinan.detail', ['id' => $non->id]) }}">Lihat
+                                            Detail <i class="bi bi-arrow-up-right-square"></i></a>
+                                    </td>
+                                {{-- @endif --}}
                             </tr>
                         @endforeach
                     </tbody>

@@ -7,12 +7,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
 </script>
-<script src="https://kit.fontawesome.com/82ef5747eb.js" nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script>
+<script src="https://kit.fontawesome.com/82ef5747eb.js" nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"
+    crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+    nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script>
 
 
 <!-- Load jQuery MaskMoney -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js" nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"
+    nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script>
 <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
     $(document).ready(function() {
         $('#alokasi_biaya').maskMoney({
@@ -40,17 +43,16 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
     </script>
 @endif
 
-
-
-
-
 <!-- datatables -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha512-a9NgEEK7tsCvABL7KqtUTQjl69z7091EVPpw5KxPlZ93T141ffe1woLtbXTX+r2/8TtTvRX/v4zTL2UlMUPgwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"
+    integrity="sha512-a9NgEEK7tsCvABL7KqtUTQjl69z7091EVPpw5KxPlZ93T141ffe1woLtbXTX+r2/8TtTvRX/v4zTL2UlMUPgwg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js" nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script> --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js" nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"
+    nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script>
 <script
-    src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/datatables.min.js" nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
-</script>
+    src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/datatables.min.js"
+    nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script>
 
 <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
     $(document).ready(function() {
@@ -155,4 +157,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
         });
     });
 </script>
-
+@if (session('reload'))
+    <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
+        $(document).ready(function() {
+            setTimeout(function() {
+                location.reload();
+            }, 2000); 
+        });
+    </script>
+@endif

@@ -6,7 +6,7 @@ use App\Models\Dokumen;
 use App\Models\Perizinan;
 use App\Models\Perpanjangan;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    // public function index()
-    // {
-    //     return view('user.index');
-    // }
 
     public function perijinan()
     {
@@ -104,12 +100,12 @@ class AdminController extends Controller
 
 
 
-        return view('admin.perijinan_home', compact('perijinans'));
+        return view('admin.perijinan.perijinan_home', compact('perijinans'));
     }
 
     public function perijinanAdd()
     {
-        return view('admin.form_perijinan');
+        return view('admin.perijinan.form_perijinan');
     }
 
     public function perijinanAddDo(Request $request)
@@ -175,13 +171,13 @@ class AdminController extends Controller
 
 
 
-        return view('admin.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif', 'dok_aktif_result', 'dok_noaktif_result'));
+        return view('admin.perijinan.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif', 'dok_aktif_result', 'dok_noaktif_result'));
     }
 
     public function perijinanEdit($id)
     {
         $perijinan = Perizinan::find($id);
-        return view('admin.form_perijinan', compact('perijinan'));
+        return view('admin.perijinan.form_perijinan', compact('perijinan'));
     }
 
     public function perijinanEditDo(Request $request, $id)
@@ -221,7 +217,7 @@ class AdminController extends Controller
     public function perpanjanganAdd($id)
     {
         $perijinan = Perizinan::find($id);
-        return view('admin.form_perpanjangan', compact('perijinan'));
+        return view('admin.perijinan.form_perpanjangan', compact('perijinan'));
     }
 
     public function perpanjanganAddDo(Request $request, $id)
@@ -289,7 +285,7 @@ class AdminController extends Controller
         // dd($perpanjangan);
         $perijinan = Perizinan::find($id);
         // dd($perpanjangan);
-        return view('admin.form_perpanjangan', compact('perijinan', 'perpanjangan'));
+        return view('admin.perijinan.form_perpanjangan', compact('perijinan', 'perpanjangan'));
     }
 
     public function perpanjanganEditDo($id, $id_perpanjangan, Request $request)
@@ -479,24 +475,14 @@ class AdminController extends Controller
 
         if ($status_perpanjangan == 1) {
             $validator = Validator::make($request->all(), [
-                // 'nama_doc' => 'required',
                 'tanggal_registrasi' => 'required|date',
                 'tanggal_berakhir' => 'required|date',
                 'file_result' => 'required|mimes:pdf|max:51200',
             ]);
-            $request->validate([
-                // maksimum 10MB
-            ]);
         } else {
             $validator = Validator::make($request->all(), [
-                // 'nama_doc' => 'required',
+
                 'tanggal_registrasi' => 'required|date',
-                // 'tanggal_berakhir' => 'required|date',
-                // 'tanggal_berakhir' => [
-                //     'nullable',
-                //     'required_if:' . $perpanjangan->status_perpanjangan . ',1',
-                //     'date'
-                // ],
                 'file_result' => 'required|mimes:pdf|max:51200', // 
             ]);
         }
@@ -515,13 +501,18 @@ class AdminController extends Controller
         $file = $request->file('file_result');
         $ext = $file->getClientOriginalExtension();
         $filenameWithExtension = $file->getClientOriginalName(); // Contoh: mydocument.pdf
-        $filenameWithoutExtension = pathinfo($filenameWithExtension, PATHINFO_FILENAME); // Contoh: mydocument
+        $filenameWithoutExtension = pathinfo($filenameWithExtension, PATHINFO_FILENAME); //Contoh: mydocument
         $fileName = $filenameWithoutExtension . '_' . Carbon::now()->format('dmy') . '.' .  $ext;
         Storage::putFileAs('pdf', $file, $fileName);
 
+
+        //token random string
+        $string = strtoupper(Str::random(6));
+        $string = preg_replace('/[^A-Za-z0-9]/', '', $string);
         $dokumen = new Dokumen();
         $dokumen->id_perpanjangan = $perpanjangan->id;
         $dokumen->doc = $fileName;
+        $dokumen->token = $string;
         $dokumen->status = 1;
         $dokumen->save();
 
@@ -539,7 +530,6 @@ class AdminController extends Controller
 
             $perpanjangan->tanggal_berakhir = $request->tanggal_berakhir;
             $perpanjangan->masa_berlaku = $selisih;
-            // $perpanjangan->masa_berlaku = 'n';
         }
         $perpanjangan->save();
 
@@ -601,6 +591,9 @@ class AdminController extends Controller
             $dokumen = new Dokumen();
             $dokumen->id_perpanjangan = $perpanjangan->id;
             $dokumen->doc = $fileName;
+            $string = strtoupper(Str::random(6));
+            $string = preg_replace('/[^A-Za-z0-9]/', '', $string);
+            $dokumen->token = $string;
             $dokumen->status = 1;
             $dokumen->save();
         }
@@ -623,16 +616,16 @@ class AdminController extends Controller
             //     $perijinan->status = 1;
             //     $perijinan->save();
             // }else
-            if($request->tanggal_berakhir >= $tanggalHariIni) {
+            if ($request->tanggal_berakhir >= $tanggalHariIni) {
                 $perijinan->status = 0;
                 $perijinan->save();
             } elseif ($request->tanggal_berakhir < $tanggalHariIni) {
                 $perijinan->status = 1;
                 $perijinan->save();
-            } 
+            }
             $perpanjangan->masa_berlaku = $selisih;
         }
-        
+
         $perpanjangan->save();
 
         $request->session()->flash('message', 'Berhasil Mengubah Data!');
@@ -657,7 +650,6 @@ class AdminController extends Controller
             $pdfFile->delete();
         }
 
-
         // Dokumen::where('id_perpanjangan', $perpanjangan->id)->where('status', 1)
         //     ->update(['status' => 0]);
 
@@ -672,11 +664,37 @@ class AdminController extends Controller
         $dokumen->id_perpanjangan = $perpanjangan->id;
         $dokumen->doc = $fileName;
         $dokumen->status = 1;
+        $string = strtoupper(Str::random(6));
+        $string = preg_replace('/[^A-Za-z0-9]/', '', $string);
+        $dokumen->token = $string;
         $dokumen->save();
 
         $request->session()->flash('message', 'Berhasil Mengupload Surat Keterangan!');
         $request->session()->flash('title', 'Sukses');
         $request->session()->flash('icon', 'success');
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
+    }
+
+    public function generateTokenDo(Request $request,  $id_perpanjangan, $id) {
+        $perpanjangan = Perpanjangan::find($id_perpanjangan);
+        $dokumen = Dokumen::find($id);
+
+        $string = strtoupper(Str::random(6));
+        $string = preg_replace('/[^A-Za-z0-9]/', '', $string);
+
+        $dokumen->token = $string;
+        $dokumen->save();
+
+        $request->session()->flash('message', 'Berhasil Memperbaharui Token!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
+        return redirect()->route('admin.perijinan.detail', ['id' => $perpanjangan->id_perizinan]);
+    }
+
+
+    // AKTA
+    public function akta()
+    {
+        return view('admin.akta.akta_home');
     }
 };

@@ -27,12 +27,14 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();
-            if ($user) {
+            if ($user->akses_level == 0) {
                 $request->session()->flash('message', 'Anda Berhasil Login!');
                 $request->session()->flash('title', 'Selamat');
                 $request->session()->flash('icon', 'success');
                 return redirect()->route('admin.perijinan');
-            }
+            }elseif ($user->akses_level == 1) {
+                return redirect()->route('home');
+            } 
         }
         $request->session()->flash('message', 'Username atau password yang anda masukkan salah');
         $request->session()->flash('title', 'Maaf');
@@ -50,4 +52,5 @@ class LoginController extends Controller
         $request->session()->flash('icon', 'success');
         return redirect()->route('home.login')->with('error', "Berhasil Logout");
     }
+
 }

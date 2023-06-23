@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Str;
 use App\Models\Dokumen;
 use App\Models\Perizinan;
 use App\Models\Perpanjangan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -77,7 +78,7 @@ class UserController extends Controller
             ->orderByRaw('perpanjangan.id_perizinan IS NULL DESC')
             ->get();
 
-        return view('user.index', compact('perijinans', 'lisensis', 'lifetimes', 'proses', 'warnings', 'nonaktifs', 'lifetimecount', 'lisensicount', 'perijinancount', 'nonaktifcount', 'tigabulancount', 'prosescount'));
+        return view('user.perijinan.index', compact('perijinans', 'lisensis', 'lifetimes', 'proses', 'warnings', 'nonaktifs', 'lifetimecount', 'lisensicount', 'perijinancount', 'nonaktifcount', 'tigabulancount', 'prosescount'));
     }
 
     public function perijinanDetail($id)
@@ -118,13 +119,30 @@ class UserController extends Controller
 
 
 
-        return view('user.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif', 'dok_aktif_result', 'dok_noaktif_result'));
+        return view('user.perijinan.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif', 'dok_aktif_result', 'dok_noaktif_result'));
     }
 
-    public function pdfView($id)
+    public function pdfView(Request $request, $id)
     {
+        $token = $request->input('token');
         $dokumen = Dokumen::findOrFail($id);
+        if ($token !== $dokumen->token) {
+            $request->session()->flash('message', 'Token yang Anda Masukkan Salah!');
+            $request->session()->flash('title', 'Gagal');
+            $request->session()->flash('icon', 'error');
+            return redirect()->back();
+        }
+        // $string = strtoupper(Str::random(6));
+        // $string = preg_replace('/[^A-Za-z0-9]/', '', $string);
+        // $dokumen->token = $string;
+        // $dokumen->save();
         $pdfPath = storage_path('app/pdf/' . $dokumen->doc);
-        return response()->file($pdfPath);
+        return response()->download($pdfPath);
+    }
+
+    public function akta()
+    {
+
+        return view('user.akta.akta');
     }
 }

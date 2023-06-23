@@ -30,11 +30,21 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ route('home') }}">Home</a>
+                    <a class="nav-link text-dark" href="{{ route('home') }}">Perijinan</a>
                 </li>
-                @if (Auth::check())
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="{{ route('admin.perijinan') }}">Perijinan</a>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{{ route('akta') }}">Dokumen</a>
+                </li>
+                @if (Auth::check() && Auth::user()->akses_level == 0)
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Mengelola Data
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('admin.perijinan') }}">Perijinan</a></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.akta') }}">Akta</a></li>
+                        </ul>
                     </li>
                 @endif
             </ul>

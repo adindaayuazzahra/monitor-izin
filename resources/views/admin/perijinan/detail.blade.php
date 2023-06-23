@@ -16,18 +16,6 @@
                     <i class="fas fa-search text-white"></i>
                     <h5 style="margin-left: 10px;">Detail Perijinan</h5>
                 </div>
-                {{-- <div class="d-flex gap-1 align-items-center">
-                    <button class="btn btn-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                    <a href="{{ route('admin.perijinan.edit', ['id' => $perijinan->id]) }}"
-                        class="btn btn-warning rounded-circle">
-                        <i class="fa-solid fa-marker"></i>
-                    </a>
-                    <a href="{{ route('admin.perijinan') }}" class="btn btn-secondary rounded-circle">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </a>
-                </div> --}}
             </div>
             <div class="card" style="margin:30px 30px 30px 30px; background-color: transparent;border: none;">
                 <div class="row g-0">
@@ -37,11 +25,6 @@
                     </div>
                     <div class="col-md-8 d-flex align-items-center">
                         <div class="card-body">
-                            {{-- @if (session('message'))
-                                <div class="alert alert-{{ Session::get('message-class', 'warning') }}" role="alert">
-                                    {{ session('message') }}
-                                </div>
-                            @endif --}}
                             <div class="d-flex gap-1 mb-3 align-items-center">
                                 <button class="btn btn-danger rounded-circle" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
@@ -154,8 +137,22 @@
                                                             class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
                                                             href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">Lihat
                                                             Dokumen <i
-                                                                class="fa-solid fa-arrow-up-right-from-square"></i></a><br>
-                                                        <button type="button" class="btn btn-warning rounded-circle btn-sm"
+                                                                class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                                        <br>
+                                                        <button type="button"
+                                                            class="btn btn-primary rounded-circle btn-sm mt-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#doctokenresult{{ $dokumen->id }}">
+                                                            <i class="fa-solid fa-key"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-success rounded-circle btn-sm mt-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#newToken{{ $dokumen->id }}">
+                                                            <i class="fa-solid fa-rotate"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-warning rounded-circle btn-sm mt-1"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#doceditresult{{ $pa->id }}">
                                                             <i class="fa-solid fa-marker"></i>
@@ -202,7 +199,7 @@
                                                             id="pdf_proses" aria-describedby="pdf_proses"
                                                             aria-label="Upload" name="pdf_proses">
                                                         <button class="btn btn-outline-secondary" type="submit"
-                                                            id="pdf_proses">Button</button>
+                                                            id="pdf_proses">Upload</button>
                                                         @error('pdf_proses')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
@@ -349,61 +346,6 @@
                                             <p class="card-text">{{ $pa->perkiraan_proses }} Hari</p>
                                         </div>
                                     </div>
-                                    {{-- @if ($pa->tanggal_registrasi)
-                                        <div class="row mb-2">
-                                            <div class="col-md-5">
-                                                <h6 class="card-title"><i class="fa-solid fa-calendar-check"></i> Tanggal
-                                                    Registrasi
-                                                </h6>
-                                            </div>
-                                            <div class="col">
-                                                <p class="card-text">
-                                                    {{ Carbon::make($pa->tanggal_registrasi)->format('d/m/Y') }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @if ($pa->tanggal_berakhir)
-                                        <div class="row mb-2">
-                                            <div class="col-md-5">
-                                                <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
-                                                    Berakhir
-                                                </h6>
-                                            </div>
-                                            <div class="col">
-                                                @if ($pa->status_perpanjangan == 0)
-                                                    <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                                @elseif($pa->status_perpanjangan == 1)
-                                                    <p class="card-text">
-                                                        {{ Carbon::make($pa->tanggal_berakhir)->format('d/m/Y') }}
-                                                    </p>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @if ($pa->masa_berlaku == '-')
-                                        <div class="row mb-2">
-                                            <div class="col-md-5">
-                                                <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
-                                                    Berlaku
-                                                </h6>
-                                            </div>
-                                            <div class="col">
-                                                <p class="card-text">Selama Perusahaan Menjalankan Usaha</p>
-                                            </div>
-                                        </div>
-                                    @elseif($pa->masa_berlaku != 'n')
-                                        <div class="row mb-2">
-                                            <div class="col-md-5">
-                                                <h6 class="card-title"><i class="fa-regular fa-clock"></i></i> Masa
-                                                    Berlaku
-                                                </h6>
-                                            </div>
-                                            <div class="col">
-                                                <p class="card-text">{{ $pa->masa_berlaku }}</p>
-                                            </div>
-                                        </div>
-                                    @endif --}}
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-regular fa-note-sticky"></i> Catatan
@@ -417,7 +359,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
+                                    <div class="row mb-5">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-solid fa-sack-dollar"></i></i> Estimasi
                                                 Biaya
@@ -429,20 +371,15 @@
                                     </div>
                                     <div class="row d-flex align-items-center mt-3">
                                         @if ($pa->confirm == 1)
-                                            {{-- <p>
-                                                <i class="fa-solid fa-circle-check text-success"></i>
-                                                <strong>Proses Mengurus Perpanjangan Sudah
-                                                    Selesai!</strong>
-                                            </p> --}}
-                                            <p style="font-size: 14pt;"><span class="badge text-bg-success"><i
-                                                        class="fa-solid fa-circle-check"></i> Proses Mengurus Perpanjangan
-                                                    Sudah
-                                                    Selesai</span>
+                                            <p style="font-size: 14pt;"><i
+                                                    class="fa-solid fa-circle-check text-success"></i><small> Proses
+                                                    Mengurus Perpanjangan
+                                                    Sudah Selesai</small>
                                             </p>
                                         @else
-                                            <p style="font-size: 14pt;"><span class="badge text-bg-warning"><i
-                                                        class="fa-solid fa-triangle-exclamation"></i>
-                                                    Perpanjangan masih dalam proses</span>
+                                            <p style="font-size: 14pt;"><i
+                                                    class="fa-solid fa-triangle-exclamation text-warning"></i>
+                                                <small> Perpanjangan masih dalam proses.</small>
                                             </p>
                                         @endif
                                     </div>
@@ -521,11 +458,6 @@
                 <h5>Riwayat Perpanjangan</h5>
             </div>
         </div>
-        {{-- @else --}}
-        @php
-            $i = 1;
-        @endphp
-        {{-- @dd($dok_noaktif) --}}
         @foreach ($perpanjangan as $pr)
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
@@ -538,19 +470,9 @@
                     </h2>
                     <div id="collapseOne{{ $pr->id }}" class="accordion-collapse collapse"
                         data-bs-parent="#accordionExample">
-                        <div class="accordion-body p-5">
-                            <div class="row-md-12 d-flex align-items-center">
-                                <div class="col-md-6 align-items-center">
-                                    {{-- <div class="d-flex align-items-center mb-3 gap-1">
-                                        <button class="btn btn-success rounded-pill" data-bs-toggle="modal"
-                                            data-bs-target="#aktifModal{{ $pr->id }}">
-                                            <i class="fa-regular fa-circle-check"></i> Aktifkan
-                                        </button>
-                                        <button class="btn btn-danger rounded-circle" data-bs-toggle="modal"
-                                            data-bs-target="#">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </div> --}}
+                        <div class="accordion-body" style="padding: 30px;">
+                            <div class="row d-flex align-items-center">
+                                <div class="col-md-6 ">
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-solid fa-file-contract"></i> Jenis
@@ -579,7 +501,6 @@
                                             </div>
                                         </div>
                                     @endif
-
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <h6 class="card-title"><i class="fa-solid fa-calendar-xmark"></i> Tanggal
@@ -648,6 +569,19 @@
                                                             href="{{ route('admin.pdf.view', ['id' => $dok->id]) }}">Lihat
                                                             Dokumen <i
                                                                 class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                                        <br>
+                                                        <button type="button"
+                                                            class="btn btn-primary rounded-circle btn-sm mt-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#doctokenresultnoaktif{{ $dok->id }}">
+                                                            <i class="fa-solid fa-key"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-success rounded-circle btn-sm mt-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#newTokennoaktif{{ $dok->id }}">
+                                                            <i class="fa-solid fa-rotate"></i>
+                                                        </button>
                                                     @endif
                                                 @endforeach
                                             @endforeach
@@ -659,11 +593,11 @@
                                         <div class="mb-1 d-flex justify-content-between align-items-center">
                                             <h5>Dokumen yang dibutuhkan </h5>
                                             {{-- <a href="{{ route('admin.perpanjangan.add', ['id' => $perijinan->id]) }}"
-                                                class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
-                                                    class="fa-solid fa-plus"></i> Tambah</a> --}}
+                                                    class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
+                                                        class="fa-solid fa-plus"></i> Tambah</a> --}}
                                             {{-- <button data-bs-toggle="modal" data-bs-target="#pdfmodal{{ $pa->id }}"
-                                                class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
-                                                    class="fa-solid fa-plus"></i> Tambah</button> --}}
+                                                    class="btn btn rounded-pill text-white" style="background-color: #873FFD;"><i
+                                                        class="fa-solid fa-plus"></i> Tambah</button> --}}
                                         </div>
                                         <hr class="p-0 my-1">
                                         <table id="riwayat" class="table table_1" width="100%">
@@ -676,7 +610,7 @@
                                             </thead>
                                             <tbody>
                                                 {{-- @foreach ($perpanjangan_aktif as $perpanjangan)
-                                                    @foreach ($dok_aktif[$perpanjangan->id] as $dokumen) --}}
+                                                        @foreach ($dok_aktif[$perpanjangan->id] as $dokumen) --}}
                                                 @php $i = 1; @endphp
                                                 @foreach ($dok_noaktif as $da)
                                                     @foreach ($da as $dokumen)
@@ -698,7 +632,6 @@
                             </div>
                         </div>
                     </div>
-                    @php $i++ @endphp
                 </div>
             </div>
         @endforeach
@@ -797,9 +730,8 @@
                                 <strong>Non-Aktifan Perijinan</strong>
                             </h4>
                             <lottie-player class="my-1"
-                                src="https://assets1.lottiefiles.com/packages/lf20_xzu7hgpf.json"
-                                background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
-                                autoplay></lottie-player>
+                                src="https://assets1.lottiefiles.com/packages/lf20_xzu7hgpf.json" background="transparent"
+                                speed="1" style="width: 300px;padding:0;margin:0;" loop autoplay></lottie-player>
                             <p class="text-center"> Apakah anda yakin akan menonaktifkan perizinan ini?<br>
                                 <strong>Status perijinan akan berubah menjadi non-aktif.</strong>
                             </p>
@@ -872,7 +804,7 @@
                                 background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
                                 autoplay></lottie-player>
                             <p class="text-center"> Apakah anda yakin akan menyelesaikain proses perijinan ini?<br>
-                                <strong>Semua daata yang dibutuhkan dalam proses tidak dapat diubah lagi.</strong>
+                                <strong>Semua data yang dibutuhkan dalam proses tidak dapat diubah lagi.</strong>
                             </p>
                             <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
@@ -1082,9 +1014,9 @@
                                 <input autocomplete="off" type="date"
                                     class="form-control @error('tanggal_berakhir') is-invalid @enderror"
                                     id="tanggal_berakhir" name="tanggal_berakhir" value="{{ $pa->tanggal_berakhir }}">
-                                    <small class="form-text text-muted">
-                                       Kosongkan Jika Perijinan Berisfat Non-Periodik.
-                                      </small>
+                                <small class="form-text text-muted">
+                                    Kosongkan Jika Perijinan Berisfat Non-Periodik.
+                                </small>
                                 @error('tanggal_berakhir')
                                     <div class="invalid-feedback">
                                         The tanggal berakhir field is required when
@@ -1097,9 +1029,9 @@
                                         PDF</strong><span class="text-danger">*</span></label>
                                 <input class="form-control @error('file_result') is-invalid @enderror" type="file"
                                     id="file_result" name="file_result" value="{{ old('file_result') }}">
-                                    <small class="form-text text-muted">
-                                        Maks. 50Mb (Biarkan kosong jika tidak ingin mengubah file.)
-                                      </small>
+                                <small class="form-text text-muted">
+                                    Maks. 50Mb (Biarkan kosong jika tidak ingin mengubah file.)
+                                </small>
                                 @error('file_result')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -1117,6 +1049,146 @@
             </div>
         </div>
     @endforeach
+
+    {{-- modal token aktif doc --}}
+    @foreach ($dok_aktif_result as $ds)
+        @foreach ($ds as $dokumen)
+            <div class="modal fade" id="doctokenresult{{ $dokumen->id }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title"><strong>Token</strong>
+                            </h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                                <h4 class="text-center my-3">
+                                    <strong>Token Akses User</strong>
+                                </h4>
+                                <p class="text-center">Berikut adalah token untuk mengakses dokumen perijinan :<br>
+                                </p>
+                                <h5 class="text-center"><strong>{{ $dokumen->token }}</strong></h5>
+                                <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endforeach
+
+    {{-- modal confirm generate aktif new token --}}
+    @foreach ($dok_aktif_result as $ds)
+        @foreach ($ds as $dokumen)
+            <div class="modal fade" id="newToken{{ $dokumen->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                                <h4 class="text-center mt-3">
+                                    <strong>Memperbaharui Token</strong>
+                                </h4>
+                                <lottie-player class="my-1"
+                                    src="https://assets8.lottiefiles.com/packages/lf20_j0qjOHEesX.json"
+                                    background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
+                                    autoplay></lottie-player>
+                                <p class="text-center"> Apakah anda yakin akan memperbaharui Token?<br>
+                                    <strong>Token akan berubah setelah melakukan pembaharuan, harap informasikan ulang
+                                        kepada user.</strong>
+                                </p>
+                                <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tidak</button>
+                                    <a href="{{ route('admin.generate.token.do', ['id_perpanjangan' => $dokumen->id_perpanjangan, 'id' => $dokumen->id]) }}"
+                                        class="btn btn-success"> Lanjutkan</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endforeach
+
+
+    {{-- modal token noaktif doc --}}
+    @foreach ($dok_noaktif_result as $dns)
+        @foreach ($dns as $dok)
+            <div class="modal fade" id="doctokenresultnoaktif{{ $dok->id }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title"><strong>Token</strong>
+                            </h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                                <h4 class="text-center my-3">
+                                    <strong>Token Akses User</strong>
+                                </h4>
+                                <p class="text-center">Berikut adalah token untuk mengakses dokumen perijinan :<br>
+                                </p>
+                                <h5 class="text-center"><strong>{{ $dok->token }}</strong></h5>
+                                <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endforeach
+
+    {{-- modal confirm noaktif generate new token --}}
+    @foreach ($dok_noaktif_result as $dns)
+        @foreach ($dns as $dok)
+            <div class="modal fade" id="newTokennoaktif{{ $dok->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row d-flex justify-content-center align-items-center p-0 m-0">
+                                <h4 class="text-center mt-3">
+                                    <strong>Memperbaharui Token</strong>
+                                </h4>
+                                <lottie-player class="my-1"
+                                    src="https://assets8.lottiefiles.com/packages/lf20_j0qjOHEesX.json"
+                                    background="transparent" speed="1" style="width: 300px;padding:0;margin:0;" loop
+                                    autoplay></lottie-player>
+                                <p class="text-center"> Apakah anda yakin akan memperbaharui Token?<br>
+                                    <strong>Token akan berubah setelah melakukan pembaharuan, harap informasikan ulang
+                                        kepada user.</strong>
+                                </p>
+                                <div class="d-flex gap-2 my-3 align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tidak</button>
+                                    <a href="{{ route('admin.generate.token.do', ['id_perpanjangan' => $dok->id_perpanjangan, 'id' => $dok->id]) }}"
+                                        class="btn btn-success"> Lanjutkan</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endforeach
+
 @endsection
 
 @section('alert')
