@@ -155,7 +155,7 @@
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#inputToken{{ $dokumen->id }}">
                                                         Lihat
-                                                        Dokumen <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                                        Dokumen <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
                                                         {{-- <a target="_blank"
                                                         class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
                                                         href="{{ route('pdf.view', ['id' => $dokumen->id]) }}">Lihat
@@ -592,7 +592,7 @@
                                         <div class="mb-1">
                                             <input autocomplete="off" type="text"
                                                 class="form-control-lg form-control @error('token') is-invalid @enderror"
-                                                id="token" name="token" value="{{ $pa->token }}">
+                                                id="token" name="token">
                                             @error('token')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -642,7 +642,7 @@
                                         <div class="">
                                             <input autocomplete="off" type="text"
                                                 class="form-control-lg form-control @error('token') is-invalid @enderror"
-                                                id="token" name="token" value="{{ $pa->token }}">
+                                                id="token" name="token">
                                             @error('token')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}

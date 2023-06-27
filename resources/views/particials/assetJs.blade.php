@@ -1,4 +1,5 @@
-{{-- <script src="{{asset('assets/js/popper.min.js')}}"></script> --}}
+
+    
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
 </script>
@@ -11,7 +12,6 @@
     crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
     nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht"></script>
-
 
 <!-- Load jQuery MaskMoney -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"
@@ -162,7 +162,29 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js
         $(document).ready(function() {
             setTimeout(function() {
                 location.reload();
-            }, 2000); 
+            }, 2000);
         });
     </script>
 @endif
+
+
+{{-- <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
+    $(document).ready(function() {
+        $('#keterangan').summernote({
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link']],
+                ['view', ['codeview', 'help']]
+
+            ],
+        });
+    });
+</script> --}}
+

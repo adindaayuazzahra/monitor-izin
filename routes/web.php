@@ -3,7 +3,6 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
-use App\Http\Middleware\VerifyDownloadToken;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,16 +22,16 @@ Route::get('/login', [LoginController::class, 'login'])->name('home.login');
 Route::post('/login/do', [LoginController::class, 'loginDo'])->name('home.login.do');
 Route::post('/pdf/view/{id}', [UserController::class, 'pdfView'])->name('pdf.view');
 Route::get('/perijinan/{id}', [Usercontroller::class, 'perijinanDetail'])->name('perijinan.detail');
+Route::get('/akta/{id}', [Usercontroller::class, 'aktaDetail'])->name('akta.detail');
+Route::post('/akta/pdf/{id}', [UserController::class, 'pdfAkta'])->name('pdf.akta');
 
 Route::middleware(['auth'])->group(function () {
-    
     // Route::middleware(['auth.level:1'])->group(function () {
     //     // Route::get('/perijinan/{id}', [Usercontroller::class, 'perijinanDetail'])->name('perijinan.detail');
     //     // Route::middleware(['token'])->group(function (){
     //     // });
     //     // Route::post('/pdf/view/{id}', [UserController::class, 'pdfView'])->name('pdf.view');
     // });
-    
     Route::middleware(['auth.level:0'])->group(function () {
         // CRUD PERIJINAN
         Route::get('/admin', [AdminController::class, 'index'])->name('admin');
@@ -47,7 +46,13 @@ Route::middleware(['auth'])->group(function () {
 
         // CRUD DOKUMENTASI AKTA
         Route::get('/admin/akta', [AdminController::class, 'akta'])->name('admin.akta');
-
+        Route::get('/admin/akta/add', [AdminController::class, 'aktaAdd'])->name('admin.akta.add');
+        Route::post('/admin/akta/add/do', [AdminController::class, 'aktaAddDo'])->name('admin.akta.add.do');
+        Route::get('/admin/akta/{id}', [AdminController::class, 'aktaDetail'])->name('admin.akta.detail');
+        Route::get('/admin/akta/edit/{id}', [AdminController::class, 'aktaEdit'])->name('admin.akta.edit');
+        Route::post('/admin/akta/edit/{id}/do', [AdminController::class, 'aktaEditDo'])->name('admin.akta.edit.do');
+        Route::get('/admin/pdf/akta/view/{id}', [AdminController::class, 'pdfAkta'])->name('admin.pdf.view.akta');
+        Route::get('/admin/akta/{id}/delete/do', [AdminController::class, 'aktaDeleteDo'])->name('admin.akta.delete.do');
 
         // CRUD PERPANJANGAN
         Route::get('/admin/perijinan/{id}/perpanjangan/add', [AdminController::class, 'perpanjanganAdd'])->name('admin.perpanjangan.add');
@@ -69,8 +74,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/perijinan/{id}/perpanjangan/{id_perpanjangan}/confrim/do', [AdminController::class, 'confirmDo'])->name('admin.perpanjangan.confirm.do');
 
 
-        //Token
+        //Token Perijinan
         Route::get('/admin/{id_perpanjangan}/pdf/{id}/generate/token/do', [AdminController::class, 'generateTokenDo'])->name('admin.generate.token.do');
+
+        //Token Akta
+        Route::get('/admin/akta/{id}/generate/token/do', [AdminController::class, 'generateTokenAkta'])->name('admin.generate.token.akta');
     });
     // logout
     Route::get('/logout/do', [LoginController::class, 'logoutDo'])->name('home.logout.do');

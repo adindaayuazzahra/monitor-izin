@@ -47,10 +47,13 @@ class SendCommand extends Command
             } else {
                 $client = new Client();
                 $numbers = [
-                    // '+6287718183852',
-                    // '+6287770071748',
-                    // '+6281288668996',
-                    // '+6285215609439',
+                    //yoga
+                    '+6287718183852',
+                    //pak ari
+                    '+6285215609439',
+                    //pak rusdi
+                    '+6281288668996',
+                    //dinda
                     '+6285773559090'
                 ];
                 foreach ($numbers as $number) {

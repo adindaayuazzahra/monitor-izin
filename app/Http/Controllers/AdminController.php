@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dokumen;
+use App\Models\Akta;
 use App\Models\Perizinan;
 use App\Models\Perpanjangan;
 use Illuminate\Http\Request;
@@ -675,7 +676,8 @@ class AdminController extends Controller
         return redirect()->route('admin.perijinan.detail', ['id' => $perijinan->id]);
     }
 
-    public function generateTokenDo(Request $request,  $id_perpanjangan, $id) {
+    public function generateTokenDo(Request $request,  $id_perpanjangan, $id)
+    {
         $perpanjangan = Perpanjangan::find($id_perpanjangan);
         $dokumen = Dokumen::find($id);
 
@@ -695,6 +697,149 @@ class AdminController extends Controller
     // AKTA
     public function akta()
     {
-        return view('admin.akta.akta_home');
+        $aktas = Akta::all();
+        return view('admin.akta.akta_home', compact('aktas'));
+    }
+
+    public function aktaAdd()
+    {
+        return view('admin.akta.form_akta');
+    }
+
+    public function aktaAddDo(Request $request)
+    {
+        $request->validate([
+            'nama_akta' => 'required',
+            'nomor_akta' => 'required',
+            'tahun' => 'required|numeric',
+            'nama_notaris' => 'required',
+            'keterangan' => 'required',
+            'doc_akta' => 'required|mimes:pdf|max:51200'
+            // 'status' => 'required'
+        ]);
+
+        //pdf
+        $file = $request->file('doc_akta');
+        $ext = $file->getClientOriginalExtension();
+        $filenameWithExtension = $file->getClientOriginalName(); // Contoh: mydocument.pdf
+        $filenameWithoutExtension = pathinfo($filenameWithExtension, PATHINFO_FILENAME); // Contoh: mydocument
+        $fileName = $filenameWithoutExtension . '_' . Carbon::now()->format('dmy') . '.' .  $ext;
+        Storage::putFileAs('pdf', $file, $fileName);
+
+        $akta = new Akta();
+        $akta->id_user = auth()->user()->id;
+        $akta->nama_akta = $request->nama_akta;
+        $akta->nomor_akta = $request->nomor_akta;
+        $akta->tahun = $request->tahun;
+        $akta->nama_notaris = $request->nama_notaris;
+        $akta->keterangan = $request->keterangan;
+        $akta->doc_akta = $fileName;
+
+        $string = strtoupper(Str::random(6));
+        $string = preg_replace('/[^A-Za-z0-9]/', '', $string);
+        $akta->token = $string;
+
+        $akta->save();
+        $request->session()->flash('message', 'Berhasil Menambah Data!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
+        // return redirect()->route('admin.akta');
+        return redirect()->route('admin.akta.detail', ['id'=>$akta->id]);
+    }
+
+    public function aktaEdit($id)
+    {
+        $akta = Akta::find($id);
+        return view('admin.akta.form_akta', compact('akta'));
+    }
+
+    function aktaEditDo(Request $request, $id)
+    {
+        $akta = Akta::find($id);
+        $request->validate([
+            'nama_akta' => 'required',
+            'nomor_akta' => 'required',
+            'tahun' => 'required|numeric',
+            'nama_notaris' => 'required',
+            'keterangan' => 'required',
+            'doc_akta' => 'mimes:pdf|max:51200'
+            // 'status' => 'required'
+        ]);
+
+        if ($request->doc_akta) {
+            $file = $request->file('doc_akta');
+            $ext = $file->getClientOriginalExtension();
+            $filenameWithExtension = $file->getClientOriginalName(); // Contoh: mydocument.pdf
+            $filenameWithoutExtension = pathinfo($filenameWithExtension, PATHINFO_FILENAME); // Contoh: mydocument
+            $fileName = $filenameWithoutExtension . '_' . Carbon::now()->format('dmy') . '.' .  $ext;
+            Storage::putFileAs('pdf', $file, $fileName);
+            $akta->doc_akta = $fileName;
+        }
+
+        $akta->id_user = auth()->user()->id;
+        $akta->nama_akta = $request->nama_akta;
+        $akta->nomor_akta = $request->nomor_akta;
+        $akta->tahun = $request->tahun;
+        $akta->nama_notaris = $request->nama_notaris;
+        $akta->keterangan = $request->keterangan;
+
+
+        $akta->save();
+        $request->session()->flash('message', 'Berhasil Mengubah Data!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
+        return redirect()->route('admin.akta.detail', ['id' => $akta->id]);
+    }
+
+    public function aktaDetail($id)
+    {
+        $akta = Akta::find($id);
+        return view('admin.akta.detail', compact('akta'));
+    }
+
+    function pdfAkta($id)
+    {
+        $akta = Akta::findOrFail($id);
+        $pdfPath = storage_path('app/pdf/' . $akta->doc_akta);
+        $extension = pathinfo($pdfPath, PATHINFO_EXTENSION);
+
+        $headers = [
+            'Content-Disposition' => 'inline; filename="' . $akta->doc_akta . '"',
+        ];
+
+        if ($extension === 'pdf') {
+            $headers['Content-Type'] = 'application/pdf';
+        } elseif ($extension === 'doc') {
+            $headers['Content-Type'] = 'application/msword';
+        }
+
+        return response()->file($pdfPath, $headers);
+    }
+
+    public function aktaDeleteDo(Request $request, $id) {
+        $akta = Akta::find($id);
+        $akta->delete();
+        Storage::delete('pdf/' . $akta->doc_akta);
+        $akta->delete();
+        $request->session()->flash('message', 'Berhasil Menghapus Akta!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
+        return redirect()->route('admin.akta');
+    }
+
+    public function generateTokenAkta(Request $request, $id)
+    {
+        $akta = Akta::find($id);
+
+        $string = strtoupper(Str::random(6));
+        $string = preg_replace('/[^A-Za-z0-9]/', '', $string);
+
+        $akta->token = $string;
+        $akta->save();
+
+        $request->session()->flash('message', 'Berhasil Memperbaharui Token!');
+        $request->session()->flash('title', 'Sukses');
+        $request->session()->flash('icon', 'success');
+        return redirect()->route('admin.akta.detail', ['id' => $akta->id]);
     }
 };

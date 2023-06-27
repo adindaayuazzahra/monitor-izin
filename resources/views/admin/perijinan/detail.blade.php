@@ -184,12 +184,13 @@
                                                     <a target="_blank"
                                                         class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-body-emphasis"
                                                         href="{{ route('admin.pdf.view', ['id' => $dokumen->id]) }}">Lihat
-                                                        Dokumen <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                                        Dokumen <i class="fa-solid fa-arrow-up-right-from-square"></i></a><br>
+                                                        <p>Token : <strong>{{$dokumen->token}}</strong></p>
                                                 @endforeach
                                             @endforeach
                                             {{-- @elseif(count($dok_aktif_result) == 0) --}}
                                             @foreach ($perpanjangan_aktif as $pa)
-                                                <form
+                                                <form class="mt-2"
                                                     action="{{ route('admin.pdf.proses.add.do', ['id' => $pa->id_perizinan, 'id_perpanjangan' => $pa->id]) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
@@ -1195,7 +1196,7 @@
     {{-- modal add PDF --}}
     {{-- @if ($errors->any()) --}}
     @if ($errors->has('result'))
-        <script>
+        <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
             $(document).ready(function() {
                 $('#docresult{{ $pa->id }}').modal('show');
                 // $('#pdfmodal{{ $pa->id }}').addClass('was-validated');
@@ -1203,7 +1204,7 @@
         </script>
     @endif
     @if ($errors->has('pdf'))
-        <script>
+        <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
             $(document).ready(function() {
                 $('#pdfmodal{{ $pa->id }}').modal('show');
                 // $('#docresult{{ $pa->id }}').addClass('was-validated');
@@ -1211,7 +1212,7 @@
         </script>
     @endif
     @if ($errors->has('edit'))
-        <script>
+        <script nonce="YXN1YmFuZ2V0MTIzNGhmaGZoZmpzb3ht">
             $(document).ready(function() {
                 $('#doceditresult{{ $pa->id }}').modal('show');
                 // $('#docresult{{ $pa->id }}').addClass('was-validated');

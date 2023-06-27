@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->string('nama_akta');
+            $table->string('nama_notaris');
             $table->string('nomor_akta');
             $table->biginteger('tahun');
             $table->string('doc_akta');
+            $table->longText('keterangan');
             $table->string('token')->nullable();
             $table->timestamp('created_at')->useCurrent()->defaultFormat('d/m/Y H:i:s');
             $table->timestamp('updated_at')->useCurrent()->defaultFormat('d/m/Y H:i:s');

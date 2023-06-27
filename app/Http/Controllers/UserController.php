@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Akta;
 use Illuminate\Support\Str;
 use App\Models\Dokumen;
 use App\Models\Perizinan;
@@ -117,8 +119,6 @@ class UserController extends Controller
             // melakukan sesuatu dengan $dok_aktif
         }
 
-
-
         return view('user.perijinan.detail', compact('perijinan', 'perpanjangan', 'perpanjangan_aktif', 'perpanjangan_stat', 'dok_aktif', 'dok_noaktif', 'dok_aktif_result', 'dok_noaktif_result'));
     }
 
@@ -132,17 +132,31 @@ class UserController extends Controller
             $request->session()->flash('icon', 'error');
             return redirect()->back();
         }
-        // $string = strtoupper(Str::random(6));
-        // $string = preg_replace('/[^A-Za-z0-9]/', '', $string);
-        // $dokumen->token = $string;
-        // $dokumen->save();
         $pdfPath = storage_path('app/pdf/' . $dokumen->doc);
         return response()->download($pdfPath);
     }
 
     public function akta()
     {
+        $aktas = Akta::all();
+        return view('user.akta.akta', compact('aktas'));
+    }
 
-        return view('user.akta.akta');
+    public function aktaDetail($id)  {
+        $akta = Akta::find($id);
+        return view('user.akta.detail', compact('akta'));
+    }
+    public function pdfAkta(Request $request, $id)
+    {
+        $token = $request->input('token');
+        $akta = Akta::findOrFail($id);
+        if ($token !== $akta->token) {
+            $request->session()->flash('message', 'Token yang Anda Masukkan Salah!');
+            $request->session()->flash('title', 'Gagal');
+            $request->session()->flash('icon', 'error');
+            return redirect()->back();
+        }
+        $pdfPath = storage_path('app/pdf/' . $akta->doc_akta);
+        return response()->download($pdfPath);
     }
 }

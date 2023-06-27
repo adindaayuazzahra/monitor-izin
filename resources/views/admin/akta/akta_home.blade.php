@@ -20,7 +20,7 @@
 
             <div class="card" style="margin:10px 30px 30px 30px; background-color: transparent;border: none;">
                 <div class="d-flex justify-content-md-end justify-content-xs-center">
-                    <a href="" type="button" class="btn mb-2 text-white"
+                    <a href="{{ route('admin.akta.add') }}" type="button" class="btn mb-2 text-white"
                         style="background: #873FFD;border-radius:30px;">
                         <i class="fa-solid fa-folder-plus" style="margin-right: 5px"></i>
                         Tambah Akta</a>
@@ -32,24 +32,25 @@
                             <th scope="col">Nama Akta</th>
                             <th scope="col">No. Akta</th>
                             <th scope="col">Tahun</th>
-                            {{-- <th scope="col" style="width:10%">Proses (Hari)</th> --}}
-                            {{-- <th scope="col" style="width:7%">Status</th>
-                            <th scope="col" style="width:9%">Sisa Hari</th> --}}
-                            {{-- <th scope="col">Aksi</th> --}}
-                            {{-- @if (Auth::check() && Auth::user()->akses_level == 1) --}}
-                                <th scope="col" style="width:12%">Detail</th>
-                            {{-- @endif --}}
+                            <th scope="col" style="width:12%">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php $no = 1; @endphp
-                        <tr>
-                            <td>{{ $no }}</td> @php $no++; @endphp
-                            <td>{{ $no }}</td> @php $no++; @endphp
-                            <td>{{ $no }}</td> @php $no++; @endphp
-                            <td>{{ $no }}</td> @php $no++; @endphp
-                            <td>{{ $no }}</td> @php $no++; @endphp
-                        </tr>
+                        @foreach ($aktas as $akta)
+                            <tr>
+                                <td>{{ $no }}</td> @php $no++; @endphp
+                                <td>{{ $akta->nama_akta }}</td>
+                                <td>{{ $akta->nomor_akta }}</td>
+                                <td>{{ $akta->tahun }}</td>
+                                <td>
+                                    <a class="link-offset-2 link-body-emphasis link-underline link-underline-opacity-0 icon-link icon-link-hover"
+                                        style="--bs-icon-link-transform: translate3d(0, -.200rem, 0);"
+                                        href="{{ route('admin.akta.detail', ['id'=>$akta->id]) }}">Lihat
+                                        Detail <i class="bi bi-arrow-up-right-square"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
