@@ -715,9 +715,7 @@
                             <th scope="col">Instansi Terkait</th>
                             <th scope="col" style="width:7%">Status</th>
                             <th scope="col" style="width:9%">Sisa Hari</th>
-                            @if (Auth::check() && Auth::user()->akses_level == 1)
                                 <th scope="col" style="width:12%">Detail</th>
-                            @endif
                         </tr>
                     </thead>
                     <tbody>

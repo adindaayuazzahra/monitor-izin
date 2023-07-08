@@ -63,7 +63,7 @@ class SendCommand extends Command
                         $nomorUrut = $loopIndex + 1;
                         $message .= "\n" . $nomorUrut . ". *" . $item->nama_perizinan . "* \nTanggal Berakhir : *" . $tanggalBerakhir . "*";
                     }
-                    $message .= "\n\nUntuk informasi lebih lanjut dan melakukan perpanjangan segera cek webnya di link berikut\nmonit-izin.proyekskripsi.site \n\nTerima kasih atas perhatiannya, \n*Have a nice day!* (●'◡'●)";
+                    $message .= "\n\nUntuk informasi lebih lanjut dan melakukan perpanjangan segera cek webnya di link berikut\nelegal.proyekskripsi.site \n\nTerima kasih atas perhatiannya, \n*Have a nice day!* (●'◡'●)";
                     $response = $client->post('http://121.100.18.51:8000/send-message1234567890987654321', [
                         'form_params' => [
                             'number' => $number,
