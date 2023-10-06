@@ -28,19 +28,19 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ route('home') }}">Perijinan</a>
+                    <a class="nav-link {{ Route::is('home') ? 'active' : 'text-secondary' }}" href="{{ route('home') }}">Perijinan</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ route('akta') }}">Dokumen</a>
+                    <a class="nav-link {{ Route::is('akta') ? 'active ' : 'text-secondary' }}" href="{{ route('akta') }}">Dokumen</a>
                 </li>
                 @if (Auth::check() && Auth::user()->akses_level == 0)
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {{ Route::is('admin.perijinan') || Route::is('admin.akta')  ? 'active' : 'text-secondary' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Mengelola Data
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('admin.perijinan') }}">Perijinan</a></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.akta') }}">Akta</a></li>
+                        <li><a class="dropdown-item {{ Route::is('admin.perijinan') ? 'active' : '' }}" href="{{ route('admin.perijinan') }}">Perijinan</a></li>
+                        <li><a class="dropdown-item {{ Route::is('admin.akta') ? 'active' : '' }}" href="{{ route('admin.akta') }}">Akta</a></li>
                     </ul>
                 </li>
                 @endif
